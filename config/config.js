@@ -1,3 +1,4 @@
 module.exports = {
-    "ATLASDB":"mongodb+srv://dbadmin:s1ZAY2PyWCtr7FmV@mycluster.rvr5x.mongodb.net/assignment2?retryWrites=true&w=majority&appName=MyCluster"
+    "ATLASDB":"mongodb+srv://dbadmin:ut2KlCsiuOyczIDg@express.zfxod.mongodb.net/products?retryWrites=true&w=majority",
+    "SECRETKEY": "e-zcC)&Tm?xhp2[@{nGgF3"
 }

@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('../routes/index');
-var contactsRouter = require('../routes/contact');
-var usersRouter = require('../routes/user');
+var usersRouter = require('../routes/users');
+var inventoryRouter = require('../routes/invetory');
 
 var app = express();
 
@@ -16,9 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/api', contactsRouter);
-app.use('/api', usersRouter);
-
+app.use('/users', usersRouter);
+app.use('/products', inventoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -28,11 +27,12 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
 
+  // Send the error message
   res.status(err.status || 500);
   res.json({ 
     success: false,
     message: err.message
    });
-  });
+});
 
 module.exports = app;

@@ -5,7 +5,7 @@ module.exports.create = async function (req, res, next) {
         console.log(req.body);
         let newUser = new UserModel(req.body);
 
-        let result = await UserModel.create(newUser);
+        await UserModel.create(newUser);
         res.json(
             {
                 success: true,
@@ -18,17 +18,19 @@ module.exports.create = async function (req, res, next) {
     }
 }
 
+/*
 module.exports.list = async function (req, res, next) {
     try {
-        let list = await UserModel.find({}, '-password');
-
+        //let list = await UserModel.find({}, '-password');
+        let list = await UserModel.find({});
         res.json(list);
     } catch (error) {
         console.log(error);
         next(error);
     }
 }
-
+*/
+/*
 module.exports.userGet = async function (req, res, next) {
     try {
         let uID = req.params.userID;
@@ -42,10 +44,12 @@ module.exports.userGet = async function (req, res, next) {
     }
 
 }
-
+*/
+/*
 module.exports.userByID = async function (req, res, next) {
     res.json(req.user);
 }
+*/
 
 module.exports.update = async function (req, res, next) {
     try {
@@ -54,7 +58,16 @@ module.exports.update = async function (req, res, next) {
         let updateUser = new UserModel(req.body);
         updateUser._id = uID;
 
-        let result = await UserModel.updateOne({ _id: uID }, updateUser);
+        let result = await UserModel.updateOne(
+            { _id: uID },
+            {
+            firstName: updateUser.firstName,
+            lastName: updateUser.lastName,
+            email: updateUser.email,
+            password: updateUser.password,
+            updated: Date.now()
+            }
+);
         console.log(result);
 
         if (result.modifiedCount > 0) {

@@ -29,7 +29,7 @@ const QuestionSchema = new Schema({
       },
 },
 {
-    collection: "users"
+    collection: "questions"
 }
 );
 

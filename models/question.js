@@ -7,7 +7,7 @@ const QuestionSchema = new Schema({
       required: 'first name is required',
       trim: true},
 
-      lastName:{
+    lastName:{
         type: String,
         required: 'last name is required',
         trim: true},
@@ -27,6 +27,7 @@ const QuestionSchema = new Schema({
       trim: true},
 
     answer: String,
+
     createdDate: {
         type: Date,
         default: Date.now,
@@ -37,14 +38,16 @@ const QuestionSchema = new Schema({
         default: Date.now,
         immutable: true
       },
-      /*owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }*/
-    ad: {  
-      type: Schema.Types.ObjectId, 
-      ref: 'Ad', 
-      required: true }
+
+    addID: {  
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Add'
+    },
+    
+    ownerAddID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
 },
 {
     collection: "questions"

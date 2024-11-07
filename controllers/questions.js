@@ -1,11 +1,26 @@
 let QuestionModel = require('../models/question');
+let inventoryModel = require('../models/inventory');
+
 
 module.exports.create = async function (req, res, next) {
     try {
         console.log(req.body);
-        let newQuestion = new QuestionModel(req.body);
+        let idAddParams = req.params.adID;
+        console.log(idAddParams);    
+        let ownerBD = await inventoryModel.findOne({ _id: idAddParams });
+        console.log(ownerBD);  
+        let ownerId = ownerBD.owner;
+        console.log(ownerId);
 
-        await QuestionModel.create(newQuestion);
+        await QuestionModel.create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            question: req.body.question,
+            email: req.body.email,
+            phoneNumber: req.body.phoneNumber,
+            addID: idAddParams,
+            ownerAddID: ownerId
+        });
         res.json({
             success: true,
             message: 'Question created successfully.'
@@ -16,6 +31,7 @@ module.exports.create = async function (req, res, next) {
     }
 };
 
+/*
 module.exports.list = async function (req, res, next) {
     try {
         let list = await QuestionModel.find({});
@@ -25,6 +41,7 @@ module.exports.list = async function (req, res, next) {
         next(error);
     }
 };
+*/
 
 
 /*
@@ -48,6 +65,9 @@ module.exports.userByID = async function (req, res, next) {
 }
 */
 
+
+
+/*
 module.exports.update = async function (req, res, next) {
     try {
         let uID = req.params.userID;
@@ -107,7 +127,7 @@ module.exports.remove = async function (req, res, next) {
         next(error);
     }
 }
-
+*/
 
 
 

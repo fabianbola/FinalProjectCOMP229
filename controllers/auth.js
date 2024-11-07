@@ -37,8 +37,8 @@ module.exports.signin = async function(req, res, next){
 }
 
 // Check the token validation
-module.exports.requireSignin = expressjwt({
-    secret: config.SECRETKEY,
-    algorithms: ['HS512'],
-    userProperty: 'auth' 
+module.exports.requireSignin = expressjwt({ // expressjwt is a middleware that checks the token
+    secret: config.SECRETKEY, // The secret key used to sign the token
+    algorithms: ['HS512'], // The algorithm used to sign the token
+    userProperty: 'auth' // The property that will be added to the request object
 });

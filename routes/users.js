@@ -10,10 +10,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/signin', authController.signin);
-router.get('/list', usersController.list);
-router.post('/create', usersController.create);
-router.get('/get/:userID', usersController.userGet, usersController.userByID);
-router.put('/edit/:userID', usersController.update);
-router.delete('/delete/:userID', usersController.remove);
+//router.get('/list', usersController.list); // List all users DELETE THIS LINE
+router.post('/create', usersController.create); // Create a new user DONE
+//router.get('/get/:userID', usersController.userGet, usersController.userByID); // Get a user by ID  DELETE THIS LINE
+router.put('/edit/:userID', authController.requireSignin,usersController.update); // Update a user DONE
+router.delete('/delete/:userID', usersController.remove); // Delete a user
 
 module.exports = router;

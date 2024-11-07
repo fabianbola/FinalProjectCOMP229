@@ -42,7 +42,7 @@ const UserSchema = new Schema({
   }
 );
 
-UserSchema.virtual('fullName')
+UserSchema.virtual('fullName') // Virtual field
   .get(function () {
     return this.firstName + ' ' + this.lastName;
   })
@@ -59,13 +59,13 @@ UserSchema.virtual('password')
       throw new Error('Password must be at least 6 characters.')
     }
     else {
-      this.salt = Buffer.from(crypto.randomBytes(16).toString('base64'), 'base64');
-      this.hashed_password = this.hashPassword(password);
+      this.salt = Buffer.from(crypto.randomBytes(16).toString('base64'), 'base64');// Generates a random string of characters
+      this.hashed_password = this.hashPassword(password);// Hashes the password
     }
   });
 
 UserSchema.methods.hashPassword = function (password) {
-  return crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'sha512').toString('base64');
+  return crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'sha512').toString('base64');// Hashes the password
 }
 
 UserSchema.methods.authenticate = function (password) {

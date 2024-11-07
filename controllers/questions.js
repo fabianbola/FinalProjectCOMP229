@@ -31,48 +31,37 @@ module.exports.create = async function (req, res, next) {
     }
 };
 
-/*
 module.exports.list = async function (req, res, next) {
     try {
-        let list = await QuestionModel.find({});
+        let list = await QuestionModel.find({_id: req.auth.id});
         res.json(list);
     } catch (error) {
         console.log(error);
         next(error);
     }
 };
-*/
 
-
-/*
-module.exports.userGet = async function (req, res, next) {
+module.exports.questionByID = async function (req, res, next) {
     try {
-        let uID = req.params.userID;
-
-        req.user = await UserModel.findOne({ _id: uID }, '-password');
-        next();
-
+        let questID = req.params.questionID;
+        console.log(questID);
+        await QuestionModel.findOne({ _id: questID });
+        req.question = await QuestionModel.findOne({ _id: uID });
+        res.json(req.question);
     } catch (error) {
         console.log(error);
         next(error);
     }
 
 }
-*/
-/*
-module.exports.userByID = async function (req, res, next) {
-    res.json(req.user);
-}
-*/
-
 
 
 /*
 module.exports.update = async function (req, res, next) {
     try {
-        let uID = req.params.userID;
+        let questionID = req.params.adID;
 
-        let updateUser = new UserModel(req.body);
+        let updateQuestion = new UserModel(req.body);
         updateUser._id = uID;
 
         let result = await UserModel.updateOne(
@@ -103,6 +92,23 @@ module.exports.update = async function (req, res, next) {
         next(error);
     }
 }
+*/
+
+
+
+
+
+
+
+/*
+module.exports.userByID = async function (req, res, next) {
+    res.json(req.user);
+}
+*/
+
+
+
+/*
 
 module.exports.remove = async function (req, res, next) {
     try {

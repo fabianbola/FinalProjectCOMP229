@@ -1,7 +1,116 @@
 let QuestionModel = require('../models/question');
-let inventoryModel = require('../models/inventory');
+let AdModel = require('../models/ads');
+
+// Crear una nueva pregunta
+module.exports.create = async function (req, res, next) {
+    try {
+        console.log(req.body);
+        const adID = req.params.adID;
+        console.log("Ad ID:", adID);
+
+        // Busca el anuncio para obtener el ID del propietario
+        const ad = await AdModel.findOne({ _id: adID });
+        if (!ad) {
+            return res.status(404).json({
+                success: false,
+                message: "Ad not found"
+            });
+        }
+        const ownerId = ad.owner;
+        console.log("Owner ID:", ownerId);
+
+        // Crea la pregunta
+        await QuestionModel.create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            question: req.body.question,
+            email: req.body.email,
+            phoneNumber: req.body.phoneNumber,
+            addID: adID,
+            ownerAddID: ownerId
+        });
+        res.json({
+            success: true,
+            message: 'Question created successfully.'
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+// Listar todas las preguntas para el usuario autenticado
+module.exports.list = async function (req, res, next) {
+    try {
+        const list = await QuestionModel.find({ ownerAddID: req.auth.id });
+        res.json(list);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
+// Obtener una pregunta específica por su ID
+module.exports.questionByID = async function (req, res, next) {
+    try {
+        const questionID = req.params.questionID;
+        console.log("Question ID:", questionID);
+        
+        const question = await QuestionModel.findOne({ _id: questionID });
+        if (!question) {
+            return res.status(404).json({
+                success: false,
+                message: "Question not found"
+            });
+        }
+        res.json(question);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+// Responder a una pregunta
+module.exports.answer = async function (req, res, next) {
+    try {
+        const questionID = req.params.questionID;
+        const answerText = req.body.answer;
+
+        // Buscar la pregunta por ID
+        const question = await QuestionModel.findById(questionID);
+        if (!question) {
+            return res.status(404).json({
+                success: false,
+                message: "Question not found"
+            });
+        }
+
+        // Verificar si el usuario autenticado es el propietario del anuncio
+        if (req.auth.id !== String(question.ownerAddID)) {
+            return res.status(403).json({
+                success: false,
+                message: "Unauthorized to answer this question"
+            });
+        }
+
+        // Actualizar la respuesta y la fecha de respuesta
+        question.answer = answerText;
+        question.answerDate = Date.now();
+        await question.save();
+
+        res.json({
+            success: true,
+            message: 'Answer updated successfully.',
+            question
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
 
 
+
+/*
 module.exports.create = async function (req, res, next) {
     try {
         console.log(req.body);
@@ -54,6 +163,13 @@ module.exports.questionByID = async function (req, res, next) {
     }
 
 }
+*/
+
+
+
+
+
+
 
 
 /*

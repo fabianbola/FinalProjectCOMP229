@@ -10,9 +10,10 @@ let authController = require('../controllers/auth');
 });
 
 
-
-//router.get('/list', authController.requireSignin, questionsController.list);
+router.get('/list', authController.requireSignin, questionsController.list);
 router.post('/create/:adID', questionsController.create);
+router.get('/get/:questionID', authController.requireSignin, questionsController.questionByID);
+router.put('/answer/:questionID', authController.requireSignin, questionsController.answer);
 //router.get('/get/:questionID', questionsController.questionGet, questionsController.questionByID);
 //router.put('/answer/:questionID', authController.requireSignin, questionsController.answer);
 //router.delete('/delete/:userID', usersController.remove);

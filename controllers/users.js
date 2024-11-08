@@ -110,3 +110,17 @@ module.exports.remove = async function (req, res, next) {
         next(error);
     }
 }
+
+module.exports.signout = async function (req, res, next) {
+    try {
+        const uID = req.params.userID;
+        
+        res.json({
+            success: true,
+            message: `User with ID ${uID} signed out successfully.`
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};

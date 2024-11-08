@@ -5,7 +5,6 @@ let AdModel = require('../models/ads');
 module.exports.create = async function (req, res, next) {
     try {
         const id = req.auth.id;
-
         const startDate = new Date(req.body.startDate);
         const endDate = new Date(req.body.endDate);
         const today = new Date();
@@ -21,7 +20,6 @@ module.exports.create = async function (req, res, next) {
             owner: id,
             isActive: true,
         });
-
         await AdModel.create(newAd);
         res.json(
             { success: true, 

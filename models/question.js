@@ -39,11 +39,11 @@ const QuestionSchema = new Schema({
         type: Date,
         default: null  // Se actualizará cuando se responda la pregunta
     },
-    addID: {  
+    adID: {  
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Add'
+        ref: 'Ad'
     },
-    ownerAddID: {
+    ownerAdID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }

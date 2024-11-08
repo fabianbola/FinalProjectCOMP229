@@ -42,5 +42,3 @@ module.exports.requireSignin = expressjwt({ // expressjwt is a middleware that c
     algorithms: ['HS512'], // The algorithm used to sign the token
     userProperty: 'auth' // The property that will be added to the request object
 });
-
-

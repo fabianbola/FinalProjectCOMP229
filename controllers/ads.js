@@ -30,12 +30,12 @@ module.exports.create = async function (req, res, next) {
         } else if(startDate < today) {
             res.status(400).json({
                 success: false,
-                message: 'ERROR: Start date must be higher than actual date'
+                message: 'ERROR: The start date must be later than the current date.'
             });
         } else if(endDate < startDate){
             res.status(400).json({
                 success: false,
-                message: 'ERROR: End date must be higher than start date'
+                message: 'ERROR: The end date must be later than the start date.'
             });
         }
     } catch (error) {
@@ -57,6 +57,12 @@ module.exports.list = async function (req, res, next) {
         } else {
             
             ads = await AdModel.find({ isActive: true, category: category });
+        }
+
+        if (!ads || ads.length === 0) {
+            return res.status(404).json({ 
+                message: "There are no active ads to display in the provided category." 
+            });
         }
 
         res.json(ads);
@@ -82,6 +88,12 @@ module.exports.listByOwner = async function (req, res, next) {
             ads = await AdModel.find({ owner: req.auth.id , category: category });
         }
 
+        if (!ads || ads.length === 0) {
+            return res.status(404).json({ 
+                message: "There are no active ads created by the user to display in the provided category" 
+            });
+        }
+
         res.json(ads);
         
     } catch (error) {
@@ -96,8 +108,17 @@ module.exports.getAd = async function (req, res, next) {
         
         const id = req.params.id;
         req.ad = await AdModel.findOne({ _id: id, isActive: true, });
+        
+        if (!req.ad) {
+            return res.status(400).json({
+                success: false,
+                message: 'ERROR: There is no an active ad with the ID provided'
+            });
+            
+        }
+
         res.json(req.ad);
-        next();
+        // next();
     } catch (error) {
         console.log(error);
         next(error);
@@ -110,8 +131,16 @@ module.exports.getAdByOwner = async function (req, res, next) {
         
         const id = req.params.id;
         req.ad = await AdModel.findOne({ _id: id,owner: req.auth.id });
+        
+        if (!req.ad) {
+            return res.status(400).json({
+                success: false,
+                message: 'ERROR: There is no an ad associated with the provided ID that was created by the user.'
+            });
+            
+        }
         res.json(req.ad);
-        next();
+        // next();
     } catch (error) {
         console.log(error);
         next(error);
@@ -124,7 +153,24 @@ module.exports.update = async function (req, res, next) {
         const id = req.params.id;
         const startDate = new Date(req.body.startDate);
         const endDate = new Date(req.body.endDate);
-        const today = Date.now();
+        const today = new Date();
+             
+        const ad = await AdModel.findOne({ _id: id });
+
+        if (!ad) {
+            return res.status(404).json({
+                success: false,
+                message: 'Add not found.'
+            });
+        }
+
+        
+        if (ad.owner !== req.auth.id) {
+            return res.status(400).json({
+                success: false,
+                message: 'ERROR: The user does not have the permissions to edit this ad. Only the creator can edit it.'
+            });
+        }   
 
     if (endDate>startDate && endDate>today){
 
@@ -152,20 +198,21 @@ module.exports.update = async function (req, res, next) {
         } else {
             res.status(404).json({
                 success: false,
-                message: 'Item not updated. Are you sure it exists and you have permission to edit it?'
+                message: 'Item not updated. No changes were made. The ad might already have the same values or no updates were necessary.'
             });
         }
     } else if (endDate < today){
         res.status(400).json({
             success: false,
-            message: 'ERROR: End date must be higher than today date. In case the ad expired arleady please disable it.'
+            message: 'ERROR: The end date must be later than the current date. If the ad has already expired, please disable it.'
         });
-    } else if (endDate < startDate){
+    
+    }else if (endDate < startDate){
         res.status(400).json({
             success: false,
-            message: 'ERROR: End date must be higher than start date'
+            message: 'ERROR: The end date must be later than the start date.'
         });
-    }
+    } 
     } catch (error) {
         next(error);
     }

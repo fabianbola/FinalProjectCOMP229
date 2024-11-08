@@ -2,36 +2,54 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const QuestionSchema = new Schema({
-    firstName:{
-      type: String,
-      required: 'first name is required',
-      trim: true},
-
-      lastName:{
+    firstName: {
+        type: String,
+        required: 'first name is required',
+        trim: true
+    },
+    lastName: {
         type: String,
         required: 'last name is required',
-        trim: true},
-
+        trim: true
+    },
     question: {
-      type: String,
-      required: 'question  is required',},
-
-    answer: String,
+        type: String,
+        required: 'question is required'
+    },
+    email: {
+        type: String,
+        match: [/.+\@.+\..+/, "Please fill a valid e-mail address"],
+        required: 'Email is required'
+    },
+    phoneNumber: {
+        type: Number,
+        required: 'phone number is required',
+        trim: true
+    },
+    answer: {
+        type: String,
+        default: null  // Inicialmente vacío, luego se puede actualizar
+    },
     createdDate: {
         type: Date,
         default: Date.now,
         immutable: true
-      },
+    },
     answerDate: {
         type: Date,
-        default: Date.now,
-        immutable: true
-      },
-},
-{
+        default: null  // Se actualizará cuando se responda la pregunta
+    },
+    adID: {  
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Ad'
+    },
+    ownerAdID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
+}, {
     collection: "questions"
-}
-);
+});
 
 QuestionSchema.virtual('fullName')
   .get(function () {
@@ -44,3 +62,20 @@ QuestionSchema.virtual('fullName')
   });
 
 module.exports = mongoose.model('Question', QuestionSchema);
+
+
+
+
+/*
+const QuestionSchema = new Schema({
+    firstName: { type: String, required: true, trim: true },
+    lastName: { type: String, required: true, trim: true },
+    question: { type: String, required: true },
+    answer: String,
+    ad: { type: Schema.Types.ObjectId, ref: 'Ad', required: true },  // Asociación con anuncio
+    createdDate: { type: Date, default: Date.now, immutable: true },
+    answerDate: { type: Date }
+}, {
+    collection: "questions"
+});
+*/

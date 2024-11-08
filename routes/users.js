@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 let usersController = require('../controllers/users');
 let authController = require('../controllers/auth');
 
@@ -10,6 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/signin', authController.signin);
+router.post('/myuser/signout/:userID', usersController.signout);
 //router.get('/list', usersController.list); // List all users DELETE THIS LINE
 router.post('/create', usersController.create); // Create a new user DONE
 //router.get('/get/:userID', usersController.userGet, usersController.userByID); // Get a user by ID  DELETE THIS LINE

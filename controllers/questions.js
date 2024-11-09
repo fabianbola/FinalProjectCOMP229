@@ -62,17 +62,8 @@ module.exports.list = async function (req, res, next) {
 
 // Function to retrieve a specific question by its ID
 module.exports.questionByID = async function (req, res, next) {
-    try {
-        const adID = req.params.adID; // Get the ad ID from request parameters
-        const ad = await AdModel.findOne({ _id: adID }); // Find the ad by its ID
-        if (!ad) {
-            return res.status(404).json({
-                success: false,
-                message: "Ad not found"
-            });
-        }
-
-        const questionID = req.params.questionID; // Get the question ID from request parameters
+    try {        
+        const questionID = req.params.questionID;
         console.log("Question ID:", questionID);
         const question = await QuestionModel.findOne({ _id: questionID }); // Find the question by its ID
         if (!question) {
@@ -87,7 +78,7 @@ module.exports.questionByID = async function (req, res, next) {
     } catch (error) {
         console.log(error); // Log any error for debugging
         next(error); // Pass the error to the error-handling middleware
-    }
+    } 
 };
 
 // Function to answer a specific question
@@ -110,7 +101,7 @@ module.exports.answer = async function (req, res, next) {
                 message: "Unauthorized to answer this question"
             });
         }
-
+      
         // Update the question with the answer and answer date
         await UserModel.updateOne({ _id: questionID }, {
             answer: answerText,

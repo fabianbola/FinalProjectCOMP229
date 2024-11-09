@@ -49,14 +49,7 @@ module.exports.list = async function (req, res, next) {
 // Pick a question by its ID
 module.exports.questionByID = async function (req, res, next) {
     try {
-        const adID = req.params.adID;
-        const ad = await AdModel.findOne({ _id: adID });
-        if (!ad) {
-            return res.status(404).json({
-                success: false,
-                message: "Ad not found"
-            });
-        }
+        
         const questionID = req.params.questionID;
         console.log("Question ID:", questionID);
         const question = await QuestionModel.findOne({ _id: questionID });
@@ -91,12 +84,10 @@ module.exports.answer = async function (req, res, next) {
             });
         }
 
-        // Update the question to add the answer
-        await UserModel.updateOne({ _id: questionID },
-            {
-                answer: answerText,
-                answerDate: Date.now()
-            })
+        question.answer = answerText;
+        question.answerDate = Date.now();
+        await question.save();
+
         res.json({
             success: true,
             message: 'Answer updated successfully.',

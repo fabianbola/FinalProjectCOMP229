@@ -1,5 +1,15 @@
 #!/usr/bin/env node
 
+/* 
+  File Name: server.js
+  Description: Entry point for initializing the HTTP server for the backend API. 
+               This file loads the Express app configuration, establishes the MongoDB 
+               connection, and manages server events such as listening and error handling.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 9, 2024
+*/
+
 /**
  * Module dependencies.
  */

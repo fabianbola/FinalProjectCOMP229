@@ -1,6 +1,19 @@
+/* 
+  File Name: ads.js
+  Description: Defines the Mongoose schema and model for advertisement entries, specifying the structure, 
+               validation, and data types for ads in the MongoDB database.   
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 9, 2024
+*/
+
+// Import Mongoose library for MongoDB interaction
 const mongoose = require('mongoose');
+
+// Alias for Mongoose schema creation
 const Schema = mongoose.Schema;
 
+// Define schema for ads entries, specifying each field, its data type and validations. 
 const AdSchema = new Schema({
   title: {
     type: String,
@@ -23,17 +36,35 @@ const AdSchema = new Schema({
     required: true,
     immutable: true 
   },
+  price: {
+    type: Number,
+    required: 'Price is required',
+    min: [0, 'Price must be a positive number']
+  },
   isActive: {
     type: Boolean,
     default: true
   },
   startDate: {
     type: Date,
-    required: 'Start date is required'
+    required: 'Start date is required',
+    validate: {
+      validator: function(value) {
+        return value > Date.now();
+      },
+      message: 'Start date must be later than the current date.'
+    }
   },
   endDate: {
     type: Date,
-    required: 'End date is required'
+    required: 'End date is required',
+    validate: {
+      validator: function(value) {
+        // End date must be later than start date
+        return value > this.startDate;
+      },
+      message: 'End date must be later than start date.'
+    }
   },
   created: {
     type: Date,
@@ -48,5 +79,5 @@ const AdSchema = new Schema({
   collection: "ads"
 });
 
-
+// Export the Ads model based on the defined schema
 module.exports = mongoose.model('Ad', AdSchema);

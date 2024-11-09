@@ -1,44 +1,58 @@
-let User = require('../models/users');
-let config = require('../config/config');
-let jwt = require('jsonwebtoken');
-let { expressjwt } = require('express-jwt');
+/* 
+  File Name: auth.js
+  Description: Provides user authentication functionalities, including sign-in and JWT token generation.
+               Also handles middleware for validating JWT tokens on protected routes.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 9, 2024
+*/
 
-module.exports.signin = async function(req, res, next){
+// Import necessary modules for user authentication and token generation
+let User = require('../models/users'); 
+let config = require('../config/config'); 
+let jwt = require('jsonwebtoken'); 
+let { expressjwt } = require('express-jwt'); 
+
+// Function to handle user sign-in process
+module.exports.signin = async function(req, res, next) {
     try {
-        console.log(req.body);
+        console.log(req.body); 
+        // Find the user in the database by email
         let user = await User.findOne({"email": req.body.email});
-        console.log(user);
-        if(!user)
+        console.log(user); 
+        if(!user) // If no user is found, throw an error
             throw new Error('User not found.');
+        
+        // Check if the provided password matches the stored password
         if(!user.authenticate(req.body.password))
             throw new Error("Email and/or password don't match.");
 
+        // Create the payload for the JWT, including the user ID and username
         let payload = {
             id: user._id,
             username: user.username
         }
 
-        // Generates the token
+        // Generate a signed token with the payload, using the secret key and specific algorithm
         let token = jwt.sign(payload, config.SECRETKEY, {
-            algorithm: 'HS512',
-            expiresIn: "20min"
-        })
+            algorithm: 'HS512', 
+            expiresIn: "20min" 
+        });
 
-        // Sends the token in the body of the response to the client.
-        res.json(
-            {
-                success: true,
-                token: token
-            })
+        // Send the token as a response if authentication is successful
+        res.json({
+            success: true,
+            token: token
+        });
     } catch (error) {
-        console.log(error);
-        next(error);
+        console.log(error); 
+        next(error); 
     }
 }
 
-// Check the token validation
-module.exports.requireSignin = expressjwt({ // expressjwt is a middleware that checks the token
-    secret: config.SECRETKEY, // The secret key used to sign the token
-    algorithms: ['HS512'], // The algorithm used to sign the token
-    userProperty: 'auth' // The property that will be added to the request object
+// Middleware to verify JWT for protected routes
+module.exports.requireSignin = expressjwt({
+    secret: config.SECRETKEY, 
+    algorithms: ['HS512'], 
+    userProperty: 'auth' 
 });

@@ -13,7 +13,9 @@ var router = express.Router();
 
 // Route for home page
 router.get('/', function(req, res, next) {
-  res.json({ title: 'Express' });
+  res.json({ ProjectTitle: 'Sell used product site',
+           GroupName: 'BOFC'
+           });
 });
 
 // Export the router to be used in the main app

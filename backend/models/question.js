@@ -73,5 +73,12 @@ QuestionSchema.virtual('fullName')
     this.lastName = splitName[1] || '';
   });
 
+  // Ensure virtual fields are serialised.
+  QuestionSchema.set('toJSON', { // toObject works the same
+    virtuals: true, // include built-in virtual `id`
+    versionKey: false, //   remove `__v`
+    transform: function (doc, ret) { delete ret._id } // remove `_id`
+  });
+
 // Export the Question model for use in other parts of the application
 module.exports = mongoose.model('Question', QuestionSchema);

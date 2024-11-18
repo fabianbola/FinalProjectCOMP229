@@ -13,7 +13,9 @@
 
 // Connection string to MongoDB Atlas. This URL includes credentials and path 
 // for connecting to the remote MongoDB database.
+require('dotenv').config();
+
 module.exports = {
-"ATLASDB":"mongodb+srv://dbadmin:s1ZAY2PyWCtr7FmV@mycluster.rvr5x.mongodb.net/gruopProject?retryWrites=true&w=majority&appName=MyCluster",
-  "SECRETKEY": "e-zcC)&Tm?xhp2[@{nGgF3"
-}
+  "ATLASDB": process.env.ATLASDB,
+  "SECRETKEY": process.env.SECRETKEY
+};

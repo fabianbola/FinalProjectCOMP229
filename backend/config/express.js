@@ -13,6 +13,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
+
 
 // Route handlers for different sections of the application
 var indexRouter = require('../routes/index'); // main application
@@ -21,6 +23,10 @@ var adRouter = require('../routes/ads'); //ads-related endpoints
 var questionsRouter = require('../routes/question'); //questions-related endpoints
 
 var app = express(); // Initialize the Express application
+
+// Enables cors.
+app.use(cors());
+app.options('*', cors());
 
 // Middleware setup
 app.use(logger('dev'));

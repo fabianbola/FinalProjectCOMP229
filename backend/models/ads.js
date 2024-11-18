@@ -79,5 +79,13 @@ const AdSchema = new Schema({
   collection: "ads"
 });
 
+
+// Ensure virtual fields are serialised.
+AdSchema.set('toJSON', { // toObject works the same
+  virtuals: true, // include built-in virtual `id`
+  versionKey: false, //   remove `__v`
+  transform: function (doc, ret) { delete ret._id } // remove `_id`
+});
+
 // Export the Ads model based on the defined schema
 module.exports = mongoose.model('Ad', AdSchema);

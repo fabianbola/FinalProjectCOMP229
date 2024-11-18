@@ -1,0 +1,49 @@
+.logo {
+    max-height: 100px;
+    width: auto;
+    text-align: center;
+    display: inline-block;
+    margin-inline: auto;
+}
+
+.navbar {
+    background-color: rgba(1, 1, 77, 0.888); /* Change background color */
+    width: 100%; /* Full width for horizontal bar */
+    display: flex; /* Flexbox to align items */
+    justify-content: center; /* Center items horizontally */
+    padding: 0;
+    position: relative; /* This can stay if you want the navbar to be ordered relative to the page */
+    top: 0;
+    left: 0;
+}
+
+.nav-list {
+    list-style-type: none; /* Remove bullets */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Flexbox to display list items horizontally */
+    justify-content: space-around; /* Space evenly across the navbar */
+    width: 100%;
+}
+
+.nav-list li {
+    display: inline-block; /* Asegúrate de que cada elemento de la lista esté en bloque */
+    width: 100%; /* Haz que cada elemento de la lista ocupe el 100% de su contenedor */
+}
+
+.nav-list li a {
+    display: block; /* Esto hace que el enlace abarque todo el espacio disponible */
+    text-decoration: none; /* Elimina el subrayado del texto */
+    color: white; /* Color del texto */
+    font-size: 18px;
+    padding: 15px 0px; /* Espaciado alrededor del texto */
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Asegúrate de que el enlace ocupe el ancho completo del contenedor */
+    transition: background-color 0.3s ease-in-out; /* Transición suave en hover */
+}
+
+.nav-list li a:hover {
+    color: rgba(1, 1, 77, 0.888); /* Cambia el color del texto en hover */
+    background-color: white; /* Cambia el fondo al pasar el ratón */
+    border: 1px solid  rgba(1, 1, 77, 0.888)    ;    
+}

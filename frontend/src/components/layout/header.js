@@ -20,23 +20,23 @@ function Header(){
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink to="/about">
+                        <NavLink to="/Technology">
                             <i></i> Technology
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink to="/services">
-                            <i></i> Service
+                        <NavLink to="/Home_kitchen">
+                            <i></i> Home & kitchen
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink to="/projects">
-                            <i></i> Projects
+                        <NavLink to="/Video_games">
+                            <i></i> Video games
                         </NavLink>
                         </li>
                         <li>
-                        <NavLink to="/contactme">
-                            <i></i> Contact me
+                        <NavLink to="/Musical_instruments">
+                            <i></i> Musical instruments
                         </NavLink>
                         </li>
                     </ul>  

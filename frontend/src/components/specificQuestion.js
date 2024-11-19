@@ -1,7 +1,7 @@
-//chistian
+//orlando
 
 const NotFound = () => {
-    return <h1>Sign up - Cristian</h1>;
+    return <h1>question - rolando</h1>;
 };
 
 export default NotFound;

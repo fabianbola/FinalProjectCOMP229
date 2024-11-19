@@ -1,7 +1,5 @@
-//chistian
-
 const NotFound = () => {
-    return <h1>Sign up - Cristian</h1>;
+    return <h1>404 page not found</h1>;
 };
 
 export default NotFound;

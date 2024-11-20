@@ -9,7 +9,13 @@ function Header(){
               <Link to="/">
                 <img className='logo' src={logo} alt="Logo image" />
               </Link>
+              <NavLink to="/users/signin">
+                    <button type="button" >
+                        <span className="navbar-toggler-icon"></span> Signin
+                    </button>
+              </NavLink>
             </center>
+                
             <div className="collapse navbar-collapse" id="collapsibleNavbar">
             
                 <nav className="navbar">

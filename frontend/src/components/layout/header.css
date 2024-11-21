@@ -6,44 +6,97 @@
     margin-inline: auto;
 }
 
+:root {
+    --nav-bg-color: rgba(1, 1, 77, 0.888);
+    --dropdown-bg-color: #444;
+    --dropdown-hover-color: #575757;
+    --text-color: white;
+    --text-hover-color: rgba(1, 1, 77, 0.888);
+}
+
+/* Navbar principal */
 .navbar {
-    background-color: rgba(1, 1, 77, 0.888); /* Change background color */
-    width: 100%; /* Full width for horizontal bar */
+
+    background-color: var(--nav-bg-color);    /* Change background color */
     display: flex; /* Flexbox to align items */
     justify-content: center; /* Center items horizontally */
     padding: 0;
+    width: 100%; /* Full width for horizontal bar */
     position: relative; /* This can stay if you want the navbar to be ordered relative to the page */
     top: 0;
     left: 0;
 }
 
 .nav-list {
+
     list-style-type: none; /* Remove bullets */
+    display: flex; /* Flexbox to display list items horizontally */
     margin: 0;
     padding: 0;
-    display: flex; /* Flexbox to display list items horizontally */
     justify-content: space-around; /* Space evenly across the navbar */
     width: 100%;
 }
 
 .nav-list li {
+    position: relative;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 18px;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
     display: inline-block; /* Asegúrate de que cada elemento de la lista esté en bloque */
-    width: 100%; /* Haz que cada elemento de la lista ocupe el 100% de su contenedor */
+    width: 100%;
+
 }
 
 .nav-list li a {
-    display: block; /* Esto hace que el enlace abarque todo el espacio disponible */
-    text-decoration: none; /* Elimina el subrayado del texto */
-    color: white; /* Color del texto */
+    display: block;
+    text-decoration: none;
+    color: var(--text-color);
     font-size: 18px;
-    padding: 15px 0px; /* Espaciado alrededor del texto */
-    text-align: center; /* Centra el texto */
-    width: 100%; /* Asegúrate de que el enlace ocupe el ancho completo del contenedor */
-    transition: background-color 0.3s ease-in-out; /* Transición suave en hover */
+    padding: 15px;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .nav-list li a:hover {
-    color: rgba(1, 1, 77, 0.888); /* Cambia el color del texto en hover */
-    background-color: white; /* Cambia el fondo al pasar el ratón */
-    border: 1px solid  rgba(1, 1, 77, 0.888)    ;    
+    color: var(--text-hover-color);
+    background-color: white;
+    border: 1px solid var(--nav-bg-color);
+}
+
+.vert-navbar{
+    text-align: center;
+    display: inline-block;
+    margin-inline: auto;
+    
+
+}
+
+/* Dropdown Menu */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--dropdown-bg-color);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown li {
+    padding: 15px;
+    color: var(--text-color);
+    border-bottom: 1px solid #555;
+    text-align: left;
+}
+
+.dropdown li:hover {
+    background-color: var(--dropdown-hover-color);
+}
+
+.nav-list li:hover .dropdown {
+    display: block;
 }

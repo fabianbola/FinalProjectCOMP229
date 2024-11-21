@@ -66,9 +66,7 @@ module.exports.list = async function (req, res, next) {
             }
 
             if (!ads || ads.length === 0) {
-                return res.status(404).json({ 
-                    message: "There are no active ads to display in the selected category." 
-                });
+                return res.status(200).json([]);  // Return an empty array if no ads are found
             }
 
             // Send ads list as JSON response

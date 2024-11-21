@@ -25,6 +25,7 @@ const authController = require('../controllers/auth');
 // List all active ads (requires login)
 router.get('/myUser/list/:category', authController.requireSignin, adsController.listByOwner);
 
+
 // List all active ads (publicly accessible)
 router.get('/list/:category', adsController.list);
 

@@ -1,1 +1,19 @@
-//Everyone base on the back-end method that the front-end is calling
+let apiURL = process.env.REACT_APP_APIURL;
+
+const signin = async (user) => {
+    try {
+        let response = await fetch(apiURL + '/users/signin', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        return await response.json()
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export { signin }

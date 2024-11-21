@@ -4,18 +4,13 @@ import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
 import Home from "./components/home";
 import MyAds from "./components/ads/listMyAds";
-//import Projects from "./components/Projects";
-//import About from "./components/About";
 import NotFound from "./components/layout/notFound";
-//import ListInventory from "./components/inventory/ListInventory";
+import SignIn from "./components/auth/signIn";
 
+import PrivateRoute from "./components/auth/PrivateRoute";
 
-//import "bootstrap/dist/css/bootstrap.min.css";
-//import "@fortawesome/fontawesome-free/css/all.min.css"
 import "./index.css";
 
-//import "bootstrap/dist/js/bootstrap.bundle.min.js";
-//import "@fortawesome/fontawesome-free/js/all.min.js"
 
 function App() {
   return (
@@ -28,6 +23,11 @@ function App() {
           <Route path="Video_games" element={<Home />} />
           <Route path="Musical_instruments" element={<Home />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="MyAds" element={
+                        <PrivateRoute>
+                            <MyAds/>
+                        </PrivateRoute>} />
         </Route>
       </Routes>
       <Footer/>

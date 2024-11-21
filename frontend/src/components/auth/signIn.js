@@ -44,7 +44,7 @@ const Signin = () => {
             <div className="container">
                 <div className="row">
                     <div className="offset-md-3 col-md-6">
-                        <h1>Signin</h1>
+                        <h1>Sign In</h1>
                         <p className="flash"><span>{errorMsg}</span></p>
                         <form onSubmit={handleSubmit} className="form">
                             <div className="form-group">
@@ -77,8 +77,8 @@ const Signin = () => {
                                 Submit
                             </button>
                             &nbsp; &nbsp;
-                            <Link to="/users/signup" style={{ textDecoration: 'none' }}>
-                                <i className="fas fa-user-plus"></i> Sign-up
+                            <Link to="/Register" style={{ textDecoration: 'none' }}>
+                                <i className="fas fa-user-plus"></i> Register
                             </Link>
 
                         </form>

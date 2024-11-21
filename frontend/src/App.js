@@ -6,6 +6,10 @@ import Home from "./components/home";
 import MyAds from "./components/ads/listMyAds";
 import NotFound from "./components/layout/notFound";
 import SignIn from "./components/auth/signIn";
+import Register from "./components/auth/signUp";
+import ListUsers from "./components/users/listUsers";
+import MyAccount from "./components/accounts/account";
+import MyQuestions from "./components/questions/listMyQuestions";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 
@@ -28,6 +32,20 @@ function App() {
                         <PrivateRoute>
                             <MyAds/>
                         </PrivateRoute>} />
+          <Route path="MyUser/ListUsers" element={
+          <PrivateRoute>
+              <ListUsers/>
+          </PrivateRoute>} />
+          <Route path="MyUser/MyAccount" element={
+          <PrivateRoute>
+              <MyAccount/>
+          </PrivateRoute>} />
+          <Route path="MyUser/MyQuestions" element={
+          <PrivateRoute>
+              <MyQuestions/>
+          </PrivateRoute>} />
+          <Route path="Register" element={<Register />} />
+          
         </Route>
       </Routes>
       <Footer/>

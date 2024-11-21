@@ -22,7 +22,7 @@ function Header(){
                         <ul class="dropdown">
                             <li><NavLink to="/signin">Signin</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
-                            <li><NavLink to="/MyAds">My ads</NavLink></li>
+                            <li><NavLink to="/MyUser/Ads">My ads</NavLink></li>
                             <li><NavLink to="/users/signin">My questions</NavLink></li>
                             <li><NavLink to="/users/signin">Create ad</NavLink></li>
                             <li><NavLink to="/users/signin">List users</NavLink></li>

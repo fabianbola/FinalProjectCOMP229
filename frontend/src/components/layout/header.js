@@ -20,13 +20,12 @@ function Header(){
                     <li class="vert-navbar">
                         Users
                         <ul class="dropdown">
-                            <li><NavLink to="/signin">Signin</NavLink></li>
+                            <li><NavLink to="/SignIn">Sign In</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
                             <li><NavLink to="/MyAds">My ads</NavLink></li>
-                            <li><NavLink to="/users/signin">My questions</NavLink></li>
-                            <li><NavLink to="/users/signin">Create ad</NavLink></li>
-                            <li><NavLink to="/users/signin">List users</NavLink></li>
-                            <li><NavLink to="/users/signin">My Account</NavLink></li>
+                            <li><NavLink to="/MyUser/MyQuestions">My questions</NavLink></li>
+                            <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>
+                            <li><NavLink to="/MyUser/MyAccount">My Account</NavLink></li>
                         </ul>
                     </li>
                 </ul>

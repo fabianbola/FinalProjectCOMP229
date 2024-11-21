@@ -6,6 +6,9 @@ import Home from "./components/home";
 import NotFound from "./components/layout/notFound";
 import SignIn from "./components/auth/signIn";
 import MyAds from "./components/ads/listMyAds";
+
+import PrivateRoute from "./components/auth/PrivateRoute";
+
 import "./index.css";
 
 
@@ -20,8 +23,11 @@ function App() {
           <Route path="Video_games" element={<Home />} />
           <Route path="Musical_instruments" element={<Home />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="users/signin" element={<SignIn />} />
-          <Route path="MyAds" element={<MyAds/>} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="MyAds" element={
+                        <PrivateRoute>
+                            <MyAds/>
+                        </PrivateRoute>} />
         </Route>
       </Routes>
       <Footer/>

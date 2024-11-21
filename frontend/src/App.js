@@ -18,13 +18,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Header />}>
           <Route index element={<Home />} />
-          <Route path="Technology" element={<MyAds/>} />
+          <Route path="Technology" element={<Home/>} />
           <Route path="Home_kitchen" element={<Home />} />
           <Route path="Video_games" element={<Home />} />
           <Route path="Musical_instruments" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="signin" element={<SignIn />} />
-          <Route path="MyAds" element={
+          <Route path="MyUser/Ads" element={
                         <PrivateRoute>
                             <MyAds/>
                         </PrivateRoute>} />

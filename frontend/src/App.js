@@ -27,8 +27,8 @@ function App() {
           <Route path="Video_games" element={<Home />} />
           <Route path="Musical_instruments" element={<Home />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="SignIn" element={<SignIn />} />
-          <Route path="MyAds" element={
+          <Route path="signin" element={<SignIn />} />
+          <Route path="MyUser/Ads" element={
                         <PrivateRoute>
                             <MyAds/>
                         </PrivateRoute>} />

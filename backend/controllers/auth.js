@@ -30,7 +30,8 @@ module.exports.signin = async function(req, res, next) {
         // Create the payload for the JWT, including the user ID and username
         let payload = {
             id: user._id,
-            username: user.username
+            username: user.username,
+            admin: user.admin // Include the admin field
         }
 
         // Generate a signed token with the payload, using the secret key and specific algorithm

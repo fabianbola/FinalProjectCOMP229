@@ -3,13 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
 import Home from "./components/home";
-import MyAds from "./components/ads/listMyAds";
+import MyAds from "./components/ads/listAds";
 import NotFound from "./components/layout/notFound";
 import SignIn from "./components/auth/signIn";
 import Register from "./components/auth/signUp";
 import ListUsers from "./components/users/listUsers";
 import MyAccount from "./components/accounts/account";
 import MyQuestions from "./components/questions/listMyQuestions";
+import DetailsAd from "./components/ads/detailsAd";
+import DetailsHomeAd from "./components/ads/detailsHomeAd";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 
@@ -29,9 +31,11 @@ function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="MyUser/Ads" element={
-                        <PrivateRoute>
-                            <MyAds/>
-                        </PrivateRoute>} />
+          <PrivateRoute>
+          <MyAds/>
+          </PrivateRoute>} />
+          <Route path="/Ads/Details/:id" element={<DetailsAd />} />
+          <Route path="/Home/Ads/Details/:id" element={<DetailsHomeAd />} />
           <Route path="MyUser/ListUsers" element={
           <PrivateRoute>
               <ListUsers/>

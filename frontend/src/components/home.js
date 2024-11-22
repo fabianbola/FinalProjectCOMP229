@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { list } from "../datasource/API-Ads";
 import { Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 
 const ListInventory = () => {
+
+    const navigate = useNavigate();
 
     let [adList, setAdList] = useState([]); // State variable to hold the list of inventory items
     let [isLoading, setIsLoading] = useState(true);
@@ -62,11 +65,10 @@ const ListInventory = () => {
                                         <td className="text-center"> {ad.endDate || ''} </td>
                                         <td className="text-center">
                                             <button
-                                                className="btn bg-danger btn-danger btn-sm"
-                                                onClick={() => {
-                                                    <Link to="/users/signin"></Link>
-                                                }}>
-                                                <i className="fas fa-trash-alt"></i> See details
+                                            className="btn btn-info btn-sm me-1"
+                                            onClick={() => navigate(`/Home/Ads/Details/${ad.id}`)}
+                                             >
+                                            Details
                                             </button>
                                         </td>
                                     </tr>)

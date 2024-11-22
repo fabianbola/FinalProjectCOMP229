@@ -27,16 +27,23 @@ const Signin = () => {
         
         signin(user).then((response) => {
             if (response && response.success) {
+                // Set admin status based on the response
+                const isAdminFlag = response.user && response.user.isAdmin; // Assuming API returns a user object with `isAdmin`
+                sessionStorage.setItem('isAdmin', isAdminFlag);
+
                 authenticate(response.token, () => {
-                    navigate(from, {replace: true});
+                    // Navigate to the previous page or homepage
+                    navigate(from, { replace: true });
+
+                    // Reload the app to ensure updated Header (optional)
+                    window.location.reload();
                 });
-            }
-            else {
+            } else {
                 setErrorMsg(response.message);
             }
-        }).catch(err => {
+        }).catch((err) => {
             setErrorMsg(err.message);
-            console.log(err)
+            console.log(err);
         });
     };
 

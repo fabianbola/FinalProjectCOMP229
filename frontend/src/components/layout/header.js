@@ -2,6 +2,7 @@ import { Outlet, NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from '../../assets/logo.jpg';
 import UserLogo from '../../assets/user-login.png';
+//import { logOut } from '../../datasource/API-user';
 import './header.css';
 
 function Header(){
@@ -12,6 +13,14 @@ function Header(){
       const adminStatus = sessionStorage.getItem('isAdmin') === 'true';
       setIsAdmin(adminStatus);
     }, []);
+
+
+    // logoutAccount = () => {
+
+    // }
+
+
+
     return(
         <>
             <center>
@@ -32,8 +41,8 @@ function Header(){
                             Users
                         </div>
                         <ul class="dropdown">
-                            {isAdmin && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
-                            {!isAdmin && <li><NavLink to="/">Log out</NavLink></li>}
+                            {!isAdmin && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
+                            {isAdmin && <li><NavLink to="/">Log out</NavLink></li>}
                             <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
                             <li><NavLink to="/MyUser/MyQuestions">My questions</NavLink></li>

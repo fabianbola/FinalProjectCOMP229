@@ -26,6 +26,10 @@ router.post('/create/:adID', questionsController.create);
 // Route for listing questions for an authenticated user
 router.get('/list', authController.requireSignin, questionsController.list);
 
+// Route for listing questions for an Ad
+router.get('/list/:adID', questionsController.listByAdID);
+
+
 // Route for retrieving a specific question by its ID
 router.get('/get/:questionID', authController.requireSignin, questionsController.questionByID);
 

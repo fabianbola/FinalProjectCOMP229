@@ -112,11 +112,10 @@ const ListMyAds = () => {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="All">All</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Category 2">Category 6</option>
-              <option value="Category 3">Category 3</option>
-              <option value="Category 4">Category 4</option>
-              <option value="Category 5">Category 5</option>
+              <option value="Technology">Technology</option>
+              <option value="Home & Kitchen">Home & Kitchen</option>
+              <option value="Videogames">Videogames</option>
+              <option value="Musical Instruments">Musical Instruments</option>
             </select>
           </div>
           {!isAdmin && (
@@ -157,6 +156,7 @@ const ListMyAds = () => {
                     <td>
                       <button
                         className="btn btn-info btn-sm me-1"
+                        type="button"
                         onClick={() => navigate(`/Ads/Details/${ad.id}`)}
                       >
                         Details
@@ -167,7 +167,9 @@ const ListMyAds = () => {
                         <>
                           <button
                             className="btn btn-primary btn-sm me-1"
+                            type="button"
                             onClick={() => navigate(`/Ads/Edit/${ad.id}`)}
+                            disabled={!ad.isActive}
                           >
                             Edit
                           </button>
@@ -175,6 +177,7 @@ const ListMyAds = () => {
                           {ad.isActive && (
                             <button
                             className="btn btn-warning btn-sm me-1"
+                            type="button"
                             onClick={() => handleDisable(ad.id)}
                             >
                             Disable
@@ -194,6 +197,7 @@ const ListMyAds = () => {
                       {isAdmin && (
                         <button
                           className="btn btn-danger btn-sm"
+                          type="button"
                           onClick={() => handleRemove(ad.id)}
                         >
                           Delete

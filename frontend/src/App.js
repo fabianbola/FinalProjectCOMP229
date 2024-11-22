@@ -12,7 +12,8 @@ import MyAccount from "./components/accounts/account";
 import MyQuestions from "./components/questions/listMyQuestions";
 import DetailsAd from "./components/ads/detailsAd";
 import DetailsHomeAd from "./components/ads/detailsHomeAd";
-
+import CreateAd from "./components/ads/createAd";
+import EditAd from "./components/ads/editAd";
 import PrivateRoute from "./components/auth/PrivateRoute";
 
 import "./index.css";
@@ -49,6 +50,8 @@ function App() {
               <MyQuestions/>
           </PrivateRoute>} />
           <Route path="Register" element={<Register />} />
+          <Route path="Ads/Create" element={<CreateAd />} />
+          <Route path="/Ads/Edit/:id" element={<EditAd />} />
           
         </Route>
       </Routes>

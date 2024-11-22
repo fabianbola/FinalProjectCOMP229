@@ -38,7 +38,8 @@ module.exports.create = async function (req, res, next) {
             await AdModel.create(newAd);
             res.json(
                 { success: true, 
-                    message: 'Ad created successfully.' 
+                  message: 'Ad created successfully.',
+                  id: newAd._id  
                 });
 
         }, 2000);
@@ -291,6 +292,8 @@ module.exports.update = async function (req, res, next) {
             const updatedAd = {
                 title: req.body.title,
                 description: req.body.description,
+                price: req.body.price,
+                category: req.body.category,
                 startDate: req.body.startDate,
                 endDate: req.body.endDate,
                 updated: Date.now()

@@ -76,14 +76,21 @@ const EditAd = () => {
             return;
         }
     
-        // Create a new ad object with the current ad details
         let newAd = {
             title: ad.title,
             description: ad.description,
             category: ad.category,
             price: price, // Ensure it's a number
-            startDate: ad.startDate, 
-            endDate: ad.endDate  
+            startDate: (() => {
+                let date = new Date(ad.startDate);
+                date.setDate(date.getDate() + 1);
+                return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            })(),
+            endDate: (() => {
+                let date = new Date(ad.endDate);
+                date.setDate(date.getDate() + 1);
+                return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            })()
         };
     
         // Log the new ad object before sending it to the API

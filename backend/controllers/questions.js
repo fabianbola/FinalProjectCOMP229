@@ -68,6 +68,29 @@ module.exports.list = async function (req, res, next) {
     }
 };
 
+
+// Function to list all questions for the authenticated user
+module.exports.listByAdID = async function (req, res, next) {
+    try {
+
+        setTimeout( async () => {
+            console.log(req.body); // Log the request body for debugging
+            const adID = req.params.adID; // Get the ad ID from request parameters
+            console.log("Ad ID:", adID);
+            const list = await QuestionModel.find({ adID: adID}); // Find questions based on authenticated user
+            res.json(list); // Return the list of questions
+        }, 2000);
+        
+    } catch (error) {
+        console.log(error); // Log any error for debugging
+        next(error); // Pass the error to the error-handling middleware
+    }
+};
+
+
+
+
+
 // Function to retrieve a specific question by its ID
 module.exports.questionByID = async function (req, res, next) {
     try {

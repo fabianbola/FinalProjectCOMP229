@@ -7,13 +7,43 @@ const ListInventory = () => {
 
     let [adList, setAdList] = useState([]); // State variable to hold the list of inventory items
     let [isLoading, setIsLoading] = useState(true);
-    let [category, setcategory] = useState('all');
+    let [category, setCategory] = useState('all'); // Correcto
 
+    useEffect(() => {
+        // Obtener la URL actual
+        const currentPath = window.location.pathname; // Devuelve algo como "/Technology" o "/"
+        if(currentPath.split('/').filter(Boolean)){
+            setCategory(currentPath.split('/').filter(Boolean).pop());
+            console.log('Category:', category);
+        } else {
+            setCategory('all');
+            console.log('Category:', category);
+
+        }
+
+        // Actualizar el estado de categoría
+        setCategory(category);
+
+        // Llamar a la API con la categoría
+        console.log('Category:', category);
+        list(category).then((data) => {
+            console.log(data);
+            if (data) {
+                setAdList(data);
+                setIsLoading(false);
+            }
+        }).catch(err => {
+            alert(err.message);
+            console.log(err);
+        });
+    }, []); // Ejecutar solo una vez al montar el componente
+
+
+/*
     useEffect(() => {
         // const category = 'all';
         console.log('Category:', category);
         list(category).then((data) => {
-            console.log('entra');
 
             console.log(data);
             if (data) {
@@ -21,12 +51,15 @@ const ListInventory = () => {
                 setIsLoading(false);
             }
         }).catch(err => {
-            console.log('no entra');
 
             alert(err.message);
             console.log(err);
         });
     }, [category]); // Empty array to run only once
+*/
+
+
+
 
     return (
         <main className="container" style={{ paddingTop: 80 }}>
@@ -35,7 +68,6 @@ const ListInventory = () => {
                 <br />
                 <br />
                 <div className="table-responsive" >
-                    {isLoading && <div>Loading...</div>}
                     {!isLoading &&
                         <table className="table table-bordered table-striped table-hover">
                             <thead>
@@ -43,7 +75,6 @@ const ListInventory = () => {
                                 <tr>
 
                                     <th>Title</th>
-                                    <th>Description</th>
                                     <th>Category</th>
                                     <th>Price</th>
                                     <th>End Date</th>
@@ -56,7 +87,6 @@ const ListInventory = () => {
                                     return (<tr key={i}>
                                         {console.log(ad)}
                                         <td className="text-center"> {ad.title || ''} </td>
-                                        <td className="text-center"> {ad.description || ''} </td>
                                         <td className="text-center"> {ad.category || ''} </td>
                                         <td className="text-center"> {ad.price || ''} </td>
                                         <td className="text-center"> {ad.endDate || ''} </td>

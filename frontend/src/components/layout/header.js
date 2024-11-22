@@ -1,8 +1,16 @@
 import { Outlet, NavLink, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import logo from '../../assets/logo.jpg';
 import './header.css';
 
 function Header(){
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    // Load admin status from sessionStorage
+    useEffect(() => {
+      const adminStatus = sessionStorage.getItem('isAdmin') === 'true';
+      setIsAdmin(adminStatus);
+    }, []);
     return(
         <>
             <center>
@@ -20,8 +28,8 @@ function Header(){
                     <li class="vert-navbar">
                         Users
                         <ul class="dropdown">
-                            <li><NavLink to="/MyUser/Ads">My ads</NavLink></li>
                             <li><NavLink to="/SignIn">Sign In</NavLink></li>
+                            <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
                             <li><NavLink to="/MyUser/MyQuestions">My questions</NavLink></li>
                             <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>

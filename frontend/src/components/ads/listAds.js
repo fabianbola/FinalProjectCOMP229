@@ -113,7 +113,7 @@ const ListMyAds = () => {
             >
               <option value="All">All</option>
               <option value="Electronics">Electronics</option>
-              <option value="Category 2">Category 60</option>
+              <option value="Category 2">Category 6</option>
               <option value="Category 3">Category 3</option>
               <option value="Category 4">Category 4</option>
               <option value="Category 5">Category 5</option>

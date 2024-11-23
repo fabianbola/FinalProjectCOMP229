@@ -1,4 +1,3 @@
-/*
 // vamos a probar los cambios de brandy
 
 import React, { useEffect, useState } from "react";
@@ -12,22 +11,33 @@ const SpecificQuestion = () => {
     const [question, setQuestion] = useState(null); // Store the question details
     const [answer, setAnswer] = useState(""); // Store the user's answer
     const [isAuthenticated, setIsAuthenticated] = useState(false); // Check if the user is authenticated
-
+    console.log("=========================1========================");
+    console.log(questionID);
     // Fetch the question details when the component loads
     useEffect(() => {
+        console.log("=========================2a========================");
+
         const fetchQuestion = async () => {
             try {
                 const data = await getSpecificQuestion(questionID);
                 setQuestion(data);
+                console.log("=========================2========================");
+
             } catch (error) {
                 alert("Failed to load the question details.");
+                console.log("=========================3========================");
+
             }
         };
         fetchQuestion();
+        console.log("=========================4========================");
+
 
         // Check if the user is authenticated
         const token = getToken();
         setIsAuthenticated(!!token); // User is authenticated if a token is found
+        console.log("=========================5========================");
+
     }, [questionID]);
 
     // Handle answer submission
@@ -114,4 +124,3 @@ const SpecificQuestion = () => {
 };
 
 export default SpecificQuestion;
-*/

@@ -18,10 +18,7 @@ import EditAd from "./components/ads/editAd";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import ListQuestions from "./components/questions/listQuestionsByAd";
 import CreateQuestion from "./components/questions/createQuestion";
-
-
-
-
+import ListMyQuestions from "./components/questions/listMyQuestions";
 import EditQuestion from "./components/questions/specificQuestion";
 import "./index.css";
 
@@ -61,12 +58,9 @@ function App() {
           <Route path="Ads/Create" element={<CreateAd />} />
           <Route path="/Ads/Edit/:id" element={<EditAd />} />
           <Route path="/Home/Ads/Details/:adID/Questions" element={<ListQuestions />} />
-          <Route path="/questions/create/:adID" element={<ListQuestions />} />
-          
-
-
-
-          <Route path="/questions/Answer/:adID" element={<EditQuestion />} />
+          <Route path="/questions/create/:adID" element={<CreateQuestion />} />
+          <Route path="Ads/Details/:adID/Questions" element={<ListMyQuestions />} />
+          <Route path="questions/Answer/:questionID" element={<EditQuestion />} />
         </Route>
       </Routes>
       <Footer/>

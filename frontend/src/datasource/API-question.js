@@ -31,26 +31,26 @@ const createQuestion = async (adID, questionData) => {
     }
 };
 
-// Retrieves all questions for a specific ad. This is publicly accessible.
+// List questions for an ad (publicly accessible)
 const listQuestionsByAd = async (adID) => {
     try {
-        const response = await fetch(`${apiURL}/questions/list/${adID}`, {
-            method: "GET",
+        let response = await fetch(`${apiURL}/questions/list/${adID}`, {
+            method: 'GET',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            },
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            }
         });
         return await response.json();
-    } catch (err) {
-        console.error("Error fetching questions by ad:", err);
-    }
-};
+        } catch (err) {
+        console.error(err);
+        }
+    };
 
-// Retrieves all questions asked by a signed-in user. Requires authentication.
+// List all questions for a signed-in user
 const listMyQuestions = async () => {
     try {
-        const response = await fetch(`${apiURL}/questions/list`, {
+        let response = await fetch(`${apiURL}/questions/list`, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -64,10 +64,11 @@ const listMyQuestions = async () => {
     }
 };
 
-// Retrieves detailed information about a specific question. Requires login.
+// Get specific question details (requires login)
 const getSpecificQuestion = async (questionID) => {
     try {
-        const response = await fetch(`${apiURL}/questions/get/${questionID}`, {
+        let response = await fetch(`${apiURL}/questions/get/${questionID}`, {
+
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -81,10 +82,11 @@ const getSpecificQuestion = async (questionID) => {
     }
 };
 
-// Allows a logged-in user to provide an answer to a specific question.
+// Answer a  question (requires login)
 const answerQuestion = async (questionID, answerData) => {
     try {
-        const response = await fetch(`${apiURL}/questions/answer/${questionID}`, {
+        let response = await fetch(`${apiURL}/questions/answer/${questionID}`, {
+
             method: "PUT",
             headers: {
                 "Accept": "application/json",
@@ -99,5 +101,5 @@ const answerQuestion = async (questionID, answerData) => {
     }
 };
 
-// Export all question-related API service functions for use in other modules
-export { createQuestion, listQuestionsByAd, listMyQuestions, getSpecificQuestion, answerQuestion };
+export {createQuestion, listQuestionsByAd, listMyQuestions, getSpecificQuestion, answerQuestion};
+

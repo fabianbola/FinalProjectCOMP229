@@ -26,6 +26,13 @@ import DetailsHomeAd from "./components/ads/detailsHomeAd";
 import CreateAd from "./components/ads/createAd";
 import EditAd from "./components/ads/editAd";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import ListQuestions from "./components/questions/listQuestionsByAd";
+import CreateQuestion from "./components/questions/createQuestion";
+
+
+
+
+import EditQuestion from "./components/questions/specificQuestion";
 import "./index.css";
 
 // Main App component defining the structure and routes
@@ -42,27 +49,34 @@ function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="MyUser/Ads" element={
-          <PrivateRoute>
-          <MyAds/>
-          </PrivateRoute>} />
+            <PrivateRoute>
+            <MyAds/>
+            </PrivateRoute>} />
           <Route path="/Ads/Details/:id" element={<DetailsAd />} />
           <Route path="/Home/Ads/Details/:id" element={<DetailsHomeAd />} />
           <Route path="MyUser/ListUsers" element={
-          <PrivateRoute>
-              <ListUsers/>
-          </PrivateRoute>} />
+            <PrivateRoute>
+                <ListUsers/>
+            </PrivateRoute>} />
           <Route path="MyUser/MyAccount" element={
-          <PrivateRoute>
-              <MyAccount/>
-          </PrivateRoute>} />  
+            <PrivateRoute>
+                <MyAccount/>
+            </PrivateRoute>} />  
           <Route path="/MyUser/MyQuestions/" element={
-          <PrivateRoute>
-              <MyQuestions/>
-          </PrivateRoute>} />
+            <PrivateRoute>
+                <MyQuestions/>
+            </PrivateRoute>} />
           <Route path="Register" element={<Register />} />
-          <Route path="Myuser/MyAccount/Edit" element={<EditAccount />} />
+          <Route path="Myuser/MyAccount/Edit" element={<EditAccount />} />         
           <Route path="Ads/Create" element={<CreateAd />} />
           <Route path="/Ads/Edit/:id" element={<EditAd />} />
+          <Route path="/Home/Ads/Details/:adID/Questions" element={<ListQuestions />} />
+          <Route path="/questions/create/:adID" element={<ListQuestions />} />
+          
+
+
+
+          <Route path="/questions/Answer/:adID" element={<EditQuestion />} />
         </Route>
       </Routes>
       <Footer/>

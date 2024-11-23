@@ -1,3 +1,14 @@
+/* 
+  File Name: Header.js
+  Description: This component defines the header section of the web application. It includes navigation links and user-related actions like 
+               login/logout. It displays different content based on whether the user is authenticated and whether they are an admin.
+               The component also handles the user's session and navigation.
+  Team's Name: BOFC
+  Group Number: 04
+  Date: November 23, 2024
+*/
+
+// Imports necessary components and functions for the Header component
 import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from '../../assets/logo.jpg';
@@ -6,11 +17,12 @@ import { logOut } from '../../datasource/API-user';
 import './header.css';
 import { isAuthenticated, clearJWT } from '../auth/auth-helper';
 
+// Header functional component
 function Header(){
     const [isAdmin, setIsAdmin] = useState(false);
     const Authenticated = isAuthenticated();
     const userName = sessionStorage.getItem('username');
-    // Load admin status from sessionStorage
+    // Effect hook to load the admin status from sessionStorage when authentication changes
     useEffect(() => {
       const adminStatus = sessionStorage.getItem('isAdmin') === 'true';
       setIsAdmin(adminStatus);
@@ -35,7 +47,7 @@ function Header(){
       }).catch((err) => {
         setErrorMsg(err.message);
       });
-      clearJWT();
+      clearJWT(); // Clear the JWT token from local storage
    };
 
     return(
@@ -67,7 +79,7 @@ function Header(){
                             {!Authenticated && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
                             {Authenticated && <li onClick={handleLogout}><NavLink to="/">Log out</NavLink></li>}
                             <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
-                            <li><NavLink to="/Register">Register</NavLink></li>
+                            {!Authenticated && <li><NavLink to="/Register">Register</NavLink></li>}
                             <li><NavLink to="/MyUser/MyQuestions">{isAdmin ? "Questions History" : "My Questions"}</NavLink></li>
                             {isAdmin && <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>}
                             <li><NavLink to="/MyUser/MyAccount">My Account</NavLink></li>
@@ -81,4 +93,5 @@ function Header(){
     );
 }
 
+// Export the Header component for use in other parts of the application
 export default Header;

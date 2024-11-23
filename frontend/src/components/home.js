@@ -1,10 +1,19 @@
+/* 
+  File Name: home.js
+  Description: React component to display a list of ads filtered by category, either 'all' or a specific category. 
+               The component dynamically updates the displayed ads based on the URL, allowing users to view ads in specific categories. 
+               Includes functionality for loading and handling errors when fetching data.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+// Importing required libraries and hooks
 import { useEffect, useState } from "react";
 import { list } from "../datasource/API-Ads";
-import { Link} from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 
-
-
+// ListInventory Component
 const ListInventory = () => {
 
     const navigate = useNavigate();
@@ -14,22 +23,26 @@ const ListInventory = () => {
     let [isLoading, setIsLoading] = useState(true);
     let [category, setCategory] = useState('all'); // Categoría actual
 
+    // Effect hook to fetch data whenever the URL changes
     useEffect(() => {
 
-         // Obtener la categoría desde la URL dinámica
-         const currentPath = location.pathname; // Ejemplo: "/Technology" o "/"
+         /// Extract category from the URL path (e.g., "/Technology" or "/")
+         const currentPath = location.pathname; 
  
          const newCategory = decodeURIComponent(currentPath.split('/').filter(Boolean).pop() || 'all');
 
+         // Update category if it has changed
          if (newCategory !== category) {
             setCategory(newCategory);
             console.log("Category changed to:", newCategory);
         }
-    setIsLoading(true);
+    // Set loading state to true before fetching data
+        setIsLoading(true);
+    // Fetch the ads data for the current category
     list(newCategory).then((data) => {
             console.log("Data fetched for category:", newCategory);
             if (data) {
-                setAdList(data);
+                setAdList(data); // Update the ad list with fetched data
             }
         })
         .catch((err) => {
@@ -39,7 +52,7 @@ const ListInventory = () => {
         .finally(() => {
             setIsLoading(false);
         });
-    }, [location.pathname]); // Dependencia: Ejecutar cada vez que la URL cambie
+    }, [location.pathname]);  // Dependency array: re-run the effect whenever the URL changes
 
     return (
         <main className="container" style={{ paddingTop: 80 }}>
@@ -92,4 +105,5 @@ const ListInventory = () => {
     );
 };
 
+// Export the ListInventory component
 export default ListInventory;

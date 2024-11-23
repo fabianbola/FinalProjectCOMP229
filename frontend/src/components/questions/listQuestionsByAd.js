@@ -132,4 +132,52 @@ const ListQuestionsByAd = () => {
 };
 export default ListQuestionsByAd;
 
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { listQuestionsByAd } from "../../datasource/API-question";
+
+const ListQuestionsByAd = () => {
+    const { adID } = useParams(); // Get the adID from the URL params
+    const navigate = useNavigate(); // Use navigate for routing
+    const [questions, setQuestions] = useState([]); // Store questions
+
+    useEffect(() => {
+        // Fetch the list of questions for the specific ad
+        const fetchQuestions = async () => {
+            try {
+                const data = await listQuestionsByAd(adID);
+                setQuestions(data); // Store the fetched questions
+            } catch (error) {
+                alert("Failed to load questions. Please try again.");
+            }
+        };
+        fetchQuestions();
+    }, [adID]);
+
+    return (
+        <div className="container" style={{ paddingTop: 80 }}>
+            <h1>Questions</h1>
+            <ul className="list-group">
+                {questions.map((q) => (
+                    <li key={q._id} className="list-group-item">
+                        <p><strong>Question:</strong> {q.question}</p>
+                        {q.answer && <p><strong>Answer:</strong> {q.answer}</p>}
+                    </li>
+                ))}
+            </ul>
+            <button
+                className="btn btn-primary my-3"
+                onClick={() => navigate(`/questions/create/${adID}`)} // Navigate to CreateQuestion form
+            >
+                Ask a Question
+            </button>
+            <button className="btn btn-secondary" onClick={() => navigate(-1)}>
+                Back
+            </button>
+        </div>
+    );
+};
+
+export default ListQuestionsByAd;
+
 

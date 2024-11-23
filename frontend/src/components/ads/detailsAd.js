@@ -1,19 +1,31 @@
+/* 
+  File Name: detailsAd.js
+  Description: React component for displaying the details of a specific advertisement. 
+               Allows admins to delete or view user information, and allows owners to disable or edit their ads.
+               Fetches ad details from the API based on the user's role (admin or owner) and handles actions like disabling, editing, or deleting the ad.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+// Importing necessary hooks and functions for the component
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { readByOwner, readByAdmin } from "../../datasource/API-Ads";
 import { isAuthenticated } from "../auth/auth-helper";
 import { disable,remove } from "../../datasource/API-Ads"; // Import disable function
 
-
+// AdDetails Component
 const AdDetails = () => {
   const { id } = useParams(); // Get the ad ID from the route params
   const navigate = useNavigate();
   const [ad, setAd] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const isAdmin = sessionStorage.getItem("isAdmin") === "true";
-  const isOwner = isAuthenticated() && !isAdmin;
+  const isAdmin = sessionStorage.getItem("isAdmin") === "true"; // Check if user is an admin
+  const isOwner = isAuthenticated() && !isAdmin; // Check if user is the ad owner
 
+  // Fetch ad details based on user role (admin or owner)
   useEffect(() => {
     const fetchAdDetails = async () => {
       try {
@@ -21,14 +33,14 @@ const AdDetails = () => {
         console.log(id);
         let data;
         if (isAdmin) {
-          data = await readByAdmin(id);
+          data = await readByAdmin(id); // Fetch details for admin
         } else if (isOwner) {
-          data = await readByOwner(id);
+          data = await readByOwner(id); // Fetch details for the owner
         } 
         if (data && data.success === false) {
           setError(data.message || "Failed to fetch ad details.");
         } else {
-          setAd(data);
+          setAd(data); // Set fetched ad data
         }
       } catch (err) {
         setError("An unexpected error occurred while fetching the ad details.");
@@ -42,6 +54,7 @@ const AdDetails = () => {
   }, [id, isAdmin, isOwner]);
 
 
+  // Handles disabling the ad
   const handleDisable = async () => {
     const confirmDisable = window.confirm("Are you sure you want to disable this ad?");
     
@@ -64,6 +77,7 @@ const AdDetails = () => {
     }
   };
 
+   // Handles removing the ad
   const handleRemove = async () => {
     if (!isAuthenticated()) {
       alert("You are not authenticated. Please, proceed with sign-in first.");
@@ -74,7 +88,7 @@ const AdDetails = () => {
     if (!confirmDelete) return;
 
     try {
-      const data = await remove(id);
+      const data = await remove(id); // Remove the ad using the ID
 
       if (data && data.success) {
         alert(`The Ad "${ad.title}" was deleted successfully.`);
@@ -88,19 +102,22 @@ const AdDetails = () => {
     }
   };
 
-
+  // Show loading state while fetching ad details
   if (isLoading) {
     return <div>Loading ad details...</div>;
   }
 
+  // Show error message if any error occurs
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
 
+  // Show message if ad not found
   if (!ad) {
     return <div className="alert alert-warning">Ad not found.</div>;
   }
 
+  // Form to see the details of  an advertisement.
   return (
     <div className="container mt-5">
       <h1>Ad Details</h1>
@@ -196,4 +213,5 @@ const AdDetails = () => {
   );
 };
 
+// Exporting the AdDetails component for use in other parts of the application
 export default AdDetails;

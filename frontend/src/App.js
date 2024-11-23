@@ -1,4 +1,14 @@
-//import ReactDOM from "react-dom/client";
+/* 
+  File Name: App.js
+  Description: This file sets up the main routing and structure for the React application. 
+               It includes routes for various pages such as home, user authentication, 
+               ads management, user account, and private routes requiring login.
+  Team's Name: BOFC
+  Group Number: 04
+  Date: November 23, 2024
+*/
+
+// Import necessary modules for routing and layout components
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
@@ -22,7 +32,7 @@ import ListMyQuestions from "./components/questions/listMyQuestions";
 import EditQuestion from "./components/questions/specificQuestion";
 import "./index.css";
 
-
+// Main App component defining the structure and routes
 function App() {
   return (
     <BrowserRouter>
@@ -68,4 +78,5 @@ function App() {
   );
 }
 
+// Export the App component to be used in other parts of the application
 export default App;

@@ -1,7 +1,17 @@
-//Everyone base on the back-end method that the front-end is calling//Everyone base on the back-end method that the front-end is calling
+/* 
+  File Name: userModel.js
+  Description: This file defines the userModel class, which represents a user entity in the system. 
+               It includes properties such as user personal information, authentication details, and timestamps 
+               for account creation and updates. The class also supports user role differentiation, such as admin status.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
 
+// Define a class named userModel to represent a user in the system
 class userModel {
 
+    // Constructor to initialize the properties of the userModel instance
     constructor(firstName, lastName, email, username, hashed_password, salt, created, updated, admin) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -15,4 +25,5 @@ class userModel {
     }
 }
 
+// Export the userModel class to allow its use in other files
 export default userModel;

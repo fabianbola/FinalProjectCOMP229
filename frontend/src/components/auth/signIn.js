@@ -1,3 +1,13 @@
+/* 
+  File Name: signin.js
+  Description: React component for the Sign In page. Handles user authentication by submitting the email and password,
+               sets admin status if the user is an admin, and navigates to the previous page or home page upon successful login.
+  Team's name: BOFC
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+// Importing required libraries and functions
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { signin } from "../../datasource/API-user";
@@ -6,37 +16,43 @@ import { authenticate } from "./auth-helper";
 
 const Signin = () => {
 
+    // Get location state (for navigation after login)
     const { state } = useLocation();
+    // Default to home page if no previous location
     const { from } = state || { from: { pathname: '/' } };
-
+    // State to hold error message if authentication fails
     const [errorMsg, setErrorMsg] = useState('')
+    // State to hold user input (email and password)
     const [user, setUser] = useState({
         email: '',
         password: ''
     });
 
+    // Hook to navigate to different routes
     let navigate = useNavigate();
 
+    // Handle changes to the input fields (email and password)
     const handleChange = (event) => {
         const { name, value } = event.target; // Extract name and value from the target element
         setUser((prevFormData) => ({ ...prevFormData, [name]: value })); // keep other form data unchanged
     };
 
+    // Handle form submission
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent default submission
+        event.preventDefault(); // Prevent default form submission behavior
         
+        // Call the signin API with the user input
         signin(user).then((response) => {
+            // If successful, store the admin flag in session storage
             if (response && response.success) {
-                // Set admin status based on the response
                 const isAdminFlag = response.user && response.user.isAdmin; // Assuming API returns a user object with `isAdmin`
                 sessionStorage.setItem('isAdmin', isAdminFlag);
 
+                // Authenticate with the returned token
                 authenticate(response.token, () => {
                     // Navigate to the previous page or homepage
                     navigate(from, { replace: true });
 
-                    // Reload the app to ensure updated Header (optional)
-                    //window.location.reload();
                 });
             } else {
                 setErrorMsg(response.message);
@@ -96,4 +112,5 @@ const Signin = () => {
     );
 }
 
+// Exporting Signin component to be used in other parts of the application
 export default Signin;

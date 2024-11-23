@@ -1,7 +1,19 @@
-//Everyone base on the back-end method that the front-end is calling
+/* 
+  File Name: API-Ads.js
+  Description: This file serves as an API for interacting with advertisement-related endpoints. 
+               It includes functions for listing ads, creating, updating, disabling, retrieving, 
+               and deleting advertisements. The API supports both public access and authenticated 
+               access for various user roles such as owners and admins.
+  Team's Name: BOFC
+  Group Number: 04
+  Date: November 23, 2024
+*/
 
+
+//Import necessary helper functions for handling authentication tokens 
 import { getToken } from "../components/auth/auth-helper";
 
+//Define the base URL for API requests from environment variables.
 const apiURL = process.env.REACT_APP_APIURL;
 
 // List all active ads in a category (publicly accessible)
@@ -22,7 +34,7 @@ const list = async (category) => {
     }
   };
 
-// List all ads by a specific owner (requires login)
+/// List all ads by a specific owner (requires login)
 const listByOwner = async (category) => {
     try {
         let response = await fetch(`${apiURL}/ads/myUser/list/${category}`, { 
@@ -39,7 +51,7 @@ const listByOwner = async (category) => {
     }
 };
 
-// List all ads by a specific owner (requires login)
+// List all ads by an admin user (requires login)
 const listByAdmin = async (category) => {
     try {
         let response = await fetch(`${apiURL}/ads/myAdminUser/list/${category}`, { 
@@ -133,7 +145,7 @@ const read = async (id) => {
     }
 };
 
-// Get an ad by ID (owner)
+// Get an ad by ID (owner-specific access)
 const readByOwner = async (id) => {
     try {
         let response = await fetch(`${apiURL}/ads/myUser/get/${id}`, {
@@ -150,7 +162,7 @@ const readByOwner = async (id) => {
     }
 };
 
-// Get an ad by ID (owner)
+// Get an ad by ID (admin-specific access)
 const readByAdmin = async (id) => {
     try {
         let response = await fetch(`${apiURL}/ads/myAdminUser/get/${id}`, {
@@ -186,4 +198,5 @@ const remove = async (id) => {
     }
 };
 
+// Export all ad-related API service functions for use in other modules
 export { list, listByOwner, listByAdmin, create, update, disable, read, readByAdmin, readByOwner, remove };

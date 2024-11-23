@@ -1,7 +1,17 @@
-//Everyone base on the back-end method that the front-end is calling
+/* 
+  File Name: adModel.js
+  Description: This file defines the adModel class, which represents an advertisement entity with various properties 
+               such as title, description, category, owner, and more. The class includes a constructor to initialize 
+               these properties and is designed for use in a broader application context.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
 
+// Define a class named adModel to represent an advertisement model
 class adModel {
 
+     // Constructor to initialize the properties of the adModel instance
     constructor(title, description, category, owner, userName, price, isActive, startDate, endDate, message, created, updated, collection) {
         this.title = title;
         this.description = description;
@@ -19,5 +29,6 @@ class adModel {
     }
 }
 
+// Export the adModel class to allow its use in other files
 export default adModel;
 

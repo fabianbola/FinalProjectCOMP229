@@ -44,8 +44,8 @@ function App() {
           <Route path="MyUser/MyAccount" element={
           <PrivateRoute>
               <MyAccount/>
-          </PrivateRoute>} />
-          <Route path="MyUser/MyQuestions" element={
+          </PrivateRoute>} />  
+          <Route path="/MyUser/MyQuestions/" element={
           <PrivateRoute>
               <MyQuestions/>
           </PrivateRoute>} />

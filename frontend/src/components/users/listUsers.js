@@ -58,6 +58,7 @@ const ListUsers = () => {
         <h1>Registered Users</h1>
         <div className="table-responsive mt-4">
           {isLoading && <div>Loading...</div>}
+
           {!isLoading && (!userList || userList.length === 0) && <div>No non-admin users found.</div>}  
           {!isLoading && userList.length > 0 && (
             <table className="table table-bordered table-striped table-hover">
@@ -77,7 +78,8 @@ const ListUsers = () => {
                       <button
                         className="btn btn-danger btn-sm"
                         type="button"
-                        onClick={() => handleRemove(user.id)}  // Handle delete button click
+                        onClick={() => handleRemove(user.id)}
+
                       >
                         Delete
                       </button>

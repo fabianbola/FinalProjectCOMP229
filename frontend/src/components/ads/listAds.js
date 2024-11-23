@@ -1,9 +1,20 @@
+/* 
+  File Name: listAds.js
+  Description: React component to display the list of ads created by the logged-in user or all ads for administrators. 
+               Allows filtering ads by category, disabling ads, and removing ads through respective API calls. 
+               Includes conditional functionality for regular users and administrators.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+// Importing required libraries, hooks, and API functions
 import { useEffect, useState } from "react";
 import { listByOwner, listByAdmin,remove, disable } from "../../datasource/API-Ads";
-import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from "../auth/auth-helper";
 
+// ListMyAds Component
 const ListMyAds = () => {
   const [adsList, setAdsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -11,17 +22,18 @@ const ListMyAds = () => {
   const isAdmin = sessionStorage.getItem('isAdmin') === 'true'; // Convert to boolean
   const navigate = useNavigate();
 
-  // Fetch ads based on the selected category
+  // Fetch ads based on user type (Admin or Owner) and selected category
   useEffect(() => {
-    const fetchCategory = category === "All" ? "all" : category;
+    const fetchCategory = category === "All" ? "all" : category; // Adjust category filter
 
-    setAdsList([]);  // Clear previous ads
-    setIsLoading(true); // Set loading state to true
+    setAdsList([]);   // Clear previous ads to avoid data conflicts
+    setIsLoading(true); // Set loading state to true during fetch
 
+    // Call the appropriate API based on user role
     if(!isAdmin){
     listByOwner(fetchCategory).then((data) => {
       if (data) {
-        setAdsList(data);
+        setAdsList(data); // Update state with fetched ads
         setIsLoading(false); 
       }
     }).catch((err) => {
@@ -39,8 +51,9 @@ const ListMyAds = () => {
       console.error(err);
     });
   }
-  }, [category]);
+  }, [category]); // Re-run the effect when the category changes
 
+  // Function to disable an ad
   const handleDisable = async (id) => {
     const confirmDisable = window.confirm("Are you sure you want to disable this ad?");
     
@@ -51,6 +64,7 @@ const ListMyAds = () => {
 
       if (data && data.success) {
         alert("Ad disabled successfully.");
+        // Refresh the ads list after disabling
         listByOwner(category).then((data) => {
           if (data) {
             setAdsList(data);
@@ -68,17 +82,18 @@ const ListMyAds = () => {
     }
   };
 
+  // Function to remove an ad
   const handleRemove = (id) => {
     if (!isAuthenticated())
         window.alert('You are not authenticated. Please, proceed with sign-in first.')
     else {
         if (window.confirm('Are you sure you want to delete this item?')) {
           // Find the ad's title before removing it
-          const adToRemove = adsList.find((ad) => ad.id === id);  
+          const adToRemove = adsList.find((ad) => ad.id === id); // Find the ad's id
           remove(id).then(data => {
                 if (data && data.success) {
                     const newList = adsList.filter((ad) => ad.id !== id);
-                    setAdsList(newList);
+                    setAdsList(newList); // Update state after successful deletion
                     // Show success alert with the ad's title
                     window.alert(`The Ad "${adToRemove.title}" was deleted.`);
                 }
@@ -215,4 +230,5 @@ const ListMyAds = () => {
   );
 };
 
+// Exporting the ListMyAds component
 export default ListMyAds;

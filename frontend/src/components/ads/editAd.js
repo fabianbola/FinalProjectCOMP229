@@ -1,30 +1,42 @@
+/* 
+  File Name: editAd.js
+  Description: React component for editing an existing advertisement. 
+               Allows the ad owner to update the details such as title, description, category, price, start date, and end date.
+               Fetches the ad details based on the ad ID and updates the ad information through an API.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+// Importing necessary hooks and functions for the component
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { read, update } from "../../datasource/API-Ads";
-import AdModel from "../../datasource/adModel";
-import dayjs from "dayjs";
+import { useNavigate, useParams } from "react-router-dom";
+import { read, update } from "../../datasource/API-Ads"; // Importing API functions to read and update the ad
+import AdModel from "../../datasource/adModel"; // Importing the AdModel to structure the ad data
 
 
+// EditAd Component
 const EditAd = () => {
-    let navigate = useNavigate();
-    let { id } = useParams();
-    let [ad, setAd] = useState(new AdModel());
-    let [categories] = useState(["Technology", "Home & Kitchen", "Videogames", "Musical Instruments"]); 
+    let navigate = useNavigate(); // Hook to navigate between pages
+    let { id } = useParams(); // Get the ad ID from the route parameters
+    let [ad, setAd] = useState(new AdModel()); // State to hold the ad data, initially set to a new AdModel instance
+    let [categories] = useState(["Technology", "Home & Kitchen", "Videogames", "Musical Instruments"]); // Predefined categories for the ad
 
     // Load ad data when the component mounts
     useEffect(() => {
-        read(id).then((response) => {
+        read(id).then((response) => {  // Fetch the ad data from the API
             if (response) {
+                 // If the response is valid, set the ad state with the fetched data
                 setAd(new AdModel(
                     response.title || "",           // title
                     response.description || "",     // description
                     response.category || "",        // category
                     response.owner || "",           // owner
-                    response.userName || "",        // user Name
+                    response.userName || "",        // userName
                     response.price || 0,            // price
                     response.isActive || true,     // isActive
-                    new Date(response.startDate).toLocaleDateString("en-CA") || "", // Use 'en-CA' for ISO format
-                    new Date(response.endDate).toLocaleDateString("en-CA") || "",   // Use 'en-CA' for ISO format
+                    new Date(response.startDate).toLocaleDateString("en-CA") || "", // startDate
+                    new Date(response.endDate).toLocaleDateString("en-CA") || "",   // endDate
                     response.message || "",         // message
                     response.created || "",         // created
                     response.updated || "",         // updated
@@ -35,17 +47,20 @@ const EditAd = () => {
             alert(err.message);
             console.log(err);
         });
-    }, [id]);
+    }, [id]); // Dependency array to run the effect when the ad ID changes
 
+    // Handle changes in input fields
     const handleChange = (event) => {
         const { name, value } = event.target;
         setAd((prevFormData) => ({ ...prevFormData, [name]: value }));
     };
 
+    // Clear the ad form
     const handleClear = () => {
         setAd(new AdModel());
     };
 
+     // Handle form submission to update the ad
     const handleSubmit = (event) => {
         event.preventDefault();
     
@@ -77,6 +92,7 @@ const EditAd = () => {
             return;
         }
     
+        // Prepare the new ad object with validated data
         let newAd = {
             title: ad.title,
             description: ad.description,
@@ -84,12 +100,12 @@ const EditAd = () => {
             price: price, // Ensure it's a number
             startDate: (() => {
                 let date = new Date(ad.startDate);
-                date.setDate(date.getDate() + 1);
+                date.setDate(date.getDate() + 1); // Adjust start date
                 return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
             })(),
             endDate: (() => {
                 let date = new Date(ad.endDate);
-                date.setDate(date.getDate() + 1);
+                date.setDate(date.getDate() + 1); // Adjust end date
                 return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
             })()
         };
@@ -97,13 +113,13 @@ const EditAd = () => {
         // Log the new ad object before sending it to the API
         console.log("New Ad Object:", newAd);
     
-        // Update the ad
+        // Update the ad by calling the update API function
         update(id, newAd)
             .then((response) => {
                 console.log("API Response:", response); // Log the API response
                 if (response && response.success) {
-                    alert("Ad successfully updated!");
-                    navigate("/MyUser/Ads");
+                    alert("Ad successfully updated!"); // Show success message
+                    navigate("/MyUser/Ads"); // Navigate to the ads page after update
                 } else {
                     alert(response.message);
                 }
@@ -114,6 +130,7 @@ const EditAd = () => {
             });
     };
     
+    // JSX for rendering the EditAd form
     return (
         <div className="container" style={{ paddingTop: 80 }}>
             <div className="row">
@@ -243,4 +260,5 @@ const EditAd = () => {
     );
 };
 
+// Exporting the EditAd component
 export default EditAd;

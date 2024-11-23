@@ -1,22 +1,41 @@
+/* 
+  File Name: createAd.js
+  Description: React component for creating a new advertisement. 
+               Provides a form for users to input ad details including title, description, category, price, and dates. 
+               Handles form submission with validations and calls the create API to save the ad data in the database.  
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+
+// Importing necessary hooks and functions for the component
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { create } from "../../datasource/API-Ads";
 import AdModel from "../../datasource/adModel";
 
+
+// CreateAd Component
 const CreateAd = () => {
+    
+     // Initializes navigation hook and state for ad data and categories
     let navigate = useNavigate();
     let [ad, setAd] = useState(new AdModel());
     let [categories] = useState(["Technology", "Home & Kitchen", "Videogames", "Musical Instruments"]); 
 
+    // Updates the ad state when form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
         setAd((prevFormData) => ({ ...prevFormData, [name]: value }));
     };
 
+    // Clears the ad form and resets state to initial values
     const handleClear = () => {
         setAd(new AdModel());
     };
 
+    // Handles the form submission, performs validations, and calls the API to create the ad
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -31,11 +50,13 @@ const CreateAd = () => {
             return;
         }
 
+         // Validates that price is positive
         if (ad.price <= 0) {
             alert("Price must be a positive number.");
             return;
         }
 
+        // Calls the API to create the ad and handles the response
         create(ad)
             .then((response) => {
 
@@ -52,6 +73,7 @@ const CreateAd = () => {
             });
     };
 
+    // Form to create a new advertisement by filling out it.
     return (
         <div className="container" style={{ paddingTop: 80 }}>
             <div className="row">
@@ -181,4 +203,5 @@ const CreateAd = () => {
     );
 };
 
+// Exporting the CreateAd component to use in other parts of the application
 export default CreateAd;

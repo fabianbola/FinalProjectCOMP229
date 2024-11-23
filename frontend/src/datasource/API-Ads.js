@@ -65,7 +65,7 @@ const create = async (ad) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                //'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + getToken()
             },
             body: JSON.stringify(ad)
         });
@@ -78,12 +78,19 @@ const create = async (ad) => {
 // Update an ad (requires login)
 const update = async (id, ad) => {
     try {
+        console.log("Hi I received this in the API method");
+        console.log(id);
+        console.log(ad.price);  // Log the price as it is
+        console.log(ad.category);
+        console.log(ad.startDate);
+        console.log(ad.endDate);
+        console.log(ad.id);
         let response = await fetch(`${apiURL}/ads/myUser/edit/${id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                //'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + getToken()
             },
             body: JSON.stringify(ad)
         });

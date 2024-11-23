@@ -136,6 +136,7 @@ const AdDetails = () => {
           
         <button
             className="btn btn-secondary"
+            type="button"
             onClick={() => navigate(`/Ads/Details/${id}/Questions`)} // Assuming you have a route for questions
           >
             Questions
@@ -145,7 +146,9 @@ const AdDetails = () => {
         <>
             <button
               className="btn btn-primary me-2"
+              type="button"
               onClick={() => navigate(`/Ads/Edit/${id}`)}
+              disabled={!ad.isActive}
             >
               Edit
             </button>
@@ -153,6 +156,7 @@ const AdDetails = () => {
         {isOwner && ad.isActive && (
             <button
             className="btn btn-danger"
+            type="button"
             onClick={handleDisable} // Call the function to disable the ad
             >
             Disable
@@ -171,6 +175,7 @@ const AdDetails = () => {
             <button
               className="btn btn-danger"
               onClick={handleRemove}
+              type="button"
             >
               Delete
             </button>
@@ -178,6 +183,7 @@ const AdDetails = () => {
         <button
         className="btn btn-secondary me-2"
         onClick={() => navigate(-1)}
+        type="button"
         >
         Back
         </button>

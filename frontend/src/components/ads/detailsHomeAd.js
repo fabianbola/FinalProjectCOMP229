@@ -75,12 +75,14 @@ const AdDetails = () => {
           
         <button
             className="btn btn-secondary"
+            type="button"
             onClick={() => navigate(`/Home/Ads/Details/${id}/Questions`)} // Assuming you have a route for questions
           >
             Questions
         </button>
         <button
         className="btn btn-secondary me-2"
+        type="button"
         onClick={() => navigate(-1)}
         >
         Back

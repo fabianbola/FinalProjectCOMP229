@@ -9,6 +9,7 @@ import { isAuthenticated, clearJWT } from '../auth/auth-helper';
 function Header(){
     const [isAdmin, setIsAdmin] = useState(false);
     const Authenticated = isAuthenticated();
+    const userName = sessionStorage.getItem('username');
     // Load admin status from sessionStorage
     useEffect(() => {
       const adminStatus = sessionStorage.getItem('isAdmin') === 'true';
@@ -52,17 +53,23 @@ function Header(){
                     <li><NavLink to="/Video_games">Videogames</NavLink></li>
                     <li><NavLink to="/Musical_instruments">Musical instruments</NavLink></li>
                     <li class="vert-navbar">
-                        <div class="user-container">
+                            {!Authenticated &&
+                            <div class="user-container">
                             <img class="UserLogo" src={UserLogo} alt="User logo" />
-                            Users
-                        </div>
+                            User
+                        </div>}
+                            {Authenticated &&
+                            <div class="user-container">
+                            <img class="UserLogo" src={UserLogo} alt="User logo" />
+                            {userName}
+                        </div>}                            
                         <ul class="dropdown">
                             {!Authenticated && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
                             {Authenticated && <li onClick={handleLogout}><NavLink to="/">Log out</NavLink></li>}
                             <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
                             <li><NavLink to="/MyUser/MyQuestions">My questions</NavLink></li>
-                            <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>
+                            {!isAdmin && <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>}
                             <li><NavLink to="/MyUser/MyAccount">My Account</NavLink></li>
                         </ul>
                     </li>

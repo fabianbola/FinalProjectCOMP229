@@ -5,12 +5,12 @@ const authenticate = (token, cb) => {
     if (typeof window !== "undefined") {
         sessionStorage.setItem('token', token);
         let decoded = jwtDecode(token);
-        sessionStorage.setItem('username', decoded.username)
+        sessionStorage.setItem('username', decoded.username);
         sessionStorage.setItem('isAdmin', decoded.admin ? 'true' : 'false');
         sessionStorage.setItem('idUser', decoded.id);
     }
     cb();
-}
+};
 
 const isAuthenticated = () => {
     if (typeof window === "undefined") {
@@ -31,7 +31,7 @@ const getUsername = () => {
         return false;
     }
     return sessionStorage.getItem('username');
-}
+};
 
 const getAdmin = () => {
     if (typeof window === "undefined") {

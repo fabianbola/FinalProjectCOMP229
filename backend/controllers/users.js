@@ -125,3 +125,114 @@ module.exports.signout = async function (req, res, next) {
         next(error); 
     }
 };
+
+// Function to retrieve user information
+module.exports.getUserInfo = async function (req, res, next) {
+    try {
+        console.log("Decoded token:", req.auth); 
+
+        const userID = req.auth?.id; 
+        if (!userID) {
+            return res.status(400).json({
+                success: false,
+                message: 'User ID not found in token.',
+            });
+        }
+
+        const user = await UserModel.findById(userID).select('-hashed_password -salt');
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found.',
+            });
+        }
+
+        res.json({
+            success: true,
+            data: user,
+        });
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        next(error);
+    }
+};
+
+// Function to list all non-admin users (only accessible by admins)
+module.exports.listNonAdminUsers = async function (req, res, next) {
+    try {
+        const adminUserID = req.auth?.id; // Extract the admin user ID from the token
+
+        // Verify if the current user is an admin
+        const adminUser = await UserModel.findById(adminUserID);
+        if (!adminUser || !adminUser.admin) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Only admins can perform this action.',
+            });
+        }
+
+        // Find all non-admin users
+        const nonAdminUsers = await UserModel.find({ admin: false })
+            .select('-hashed_password -salt');
+
+        res.json({
+            success: true,
+            data: nonAdminUsers,
+        });
+    } catch (error) {
+        console.error('Error listing non-admin users:', error);
+        next(error);
+    }
+};
+
+// Function to delete a non-admin user (only accessible by admins)
+module.exports.deleteNonAdminUser = async function (req, res, next) {
+    try {
+        const adminUserID = req.auth?.id; // Extract the admin user ID from the token
+        const targetUserID = req.params.userID;
+
+        // Verify if the current user is an admin
+        const adminUser = await UserModel.findById(adminUserID);
+        if (!adminUser || !adminUser.admin) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Only admins can perform this action.',
+            });
+        }
+
+        // Verify if the target user is a non-admin
+        const targetUser = await UserModel.findById(targetUserID);
+        if (!targetUser) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found.',
+            });
+        }
+        if (targetUser.admin) {
+            return res.status(400).json({
+                success: false,
+                message: 'Cannot delete an admin user.',
+            });
+        }
+
+        // Delete the non-admin user
+        const result = await UserModel.deleteOne({ _id: targetUserID });
+        if (result.deletedCount > 0) {
+            res.json({
+                success: true,
+                message: 'Non-admin user deleted successfully.',
+            });
+        } else {
+            throw new Error('Failed to delete user.');
+        }
+    } catch (error) {
+        console.error('Error deleting non-admin user:', error);
+        next(error);
+    }
+};
+
+
+
+
+
+

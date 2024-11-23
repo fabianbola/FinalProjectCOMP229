@@ -57,7 +57,7 @@ const AdDetails = () => {
           <p><strong>Description:</strong> {ad.description}</p>
           <p><strong>Category:</strong> {ad.category}</p>
           <p><strong>Price:</strong> ${ad.price}</p>
-          <p><strong>User:</strong> {ad.owner}</p>
+          <p><strong>User:</strong> {ad.userName}</p>
           <p>
             <strong>Start Date:</strong> {new Date(ad.startDate).toLocaleDateString()}
           </p>

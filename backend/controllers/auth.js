@@ -28,7 +28,6 @@ module.exports.signin = async function(req, res, next) {
         // Create the payload for the JWT, including the user ID and username
         let payload = {
             id: user._id, 
-            idPrueba: 2,
             username: user.username,
             admin: user.admin // Include the admin field
         };  

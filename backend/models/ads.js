@@ -35,6 +35,10 @@ const AdSchema = new Schema({
     required: true,
     immutable: true 
   },
+  userName: {
+    type: String,
+    required: true
+  },
   price: {
     type: Number,
     required: 'Price is required',

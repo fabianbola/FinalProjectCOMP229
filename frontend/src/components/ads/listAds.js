@@ -113,9 +113,9 @@ const ListMyAds = () => {
             >
               <option value="All">All</option>
               <option value="Technology">Technology</option>
-              <option value="Home_kitchen">Home kitchen</option>
-              <option value="Video_games">Video games</option>
-              <option value="Musical_instruments">Musical instruments</option>
+              <option value="Home & Kitchen">Home & kitchen</option>
+              <option value="Videogames">Videogames</option>
+              <option value="Musical Instruments">Musical instruments</option>
             </select>
           </div>
           {!isAdmin && (

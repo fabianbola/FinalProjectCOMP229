@@ -20,6 +20,7 @@ const EditAd = () => {
                     response.description || "",     // description
                     response.category || "",        // category
                     response.owner || "",           // owner
+                    response.userName || "",        // user Name
                     response.price || 0,            // price
                     response.isActive || true,     // isActive
                     new Date(response.startDate).toLocaleDateString("en-CA") || "", // Use 'en-CA' for ISO format

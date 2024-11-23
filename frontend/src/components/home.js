@@ -18,8 +18,9 @@ const ListInventory = () => {
 
          // Obtener la categoría desde la URL dinámica
          const currentPath = location.pathname; // Ejemplo: "/Technology" o "/"
-         const newCategory = currentPath.split('/').filter(Boolean).pop() || 'all';
  
+         const newCategory = decodeURIComponent(currentPath.split('/').filter(Boolean).pop() || 'all');
+
          if (newCategory !== category) {
             setCategory(newCategory);
             console.log("Category changed to:", newCategory);

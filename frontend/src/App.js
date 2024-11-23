@@ -26,9 +26,9 @@ function App() {
         <Route path="/" element={<Header />}>
           <Route index element={<Home />} />
           <Route path="Technology" element={<Home/>} />
-          <Route path="Home_kitchen" element={<Home />} />
-          <Route path="Video_games" element={<Home />} />
-          <Route path="Musical_instruments" element={<Home />} />
+          <Route path="Home & Kitchen" element={<Home />} />
+          <Route path="Videogames" element={<Home />} />
+          <Route path="Musical Instruments" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="MyUser/Ads" element={

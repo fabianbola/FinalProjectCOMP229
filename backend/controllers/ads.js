@@ -22,6 +22,7 @@ module.exports.create = async function (req, res, next) {
         setTimeout( async () => {
             // Get the authenticated user's ID from the authorization data in the request
             const id = req.auth.id;
+            const userName = req.auth.username;
 
             // Construct new ad object from request data
             const newAd = new AdModel({
@@ -31,6 +32,7 @@ module.exports.create = async function (req, res, next) {
                 startDate: req.body.startDate,
                 endDate: req.body.endDate,
                 owner: id,
+                userName: userName,
                 price: req.body.price
             });
 

@@ -14,8 +14,8 @@ function Header(){
     useEffect(() => {
       const adminStatus = sessionStorage.getItem('isAdmin') === 'true';
       setIsAdmin(adminStatus);
-    }, []);
-
+    }, [Authenticated]); // Run this whenever Authenticated changes
+    
     const { state } = useLocation();
     const { origen } = state || { origen: { pathname: '/' } };
     const [errorMsg, setErrorMsg] = useState('')
@@ -49,9 +49,9 @@ function Header(){
                 <ul class="nav-list">
                     <li><NavLink to="/">All</NavLink></li>
                     <li><NavLink to="/Technology">Technology</NavLink></li>
-                    <li><NavLink to="/Home_kitchen">Home & Kitchen</NavLink></li>
-                    <li><NavLink to="/Video_games">Videogames</NavLink></li>
-                    <li><NavLink to="/Musical_instruments">Musical instruments</NavLink></li>
+                    <li><NavLink to="/Home & Kitchen">Home & Kitchen</NavLink></li>
+                    <li><NavLink to="/Videogames">Videogames</NavLink></li>
+                    <li><NavLink to="/Musical Instruments">Musical instruments</NavLink></li>
                     <li class="vert-navbar">
                             {!Authenticated &&
                             <div class="user-container">
@@ -68,8 +68,8 @@ function Header(){
                             {Authenticated && <li onClick={handleLogout}><NavLink to="/">Log out</NavLink></li>}
                             <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
-                            <li><NavLink to="/MyUser/MyQuestions">My questions</NavLink></li>
-                            {!isAdmin && <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>}
+                            <li><NavLink to="/MyUser/MyQuestions">{isAdmin ? "Questions History" : "My Questions"}</NavLink></li>
+                            {isAdmin && <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>}
                             <li><NavLink to="/MyUser/MyAccount">My Account</NavLink></li>
                         </ul>
                     </li>

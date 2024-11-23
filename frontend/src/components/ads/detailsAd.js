@@ -115,9 +115,12 @@ const AdDetails = () => {
           <p>
             <strong>Status:</strong> {ad.isActive ? "Active" : "Inactive"}
           </p>
+          {console.log("Hi")}
+          {console.log(isAdmin)}
+          {console.log(isAuthenticated())}
         {/* Show User info only for admins */}
-        {isAdmin || !isAuthenticated() && (
-          <p><strong>User:</strong> {ad.owner}</p>
+        {isAdmin && (
+          <p><strong>User:</strong> {ad.userName}</p>
         )}
           <p>
             <strong>Start Date:</strong> {new Date(ad.startDate).toLocaleDateString()}

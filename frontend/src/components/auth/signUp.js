@@ -53,8 +53,8 @@ const Signup = () => {
             <div className="row">
                 <div className="offset-md-3 col-md-6">
                     <h1>Sign Up</h1>
-                    {errorMsg && <p className="flash-error">{errorMsg}</p>}  // Display error message if exists
-                    {successMsg && <p className="flash-success">{successMsg}</p>}  // Display success message if exists
+                    {errorMsg && <p className="flash-error">{errorMsg}</p>}  
+                    {successMsg && <p className="flash-success">{successMsg}</p>}  
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
                             <label htmlFor="firstNameField">First Name</label>

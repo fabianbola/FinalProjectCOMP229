@@ -79,7 +79,7 @@ function Header(){
                             {!Authenticated && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
                             {Authenticated && <li onClick={handleLogout}><NavLink to="/">Log out</NavLink></li>}
                             <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
-                            <li><NavLink to="/Register">Register</NavLink></li>
+                            {!Authenticated && <li><NavLink to="/Register">Register</NavLink></li>}
                             <li><NavLink to="/MyUser/MyQuestions">{isAdmin ? "Questions History" : "My Questions"}</NavLink></li>
                             {isAdmin && <li><NavLink to="/MyUser/ListUsers">List users</NavLink></li>}
                             <li><NavLink to="/MyUser/MyAccount">My Account</NavLink></li>

@@ -39,13 +39,26 @@ const CreateAd = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // Adjust the start and end dates
+        const adjustedStartDate = (() => {
+            let date = new Date(ad.startDate);
+            date.setDate(date.getDate() + 1); // Adjust start date
+            return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        })();
+
+        const adjustedEndDate = (() => {
+            let date = new Date(ad.endDate);
+            date.setDate(date.getDate() + 1); // Adjust end date
+            return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        })();
+
         // Validate that startDate is greater than today and endDate is greater than startDate
         const today = new Date();
-        if (new Date(ad.startDate) <= today) {
+        if (new Date(adjustedStartDate) <= today) {
             alert("Start date must be in the future.");
             return;
         }
-        if (new Date(ad.endDate) <= new Date(ad.startDate)) {
+        if (new Date(adjustedEndDate) <= new Date(adjustedStartDate)) {
             alert("End date must be later than the start date.");
             return;
         }
@@ -56,8 +69,15 @@ const CreateAd = () => {
             return;
         }
 
+        // Prepare the ad data with adjusted start and end dates
+        const adData = {
+            ...ad,
+            startDate: adjustedStartDate,
+            endDate: adjustedEndDate,
+        };
+
         // Calls the API to create the ad and handles the response
-        create(ad)
+        create(adData)
             .then((response) => {
 
                 console.log(response);

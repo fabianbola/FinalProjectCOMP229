@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { listMyQuestions } from "../../datasource/API-question";
@@ -73,4 +72,3 @@ const ListMyQuestions = () => {
 };
 
 export default ListMyQuestions;
-

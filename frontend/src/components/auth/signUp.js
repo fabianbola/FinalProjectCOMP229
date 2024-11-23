@@ -1,36 +1,50 @@
+/* 
+  File Name: signUp.js
+  Description: This React component handles user registration by collecting necessary user information (first name, last name, email, username, and password). 
+               It sends the data to the API to create an account, provides feedback on success or failure, 
+               and redirects the user to the sign-in page upon successful registration.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+
+// Importing required libraries and functions
 import { useState } from "react";
 import { signup } from "../../datasource/API-user";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-    const [errorMsg, setErrorMsg] = useState('');
-    const [successMsg, setSuccessMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');  // State to store error message
+    const [successMsg, setSuccessMsg] = useState('');  // State to store success message
     const [user, setUser] = useState({
         firstName: '',
         lastName: '',
         email: '',
         username: '',
         password: ''
-    });
+    });  // State to store user input for registration
 
-    let navigate = useNavigate();
+    let navigate = useNavigate();  // Hook for programmatic navigation
 
+    // Handle input changes in the form fields
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setUser((prevFormData) => ({ ...prevFormData, [name]: value }));
+        setUser((prevFormData) => ({ ...prevFormData, [name]: value }));  // Update user state with the input field values
     };
 
+    // Handle form submission for sign-up
     const handleSubmit = (event) => {
-        event.preventDefault();
-        signup(user).then((response) => {
+        event.preventDefault();  // Prevent page reload on form submit
+        signup(user).then((response) => {  // Call API to create a new user
             if (response && response.success) {
                 setSuccessMsg("Account created successfully! Redirecting...");
-                setTimeout(() => navigate("/signin"), 3000);
+                setTimeout(() => navigate("/signin"), 3000);  // Redirect to sign-in page after 3 seconds
             } else {
-                setErrorMsg(response.message || "Signup failed. Try again.");
+                setErrorMsg(response.message || "Signup failed. Try again.");  // Display error message if signup fails
             }
         }).catch(err => {
-            setErrorMsg(err.message || "An error occurred.");
+            setErrorMsg(err.message || "An error occurred.");  // Handle errors during API call
         });
     };
 
@@ -39,8 +53,8 @@ const Signup = () => {
             <div className="row">
                 <div className="offset-md-3 col-md-6">
                     <h1>Sign Up</h1>
-                    {errorMsg && <p className="flash-error">{errorMsg}</p>}
-                    {successMsg && <p className="flash-success">{successMsg}</p>}
+                    {errorMsg && <p className="flash-error">{errorMsg}</p>}  
+                    {successMsg && <p className="flash-success">{successMsg}</p>}  
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
                             <label htmlFor="firstNameField">First Name</label>
@@ -112,4 +126,3 @@ const Signup = () => {
 };
 
 export default Signup;
-

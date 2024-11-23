@@ -1,42 +1,83 @@
+/* 
+  File Name: createAd.js
+  Description: React component for creating a new advertisement. 
+               Provides a form for users to input ad details including title, description, category, price, and dates. 
+               Handles form submission with validations and calls the create API to save the ad data in the database.  
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
+
+// Importing necessary hooks and functions for the component
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { create } from "../../datasource/API-Ads";
 import AdModel from "../../datasource/adModel";
 
+
+// CreateAd Component
 const CreateAd = () => {
+    
+     // Initializes navigation hook and state for ad data and categories
     let navigate = useNavigate();
     let [ad, setAd] = useState(new AdModel());
     let [categories] = useState(["Technology", "Home & Kitchen", "Videogames", "Musical Instruments"]); 
 
+    // Updates the ad state when form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
         setAd((prevFormData) => ({ ...prevFormData, [name]: value }));
     };
 
+    // Clears the ad form and resets state to initial values
     const handleClear = () => {
         setAd(new AdModel());
     };
 
+    // Handles the form submission, performs validations, and calls the API to create the ad
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // Adjust the start and end dates
+        const adjustedStartDate = (() => {
+            let date = new Date(ad.startDate);
+            date.setDate(date.getDate() + 1); // Adjust start date
+            return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        })();
+
+        const adjustedEndDate = (() => {
+            let date = new Date(ad.endDate);
+            date.setDate(date.getDate() + 1); // Adjust end date
+            return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        })();
+
         // Validate that startDate is greater than today and endDate is greater than startDate
         const today = new Date();
-        if (new Date(ad.startDate) <= today) {
+        if (new Date(adjustedStartDate) <= today) {
             alert("Start date must be in the future.");
             return;
         }
-        if (new Date(ad.endDate) <= new Date(ad.startDate)) {
+        if (new Date(adjustedEndDate) <= new Date(adjustedStartDate)) {
             alert("End date must be later than the start date.");
             return;
         }
 
+         // Validates that price is positive
         if (ad.price <= 0) {
             alert("Price must be a positive number.");
             return;
         }
 
-        create(ad)
+        // Prepare the ad data with adjusted start and end dates
+        const adData = {
+            ...ad,
+            startDate: adjustedStartDate,
+            endDate: adjustedEndDate,
+        };
+
+        // Calls the API to create the ad and handles the response
+        create(adData)
             .then((response) => {
 
                 console.log(response);
@@ -52,6 +93,7 @@ const CreateAd = () => {
             });
     };
 
+    // Form to create a new advertisement by filling out it.
     return (
         <div className="container" style={{ paddingTop: 80 }}>
             <div className="row">
@@ -181,4 +223,5 @@ const CreateAd = () => {
     );
 };
 
+// Exporting the CreateAd component to use in other parts of the application
 export default CreateAd;

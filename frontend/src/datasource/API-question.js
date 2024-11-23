@@ -1,11 +1,23 @@
+/* 
+  File Name: API-question.js
+  Description: This file handles interactions with the question-related endpoints of the advertisement API. 
+               It includes functions for creating, listing, answering, and retrieving questions for ads. 
+               The API supports both public and authenticated access for users who are logged in.
+  Team's Name: BOFC
+  Group Number: 04
+  Date: November 23, 2024
+*/
+
+// Import necessary helper functions for handling authentication tokens 
 import { getToken } from "../components/auth/auth-helper";
 
+// Define the base URL for API requests from environment variables
 const apiURL = process.env.REACT_APP_APIURL;
 
-// Create a question for an ad
+// Creates a new question for a specific advertisement.
 const createQuestion = async (adID, questionData) => {
     try {
-        let response = await fetch(`${apiURL}/questions/create/${adID}`, {
+        const response = await fetch(`${apiURL}/questions/create/${adID}`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -56,6 +68,7 @@ const listMyQuestions = async () => {
 const getSpecificQuestion = async (questionID) => {
     try {
         let response = await fetch(`${apiURL}/questions/get/${questionID}`, {
+
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -73,6 +86,7 @@ const getSpecificQuestion = async (questionID) => {
 const answerQuestion = async (questionID, answerData) => {
     try {
         let response = await fetch(`${apiURL}/questions/answer/${questionID}`, {
+
             method: "PUT",
             headers: {
                 "Accept": "application/json",
@@ -88,3 +102,4 @@ const answerQuestion = async (questionID, answerData) => {
 };
 
 export {createQuestion, listQuestionsByAd, listMyQuestions, getSpecificQuestion, answerQuestion};
+

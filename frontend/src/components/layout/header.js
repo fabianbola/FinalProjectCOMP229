@@ -1,25 +1,41 @@
-import { Outlet, NavLink, Link } from "react-router-dom";
+import { Outlet, NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from '../../assets/logo.jpg';
 import UserLogo from '../../assets/user-login.png';
-//import { logOut } from '../../datasource/API-user';
+import { logOut } from '../../datasource/API-user';
 import './header.css';
+import { isAuthenticated, clearJWT } from '../auth/auth-helper';
 
 function Header(){
     const [isAdmin, setIsAdmin] = useState(false);
-
+    const Authenticated = isAuthenticated();
     // Load admin status from sessionStorage
     useEffect(() => {
       const adminStatus = sessionStorage.getItem('isAdmin') === 'true';
       setIsAdmin(adminStatus);
     }, []);
 
+    const { state } = useLocation();
+    const { origen } = state || { origen: { pathname: '/' } };
+    const [errorMsg, setErrorMsg] = useState('')
+    let navigate = useNavigate();
 
-    // logoutAccount = () => {
-
-    // }
-
-
+    // Define the logout handler
+    const handleLogout = () => {
+      const idUser = sessionStorage.getItem('idUser');
+      logOut(idUser).then((response) => {
+          if (response && response.success) {
+            // Clear the session storage
+             sessionStorage.clear();
+             navigate(origen, { replace: true });
+          } else {
+            setErrorMsg(response.message);
+          }
+      }).catch((err) => {
+        setErrorMsg(err.message);
+      });
+      clearJWT();
+   };
 
     return(
         <>
@@ -41,8 +57,8 @@ function Header(){
                             Users
                         </div>
                         <ul class="dropdown">
-                            {!isAdmin && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
-                            {isAdmin && <li><NavLink to="/">Log out</NavLink></li>}
+                            {!Authenticated && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
+                            {Authenticated && <li onClick={handleLogout}><NavLink to="/">Log out</NavLink></li>}
                             <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
                             <li><NavLink to="/MyUser/MyQuestions">My questions</NavLink></li>

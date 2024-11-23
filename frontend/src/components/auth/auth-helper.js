@@ -4,12 +4,10 @@ import { jwtDecode } from "jwt-decode";
 const authenticate = (token, cb) => {
     if (typeof window !== "undefined") {
         sessionStorage.setItem('token', token);
-
         let decoded = jwtDecode(token);
-        console.log(decoded);
         sessionStorage.setItem('username', decoded.username)
-
         sessionStorage.setItem('isAdmin', decoded.admin ? 'true' : 'false');
+        sessionStorage.setItem('idUser', decoded.id);
     }
     cb();
 }
@@ -47,6 +45,7 @@ const clearJWT = () => {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('isAdmin');
+        sessionStorage.removeItem('idUser');
     }
 }
 

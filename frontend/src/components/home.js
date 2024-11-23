@@ -71,7 +71,8 @@ const ListInventory = () => {
                                             <td className="text-center"> {ad.title || ''} </td>
                                             <td className="text-center"> {ad.category || ''} </td>
                                             <td className="text-center"> {ad.price || ''} </td>
-                                            <td className="text-center"> {ad.endDate || ''} </td>
+                                            <td className="text-center"> {new Date(ad.endDate).toLocaleDateString()}</td>
+
                                             <td className="text-center">
                                                 <button
                                                     className="btn btn-info btn-sm me-1"

@@ -18,7 +18,7 @@ const Signin = () => {
     let navigate = useNavigate();
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target; // Extract name and value from the target element
         setUser((prevFormData) => ({ ...prevFormData, [name]: value })); // keep other form data unchanged
     };
 
@@ -36,7 +36,7 @@ const Signin = () => {
                     navigate(from, { replace: true });
 
                     // Reload the app to ensure updated Header (optional)
-                    window.location.reload();
+                    //window.location.reload();
                 });
             } else {
                 setErrorMsg(response.message);

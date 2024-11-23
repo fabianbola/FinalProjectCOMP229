@@ -68,8 +68,9 @@ const EditAccount = () => {
             <div className="row">
                 <div className="offset-md-3 col-md-6">
                     <h1>Edit Account</h1>
-                    {error && <p className="flash-error">{error}</p>}  // Display error message if exists
-                    {success && <p className="flash-success">{success}</p>}  // Display success message if exists
+
+                    {error && <p className="flash-error">{error}</p>} 
+                    {success && <p className="flash-success">{success}</p>} 
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="firstNameField">First Name</label>

@@ -46,10 +46,10 @@ function Header(){
             </center> 
             <nav class="navbar">
                 <ul class="nav-list">
-                    <li><NavLink to="/">All items</NavLink></li>
+                    <li><NavLink to="/">All</NavLink></li>
                     <li><NavLink to="/Technology">Technology</NavLink></li>
                     <li><NavLink to="/Home_kitchen">Home & Kitchen</NavLink></li>
-                    <li><NavLink to="/Video_games">Video games</NavLink></li>
+                    <li><NavLink to="/Video_games">Videogames</NavLink></li>
                     <li><NavLink to="/Musical_instruments">Musical instruments</NavLink></li>
                     <li class="vert-navbar">
                         <div class="user-container">

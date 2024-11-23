@@ -1,12 +1,40 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { create } from "../../datasource/API-Ads";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { read, update } from "../../datasource/API-Ads";
 import AdModel from "../../datasource/adModel";
+import dayjs from "dayjs";
 
-const CreateAd = () => {
+
+const EditAd = () => {
     let navigate = useNavigate();
+    let { id } = useParams();
     let [ad, setAd] = useState(new AdModel());
     let [categories] = useState(["Technology", "Home & Kitchen", "Videogames", "Musical Instruments"]); 
+
+    // Load ad data when the component mounts
+    useEffect(() => {
+        read(id).then((response) => {
+            if (response) {
+                setAd(new AdModel(
+                    response.title || "",           // title
+                    response.description || "",     // description
+                    response.category || "",        // category
+                    response.owner || "",           // owner
+                    response.price || 0,            // price
+                    response.isActive || true,     // isActive
+                    new Date(response.startDate).toLocaleDateString("en-CA") || "", // Use 'en-CA' for ISO format
+                    new Date(response.endDate).toLocaleDateString("en-CA") || "",   // Use 'en-CA' for ISO format
+                    response.message || "",         // message
+                    response.created || "",         // created
+                    response.updated || "",         // updated
+                    response.collection || ""       // collection
+                ));
+            }
+        }).catch(err => {
+            alert(err.message);
+            console.log(err);
+        });
+    }, [id]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -19,7 +47,24 @@ const CreateAd = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+    
+        // Log the current ad object to check the values
+        console.log("Hi I sent this");
+        console.log(ad.price);  // Log the price as it is
+        console.log(ad.category);
+        console.log(ad.startDate);
+        console.log(ad.endDate);
+        console.log(ad.id);
+    
+        // Ensure price is treated as a number
+        const price = parseFloat(ad.price);
+        console.log("Parsed Price:", price);  // Log the parsed price value
+    
+        if (isNaN(price) || price <= 0) {
+            alert("Price must be a positive number.");
+            return;
+        }
+    
         // Validate that startDate is greater than today and endDate is greater than startDate
         const today = new Date();
         if (new Date(ad.startDate) <= today) {
@@ -30,33 +75,49 @@ const CreateAd = () => {
             alert("End date must be later than the start date.");
             return;
         }
-
-        if (ad.price <= 0) {
-            alert("Price must be a positive number.");
-            return;
-        }
-
-        create(ad)
+    
+        let newAd = {
+            title: ad.title,
+            description: ad.description,
+            category: ad.category,
+            price: price, // Ensure it's a number
+            startDate: (() => {
+                let date = new Date(ad.startDate);
+                date.setDate(date.getDate() + 1);
+                return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            })(),
+            endDate: (() => {
+                let date = new Date(ad.endDate);
+                date.setDate(date.getDate() + 1);
+                return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            })()
+        };
+    
+        // Log the new ad object before sending it to the API
+        console.log("New Ad Object:", newAd);
+    
+        // Update the ad
+        update(id, newAd)
             .then((response) => {
-
-                console.log(response);
-                if (response && response.id) {
-                    alert("Ad successfully created with the ID: " + response.id);
+                console.log("API Response:", response); // Log the API response
+                if (response && response.success) {
+                    alert("Ad successfully updated!");
+                    navigate("/MyUser/Ads");
                 } else {
                     alert(response.message);
                 }
             })
             .catch((err) => {
                 alert(err.message);
-                console.log(err);
+                console.log("Error:", err); // Log the error if the request fails
             });
     };
-
+    
     return (
         <div className="container" style={{ paddingTop: 80 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
-                    <h1>Create a New Ad</h1>
+                    <h1>Edit Ad</h1>
 
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
@@ -167,11 +228,11 @@ const CreateAd = () => {
                                 Clear
                             </button>
                             <button
-                            className="btn btn-secondary me-2"
-                            type="button"
-                            onClick={() => navigate(-1)}
+                                className="btn btn-secondary me-2"
+                                type="button"
+                                onClick={() => navigate(-1)}
                             >
-                            Back
+                                Back
                             </button>
                         </div>
                     </form>
@@ -181,4 +242,4 @@ const CreateAd = () => {
     );
 };
 
-export default CreateAd;
+export default EditAd;

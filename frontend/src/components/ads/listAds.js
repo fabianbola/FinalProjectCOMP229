@@ -156,6 +156,7 @@ const ListMyAds = () => {
                     <td>
                       <button
                         className="btn btn-info btn-sm me-1"
+                        type="button"
                         onClick={() => navigate(`/Ads/Details/${ad.id}`)}
                       >
                         Details
@@ -166,7 +167,9 @@ const ListMyAds = () => {
                         <>
                           <button
                             className="btn btn-primary btn-sm me-1"
+                            type="button"
                             onClick={() => navigate(`/Ads/Edit/${ad.id}`)}
+                            disabled={!ad.isActive}
                           >
                             Edit
                           </button>
@@ -174,6 +177,7 @@ const ListMyAds = () => {
                           {ad.isActive && (
                             <button
                             className="btn btn-warning btn-sm me-1"
+                            type="button"
                             onClick={() => handleDisable(ad.id)}
                             >
                             Disable
@@ -193,6 +197,7 @@ const ListMyAds = () => {
                       {isAdmin && (
                         <button
                           className="btn btn-danger btn-sm"
+                          type="button"
                           onClick={() => handleRemove(ad.id)}
                         >
                           Delete

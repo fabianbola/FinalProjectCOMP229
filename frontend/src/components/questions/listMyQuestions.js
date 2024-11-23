@@ -40,7 +40,7 @@ const ListMyQuestions = () => {
             ) : (
                 <ul className="list-group">
                     {questions.map((question) => (
-                        <li className="list-group-item" key={question._id}>
+                        <li className="list-group-item" key={question.id}>
                             <p><strong>Question:</strong> {question.question}</p>
                             {question.answer ? (
                                 <div>
@@ -55,7 +55,7 @@ const ListMyQuestions = () => {
                             ) : (
                                 <button
                                     className="btn btn-primary"
-                                    onClick={() => handleAnswer(question._id)} // Redirect to answer page
+                                    onClick={() => handleAnswer(question.id)} // Redirect to answer page
                                 >
                                     Answer
                                 </button>

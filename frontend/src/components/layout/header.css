@@ -1,3 +1,13 @@
+:root {
+    --nav-bg-color: rgba(1, 1, 77, 0.888);
+    --user-nav-bg-color: rgba(104, 104, 208, 0.888);
+    --dropdown-bg-color: #F9DD56;
+    --dropdown-hover-color: #575757;
+    --text-color: white;
+    --text-hover-color: rgba(1, 1, 77, 0.888);
+}
+
+
 .logo {
     max-height: 100px;
     width: auto;
@@ -6,12 +16,17 @@
     margin-inline: auto;
 }
 
-:root {
-    --nav-bg-color: rgba(1, 1, 77, 0.888);
-    --dropdown-bg-color: #444;
-    --dropdown-hover-color: #575757;
-    --text-color: white;
-    --text-hover-color: rgba(1, 1, 77, 0.888);
+.user-container {
+    display: flex; /* Utiliza Flexbox para alinear los elementos en línea horizontal */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    gap: 8px; /* Espacio entre la imagen y el texto */
+    height: 100%; /* Asegura que el contenedor ocupe el alto disponible */
+}
+
+.UserLogo {
+    max-height: 25px; /* Ajusta el tamaño de la imagen */
+    width: auto;
 }
 
 /* Navbar principal */
@@ -69,7 +84,8 @@
     text-align: center;
     display: inline-block;
     margin-inline: auto;
-    
+    background-color: var(--user-nav-bg-color);
+    border: 1px solid var(--nav-bg-color);
 
 }
 
@@ -79,7 +95,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: var(--dropdown-bg-color);
+    background-color: var(--user-nav-bg-color);
     list-style: none;
     padding: 0;
     margin: 0;
@@ -87,7 +103,6 @@
 }
 
 .dropdown li {
-    padding: 15px;
     color: var(--text-color);
     border-bottom: 1px solid #555;
     text-align: left;

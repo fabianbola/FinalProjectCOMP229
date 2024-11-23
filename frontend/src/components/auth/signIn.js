@@ -18,7 +18,7 @@ const Signin = () => {
     let navigate = useNavigate();
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target; // Extract name and value from the target element
         setUser((prevFormData) => ({ ...prevFormData, [name]: value })); // keep other form data unchanged
     };
 
@@ -27,16 +27,23 @@ const Signin = () => {
         
         signin(user).then((response) => {
             if (response && response.success) {
+                // Set admin status based on the response
+                const isAdminFlag = response.user && response.user.isAdmin; // Assuming API returns a user object with `isAdmin`
+                sessionStorage.setItem('isAdmin', isAdminFlag);
+
                 authenticate(response.token, () => {
-                    navigate(from, {replace: true});
+                    // Navigate to the previous page or homepage
+                    navigate(from, { replace: true });
+
+                    // Reload the app to ensure updated Header (optional)
+                    //window.location.reload();
                 });
-            }
-            else {
+            } else {
                 setErrorMsg(response.message);
             }
-        }).catch(err => {
+        }).catch((err) => {
             setErrorMsg(err.message);
-            console.log(err)
+            console.log(err);
         });
     };
 

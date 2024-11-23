@@ -22,6 +22,7 @@ module.exports.create = async function (req, res, next) {
         setTimeout( async () => {
             // Get the authenticated user's ID from the authorization data in the request
             const id = req.auth.id;
+            const userName = req.auth.username;
 
             // Construct new ad object from request data
             const newAd = new AdModel({
@@ -31,6 +32,7 @@ module.exports.create = async function (req, res, next) {
                 startDate: req.body.startDate,
                 endDate: req.body.endDate,
                 owner: id,
+                userName: userName,
                 price: req.body.price
             });
 
@@ -38,7 +40,8 @@ module.exports.create = async function (req, res, next) {
             await AdModel.create(newAd);
             res.json(
                 { success: true, 
-                    message: 'Ad created successfully.' 
+                  message: 'Ad created successfully.',
+                  id: newAd._id  
                 });
 
         }, 2000);
@@ -99,9 +102,7 @@ module.exports.listByOwner = async function (req, res, next) {
             }
 
             if (!ads || ads.length === 0) {
-                return res.status(404).json({ 
-                    message: "There are no ads created by the user to display in the selected category" 
-                });
+                return res.status(200).json([]); 
             }
 
             // Send ads list as JSON response
@@ -149,9 +150,7 @@ module.exports.listByAdmin = async function (req, res, next) {
             }
 
             if (!ads || ads.length === 0) {
-                return res.status(404).json({ 
-                    message: "There are no ads to display in the provided category" 
-                });
+                return res.status(200).json([]); 
             }
 
             // Send ads list as JSON response
@@ -295,6 +294,8 @@ module.exports.update = async function (req, res, next) {
             const updatedAd = {
                 title: req.body.title,
                 description: req.body.description,
+                price: req.body.price,
+                category: req.body.category,
                 startDate: req.body.startDate,
                 endDate: req.body.endDate,
                 updated: Date.now()

@@ -2,11 +2,12 @@
 
 class adModel {
 
-    constructor(title, description, category, owner, price, isActive, startDate, endDate, message, created, updated, collection) {
+    constructor(title, description, category, owner, userName, price, isActive, startDate, endDate, message, created, updated, collection) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.owner = owner;
+        this.userName = userName;
         this.price = price;
         this.isActive = isActive;
         this.startDate = startDate;

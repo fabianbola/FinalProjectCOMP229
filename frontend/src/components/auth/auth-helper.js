@@ -4,9 +4,10 @@ import { jwtDecode } from "jwt-decode";
 const authenticate = (token, cb) => {
     if (typeof window !== "undefined") {
         sessionStorage.setItem('token', token);
-
         let decoded = jwtDecode(token);
         sessionStorage.setItem('username', decoded.username);
+        sessionStorage.setItem('isAdmin', decoded.admin ? 'true' : 'false');
+        sessionStorage.setItem('idUser', decoded.id);
     }
     cb();
 };
@@ -32,11 +33,20 @@ const getUsername = () => {
     return sessionStorage.getItem('username');
 };
 
+const getAdmin = () => {
+    if (typeof window === "undefined") {
+        return false;
+    }
+    return sessionStorage.getItem('isAdmin');
+}
+
 const clearJWT = () => {
     if (typeof window !== "undefined") {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('username');
+        sessionStorage.removeItem('isAdmin');
+        sessionStorage.removeItem('idUser');
     }
 }
 
-export { authenticate, isAuthenticated, getToken, getUsername, clearJWT }
+export { authenticate, isAuthenticated, getToken, getUsername, getAdmin, clearJWT }

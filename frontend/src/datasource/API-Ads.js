@@ -1,6 +1,6 @@
 //Everyone base on the back-end method that the front-end is calling
 
-//import { getToken } from "../components/auth/auth-helper";
+import { getToken } from "../components/auth/auth-helper";
 
 const apiURL = process.env.REACT_APP_APIURL;
 
@@ -30,7 +30,7 @@ const listByOwner = async (category) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                //'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + getToken()
             }
         });
         return await response.json();
@@ -38,6 +38,24 @@ const listByOwner = async (category) => {
         console.error(err);
     }
 };
+
+// List all ads by a specific owner (requires login)
+const listByAdmin = async (category) => {
+    try {
+        let response = await fetch(`${apiURL}/ads/myAdminUser/list/${category}`, { 
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken()
+            }
+        });
+        return await response.json();
+    } catch (err) {
+        console.error(err);
+    }
+};
+
 
 // Create a new ad (requires login)
 const create = async (ad) => {
@@ -47,7 +65,7 @@ const create = async (ad) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                //'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + getToken()
             },
             body: JSON.stringify(ad)
         });
@@ -60,12 +78,19 @@ const create = async (ad) => {
 // Update an ad (requires login)
 const update = async (id, ad) => {
     try {
+        console.log("Hi I received this in the API method");
+        console.log(id);
+        console.log(ad.price);  // Log the price as it is
+        console.log(ad.category);
+        console.log(ad.startDate);
+        console.log(ad.endDate);
+        console.log(ad.id);
         let response = await fetch(`${apiURL}/ads/myUser/edit/${id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                //'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + getToken()
             },
             body: JSON.stringify(ad)
         });
@@ -83,7 +108,7 @@ const disable = async (id) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                //'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + getToken()
             }
         });
         return await response.json();
@@ -108,15 +133,15 @@ const read = async (id) => {
     }
 };
 
-// Delete an ad by ID (Admin only)
-const remove = async (id) => {
+// Get an ad by ID (owner)
+const readByOwner = async (id) => {
     try {
-        let response = await fetch(`${apiURL}/ads/myAdminUser/delete/${id}`, {
-            method: 'DELETE',
+        let response = await fetch(`${apiURL}/ads/myUser/get/${id}`, {
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                //'Authorization': 'Bearer ' + getToken()
+                'Authorization': 'Bearer ' + getToken()
             }
         });
         return await response.json();
@@ -125,4 +150,40 @@ const remove = async (id) => {
     }
 };
 
-export { list, listByOwner, create, update, disable, read, remove };
+// Get an ad by ID (owner)
+const readByAdmin = async (id) => {
+    try {
+        let response = await fetch(`${apiURL}/ads/myAdminUser/get/${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken()
+            }
+        });
+        return await response.json();
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+
+
+// Delete an ad by ID (Admin only)
+const remove = async (id) => {
+    try {
+        let response = await fetch(`${apiURL}/ads/myAdminUser/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getToken()
+            }
+        });
+        return await response.json();
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export { list, listByOwner, listByAdmin, create, update, disable, read, readByAdmin, readByOwner, remove };

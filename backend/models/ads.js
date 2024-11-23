@@ -27,14 +27,17 @@ const AdSchema = new Schema({
   },
   category: {
     type: String,
-    required: 'Category is required',
-    immutable: true  
+    required: 'Category is required'
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
     immutable: true 
+  },
+  userName: {
+    type: String,
+    required: true
   },
   price: {
     type: Number,

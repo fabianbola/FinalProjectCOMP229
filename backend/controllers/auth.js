@@ -16,10 +16,8 @@ let { expressjwt } = require('express-jwt');
 // Function to handle user sign-in process
 module.exports.signin = async function(req, res, next) {
     try {
-        console.log(req.body); 
         // Find the user in the database by email
         let user = await User.findOne({"email": req.body.email});
-        console.log(user); 
         if(!user) // If no user is found, throw an error
             throw new Error('User not found.');
         
@@ -29,10 +27,11 @@ module.exports.signin = async function(req, res, next) {
 
         // Create the payload for the JWT, including the user ID and username
         let payload = {
-            id: user._id,
+            id: user._id, 
+            idPrueba: 2,
             username: user.username,
             admin: user.admin // Include the admin field
-        }
+        };  
 
         // Generate a signed token with the payload, using the secret key and specific algorithm
         let token = jwt.sign(payload, config.SECRETKEY, {

@@ -10,6 +10,7 @@ import Register from "./components/auth/signUp";
 import ListUsers from "./components/users/listUsers";
 import MyAccount from "./components/accounts/account";
 import MyQuestions from "./components/questions/listMyQuestions";
+import EditAccount from './components/accounts/editAccount';
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 
@@ -45,6 +46,7 @@ function App() {
               <MyQuestions/>
           </PrivateRoute>} />
           <Route path="Register" element={<Register />} />
+          <Route path="Myuser/MyAccount/Edit" element={<EditAccount />} />
           
         </Route>
       </Routes>

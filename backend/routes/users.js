@@ -35,5 +35,8 @@ router.put('/edit/:userID', authController.requireSignin, usersController.update
 // Route for deleting a user
 router.delete('/delete/:userID', usersController.remove);
 
+// Route for fetching user information (requires authentication)
+router.get('/me', authController.requireSignin, usersController.getUserInfo);
+
 // Export the router to be used in the main app
 module.exports = router;

@@ -6,10 +6,10 @@ const authenticate = (token, cb) => {
         sessionStorage.setItem('token', token);
 
         let decoded = jwtDecode(token);
-        sessionStorage.setItem('username', decoded.username)
+        sessionStorage.setItem('username', decoded.username);
     }
     cb();
-}
+};
 
 const isAuthenticated = () => {
     if (typeof window === "undefined") {
@@ -30,7 +30,7 @@ const getUsername = () => {
         return false;
     }
     return sessionStorage.getItem('username');
-}
+};
 
 const clearJWT = () => {
     if (typeof window !== "undefined") {

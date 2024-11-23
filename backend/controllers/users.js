@@ -125,3 +125,39 @@ module.exports.signout = async function (req, res, next) {
         next(error); 
     }
 };
+
+// Function to retrieve user information
+module.exports.getUserInfo = async function (req, res, next) {
+    try {
+        console.log("Decoded token:", req.auth); 
+
+        const userID = req.auth?.id; 
+        if (!userID) {
+            return res.status(400).json({
+                success: false,
+                message: 'User ID not found in token.',
+            });
+        }
+
+        const user = await UserModel.findById(userID).select('-hashed_password -salt');
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found.',
+            });
+        }
+
+        res.json({
+            success: true,
+            data: user,
+        });
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        next(error);
+    }
+};
+
+
+
+
+

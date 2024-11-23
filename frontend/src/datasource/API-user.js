@@ -1,7 +1,20 @@
+/* 
+  File Name: API-user.js
+  Description: This file contains functions for interacting with user-related endpoints of the API. 
+               It supports user authentication (signin and signup), retrieving user information, 
+               updating user profiles, and logging out.
+  Team's Name: BOFC
+  Group Number: 04
+  Date: November 23, 2024
+*/
+
+// Import the helper function for retrieving the authentication token
 import { getToken } from "../components/auth/auth-helper";
+
+// Define the base URL for API requests from environment variables
 let apiURL = process.env.REACT_APP_APIURL;
 
-
+// Signs in a user by sending their credentials to the API.
 const signin = async (user) => {
     try {
         let response = await fetch(apiURL + '/users/signin', {
@@ -18,6 +31,7 @@ const signin = async (user) => {
     }
 }
 
+// Registers a new user by sending their data to the API.
 const signup = async (user) => {
     try {
         let response = await fetch(apiURL + '/users/create', {
@@ -35,7 +49,7 @@ const signup = async (user) => {
     }
 };
 
-
+// Retrieves the information of the currently logged-in user, requiring authentication.
 const getUserInfo = async () => {
     try {
         console.log("Sending request to:", `${apiURL}/users/me`);
@@ -72,6 +86,7 @@ const getUserInfo = async () => {
     }
 };
 
+// Updates the information of an existing user. Requires authentication.
 const updateUser = async (userId, userData) => {
     try {
         let response = await fetch(`${apiURL}/users/edit/${userId}`, {
@@ -93,6 +108,7 @@ const updateUser = async (userId, userData) => {
     }
 };
 
+// Logs out the user by sending a signout request to the API.
 const logOut = async (idUser) => {
     try {
         let response = await fetch(apiURL + '/myuser/signout/' + idUser, {
@@ -109,5 +125,6 @@ const logOut = async (idUser) => {
     }
 }
 
+// Export user-related API service functions for use in other modules
 export { signin, signup, getUserInfo, updateUser, logOut }
 

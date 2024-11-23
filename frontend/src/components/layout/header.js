@@ -4,13 +4,11 @@ import logo from '../../assets/logo.jpg';
 import UserLogo from '../../assets/user-login.png';
 import { logOut } from '../../datasource/API-user';
 import './header.css';
-import { isAuthenticated } from '../auth/auth-helper';
+import { isAuthenticated, clearJWT } from '../auth/auth-helper';
 
 function Header(){
     const [isAdmin, setIsAdmin] = useState(false);
     const Authenticated = isAuthenticated();
-
-
     // Load admin status from sessionStorage
     useEffect(() => {
       const adminStatus = sessionStorage.getItem('isAdmin') === 'true';
@@ -22,22 +20,22 @@ function Header(){
     const [errorMsg, setErrorMsg] = useState('')
     let navigate = useNavigate();
 
-    logOut(() => {
-
-       const idUser = sessionStorage.getItem('idUser');
-       logOut(idUser).then((response) => {
-           if (response && response.success) {
-             // Clear the session storage
-              sessionStorage.clear();
-              navigate(origen, { replace: true });
-           } else {
+    // Define the logout handler
+    const handleLogout = () => {
+      const idUser = sessionStorage.getItem('idUser');
+      logOut(idUser).then((response) => {
+          if (response && response.success) {
+            // Clear the session storage
+             sessionStorage.clear();
+             navigate(origen, { replace: true });
+          } else {
             setErrorMsg(response.message);
-           }
-       }); 
-
-     });   
-
-
+          }
+      }).catch((err) => {
+        setErrorMsg(err.message);
+      });
+      clearJWT();
+   };
 
     return(
         <>
@@ -60,7 +58,7 @@ function Header(){
                         </div>
                         <ul class="dropdown">
                             {!Authenticated && <li><NavLink to="/SignIn">Sign In</NavLink></li>}
-                            {Authenticated && <li onClick={logOut}>Log out</li>}
+                            {Authenticated && <li onClick={handleLogout}><NavLink to="/">Log out</NavLink></li>}
                             <li><NavLink to="/MyUser/Ads">{isAdmin ? "Ads History" : "My Ads"}</NavLink></li>
                             <li><NavLink to="/Register">Register</NavLink></li>
                             <li><NavLink to="/MyUser/MyQuestions">My questions</NavLink></li>

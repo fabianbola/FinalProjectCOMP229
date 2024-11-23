@@ -18,7 +18,7 @@ const signin = async (user) => {
 
 const logOut = async (idUser) => {
     try {
-        let response = await fetch(apiURL + 'myuser/signout/' + idUser, {
+        let response = await fetch(apiURL + '/myuser/signout/' + idUser, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

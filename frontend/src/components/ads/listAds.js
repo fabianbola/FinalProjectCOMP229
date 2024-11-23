@@ -112,11 +112,10 @@ const ListMyAds = () => {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="All">All</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Category 2">Category 6</option>
-              <option value="Category 3">Category 3</option>
-              <option value="Category 4">Category 4</option>
-              <option value="Category 5">Category 5</option>
+              <option value="Technology">Technology</option>
+              <option value="Home_kitchen">Home kitchen</option>
+              <option value="Video_games">Video games</option>
+              <option value="Musical_instruments">Musical instruments</option>
             </select>
           </div>
           {!isAdmin && (

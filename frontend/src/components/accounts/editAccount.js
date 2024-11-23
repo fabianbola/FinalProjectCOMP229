@@ -1,3 +1,13 @@
+/* 
+  File Name: editAccount.js
+  Description: This React component allows users to edit their account information, including first name, 
+               last name, email, and username. It fetches current user data, updates the user information 
+               via the API, and provides feedback on success or failure. The user is redirected after a successful update.
+  Team's name: BOFC 
+  Group number: 04
+  Date: November 23, 2024
+*/
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo, updateUser } from '../../datasource/API-user';
@@ -8,14 +18,15 @@ const EditAccount = () => {
         lastName: '',
         email: '',
         username: '',
-    });
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const navigate = useNavigate();
+    });  // State to store user information
+    const [error, setError] = useState('');  // State for error messages
+    const [success, setSuccess] = useState('');  // State for success messages
+    const navigate = useNavigate();  // Hook for programmatic navigation
 
+    // Fetch user data when the component mounts
     useEffect(() => {
         const fetchUserData = async () => {
-            const response = await getUserInfo();
+            const response = await getUserInfo();  // Call the API to get user information
             if (response && response.success) {
                 setUser({
                     id: response.data.id,
@@ -23,30 +34,32 @@ const EditAccount = () => {
                     lastName: response.data.lastName,
                     email: response.data.email,
                     username: response.data.username,
-                });
+                });  // Set user data if API call is successful
             } else {
-                setError(response.message || 'Failed to fetch user data.');
+                setError(response.message || 'Failed to fetch user data.');  // Set error if API fails
             }
         };
-        fetchUserData();
+        fetchUserData();  // Trigger fetch on mount
     }, []);
 
+    // Handle form input changes
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setUser((prevData) => ({ ...prevData, [name]: value }));
+        setUser((prevData) => ({ ...prevData, [name]: value }));  // Update user state on input change
     };
 
+    // Handle form submission
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        setError('');
-        setSuccess('');
-        const response = await updateUser(user.id, user);
+        event.preventDefault();  // Prevent page reload on submit
+        setError('');  // Clear previous error
+        setSuccess('');  // Clear previous success message
+        const response = await updateUser(user.id, user);  // Call the API to update user information
         if (response && response.success) {
-            setSuccess('Account updated successfully!');
+            setSuccess('Account updated successfully!');  // Set success message
             console.log("Redirecting with refreshed state", { refreshed: true });
-            setTimeout(() => navigate('/MyUser/MyAccount', { state: { refreshed: true } }), 3000);
+            setTimeout(() => navigate('/MyUser/MyAccount', { state: { refreshed: true } }), 3000);  // Redirect after 3 seconds
         } else {
-            setError(response.message || 'Failed to update account.');
+            setError(response.message || 'Failed to update account.');  // Set error if update fails
         }
     };
 
@@ -55,8 +68,9 @@ const EditAccount = () => {
             <div className="row">
                 <div className="offset-md-3 col-md-6">
                     <h1>Edit Account</h1>
-                    {error && <p className="flash-error">{error}</p>}
-                    {success && <p className="flash-success">{success}</p>}
+
+                    {error && <p className="flash-error">{error}</p>} 
+                    {success && <p className="flash-success">{success}</p>} 
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="firstNameField">First Name</label>

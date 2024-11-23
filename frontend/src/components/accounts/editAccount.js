@@ -17,7 +17,13 @@ const EditAccount = () => {
         const fetchUserData = async () => {
             const response = await getUserInfo();
             if (response && response.success) {
-                setUser(response.data);
+                setUser({
+                    id: response.data.id,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    email: response.data.email,
+                    username: response.data.username,
+                });
             } else {
                 setError(response.message || 'Failed to fetch user data.');
             }

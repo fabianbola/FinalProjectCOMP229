@@ -8,27 +8,6 @@ const Account = () => {
     const [error, setError] = useState(null);
     const location = useLocation();
 
-    /*const fetchUserInfo = async () => {
-        try {
-            console.log("Fetching user info");
-
-            const data = await getUserInfo();
-            console.log("User info response:", data);
-
-            if (data && data.success) {
-                setUser(data.data);
-            } else {
-                console.error(data ? data.message : "Failed to fetch user info");
-                setError(data ? data.message : "Failed to fetch user info");
-            }
-        } catch (err) {
-            console.error("Error fetching user info:", err);
-            setError("Error fetching user info");
-        } finally {
-            setLoading(false);
-        }
-    };*/
-
     const fetchUserInfo = async () => {
         try {
             console.log("Fetching user info");
@@ -55,10 +34,10 @@ const Account = () => {
     }, []);
 
     useEffect(() => {
-        // Check if the location state indicates that data should be refreshed
+        
         if (location.state?.refreshed) {
             console.log("Refreshing user info after edit", location.state);
-            fetchUserInfo(); // Ahora la función está definida y disponible aquí
+            fetchUserInfo();
         }
     }, [location.state]);
 

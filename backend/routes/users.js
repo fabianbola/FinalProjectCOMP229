@@ -38,5 +38,11 @@ router.delete('/delete/:userID', usersController.remove);
 // Route for fetching user information (requires authentication)
 router.get('/me', authController.requireSignin, usersController.getUserInfo);
 
+// Route to list all non-admin users (requires admin authentication)
+router.get('/Adminuser/List-non-admin-users', authController.requireSignin, usersController.listNonAdminUsers);
+
+// Route to delete a non-admin user by ID (requires admin authentication)
+router.delete('/delete/non-admin-users/:userID', authController.requireSignin, usersController.deleteNonAdminUser);
+
 // Export the router to be used in the main app
 module.exports = router;

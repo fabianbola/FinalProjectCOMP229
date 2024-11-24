@@ -156,6 +156,7 @@ const ListMyAds = () => {
                   <th>Is Active</th>
                   <th>Category</th>
                   <th>Price</th>
+                  <th>Start Date</th>
                   <th>End Date</th>
                   <th>Actions</th>
                 </tr>
@@ -167,6 +168,7 @@ const ListMyAds = () => {
                     <td>{ad.isActive ? "Active" : "Inactive"}</td>
                     <td>{ad.category}</td>
                     <td>${ad.price}</td>
+                    <td>{new Date(ad.startDate).toLocaleDateString()}</td>
                     <td>{new Date(ad.endDate).toLocaleDateString()}</td>
                     <td>
                       <button

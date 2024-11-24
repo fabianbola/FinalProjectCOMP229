@@ -1,20 +1,18 @@
 /* 
-  File Name: listMyQuestions.js
-  Description: This component allows users to view a list of their previously submitted questions. 
-               It displays the questions along with any answers, and provides functionality for 
-               users to navigate to the answer form. The page also handles admin users differently 
-               by showing a "Questions History" title and marking unanswered questions as "Pending".
-               If a user is not authenticated, they are redirected to the sign-in page.
-               Admin users can see all questions with their answers, while regular users can only 
-               see their own questions and answers. 
+  File Name: listMyQuestionsByAd.js
+  Description: This component is designed to display a list of questions related to a specific advertisement. 
+               It fetches questions associated with an ad by its unique id retrieved from the URL parameters. 
+               The component differentiates between regular users and admins, showing the appropriate UI elements based on their roles. 
+               If the user is not authenticated, they are redirected to the sign-in page. Admins can view all questions and their answers, 
+               while regular users can only view their own questions and respond to unanswered ones. 
   Team's name: BOFC 
   Group number: 04
   Date: November 23, 2024
 */
 
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { listMyQuestions } from "../../datasource/API-question";
+import { useNavigate, useParams } from "react-router-dom";
+import { listQuestionsByAd } from "../../datasource/API-question";
 import { getToken } from "../../components/auth/auth-helper";
 
 const ListMyQuestions = () => {
@@ -22,6 +20,7 @@ const ListMyQuestions = () => {
     const [loading, setLoading] = useState(true); // Track loading state
     const isAdmin = sessionStorage.getItem('isAdmin') === 'true'; // Convert to boolean
     const navigate = useNavigate();
+    const { adID } = useParams(); // Get adID from URL params to filter by specific ad
 
     // Check if the user is authenticated
     useEffect(() => {
@@ -30,10 +29,10 @@ const ListMyQuestions = () => {
             // If not authenticated, redirect to the sign-in page
             navigate("/signin"); // Replace with your actual sign-in route
         } else {
-            // If authenticated, fetch the user's questions
+            // If authenticated, fetch the user's questions for the specific ad
             const fetchMyQuestions = async () => {
                 try {
-                    const data = await listMyQuestions();
+                    const data = await listQuestionsByAd(adID); // Fetch questions by adID
                     setQuestions(data);
                 } catch (error) {
                     alert("Failed to load your questions. Please try again.");
@@ -43,7 +42,7 @@ const ListMyQuestions = () => {
             };
             fetchMyQuestions();
         }
-    }, [navigate]);
+    }, [navigate, adID]); // Ensure to refetch when adID changes
 
     // Handle navigating to the answer form
     const handleAnswer = (questionID) => {
@@ -52,11 +51,11 @@ const ListMyQuestions = () => {
 
     return (
         <div className="container mt-5">
-            <h1>{isAdmin ? "Questions History" : "My Questions"}</h1>
+            <h1>{isAdmin ? "Questions History" : "Questions"}</h1>
             {loading ? (
                 <p>Loading...</p> // Show loading text while fetching questions
             ) : questions.length === 0 ? (
-                <p>No questions found.</p> // Display no questions if the list is empty
+                <p>No questions found for this ad.</p> // Display no questions if the list is empty
             ) : (
                 <ul className="list-group">
                     {questions.map((question) => (
@@ -75,16 +74,13 @@ const ListMyQuestions = () => {
                                     )}
                                 </div>
                             ) : (
-
-                                isAdmin ? (
-                                    <p><strong>Answer:</strong> Pending</p> // Show "Pending" only for admin
-                                ) : (
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => handleAnswer(question.id)} // Redirect to answer page
-                                    >
-                                        Answer
-                                    </button>
+                                !isAdmin && (
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => handleAnswer(question.id)} // Redirect to answer page
+                                >
+                                    Answer
+                                </button>
                                 )
                             )}
                         </li>

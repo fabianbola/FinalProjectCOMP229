@@ -53,21 +53,37 @@ module.exports.create = async function (req, res, next) {
     }
 };
 
-// Function to list all questions for the authenticated user
+// Function to list all questions for the authenticated user or all questions if the user is an admin
 module.exports.list = async function (req, res, next) {
     try {
+        setTimeout(async () => {
+            // Retrieve the authenticated user's ID and admin status
+            const userId = req.auth.id;
+            const isAdmin = req.auth.admin; // Assuming admin status is part of the `req.auth` object
 
-        setTimeout( async () => {
-            const list = await QuestionModel.find({ ownerAdID: req.auth.id }); // Find questions based on authenticated user
-            res.json(list); // Return the list of questions
+            let questions;
+
+            if (isAdmin) {
+                // If the user is an admin, retrieve all questions
+                questions = await QuestionModel.find({}, '-created -updated'); // Hiding sensitive fields
+            } else {
+                // If the user is not an admin, retrieve only their questions
+                questions = await QuestionModel.find({ ownerAdID: userId }, '-created -updated');
+            }
+
+            // If no questions are found, return an empty array
+            if (!questions || questions.length === 0) {
+                return res.status(200).json([]);
+            }
+
+            // Return the questions as a JSON response
+            res.json(questions);
         }, 2000);
-        
     } catch (error) {
-        console.log(error); // Log any error for debugging
-        next(error); // Pass the error to the error-handling middleware
+        console.log(error);
+        next(error);
     }
 };
-
 
 // Function to list all questions for the authenticated user
 module.exports.listByAdID = async function (req, res, next) {

@@ -28,7 +28,7 @@ import EditAd from "./components/ads/editAd";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import ListQuestions from "./components/questions/listQuestionsByAd";
 import CreateQuestion from "./components/questions/createQuestion";
-import ListMyQuestions from "./components/questions/listMyQuestions";
+import ListMyQuestions from "./components/questions/listMyQuestionsByAd";
 import EditQuestion from "./components/questions/specificQuestion";
 import "./index.css";
 

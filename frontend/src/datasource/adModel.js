@@ -12,14 +12,14 @@
 class adModel {
 
      // Constructor to initialize the properties of the adModel instance
-    constructor(title, description, category, owner, userName, price, isActive, startDate, endDate, message, created, updated, collection) {
+    constructor(title, description, category, owner, userName, price, status, startDate, endDate, message, created, updated, collection) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.owner = owner;
         this.userName = userName;
         this.price = price;
-        this.isActive = isActive;
+        this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
         this.message = message;

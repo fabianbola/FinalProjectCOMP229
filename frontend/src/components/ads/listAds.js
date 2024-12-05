@@ -109,127 +109,133 @@ const ListMyAds = () => {
     }
 };
 
-  return (
-    <main className="container" style={{ paddingTop: 80 }}>
-      <div className="row">
-        <h1>{isAdmin ? "Ads History" : "My Ads"}</h1>
+return (
+  <main className="container" style={{ paddingTop: 80 }}>
+    <div className="row">
+      <h1>{isAdmin ? "Ads History" : "My Ads"}</h1>
 
-        {/* Filter and Create Ad Button */}
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <div>
-            <label htmlFor="categoryFilter" className="form-label">
-              Category Filter:
-            </label>
-            <select
-              id="categoryFilter"
-              className="form-select"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="All">All</option>
-              <option value="Technology">Technology</option>
-              <option value="Home & Kitchen">Home & kitchen</option>
-              <option value="Videogames">Videogames</option>
-              <option value="Musical Instruments">Musical instruments</option>
-            </select>
-          </div>
-          {!isAdmin && (
+      {/* Filter and Create Ad Button */}
+      <div className="d-flex align-items-center justify-content-between w-100">
+        <div>
+          <label htmlFor="categoryFilter" className="form-label">
+            Category Filter:
+          </label>
+          <select
+            id="categoryFilter"
+            className="form-select"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="All">All</option>
+            <option value="Technology">Technology</option>
+            <option value="Home & Kitchen">Home & Kitchen</option>
+            <option value="Videogames">Videogames</option>
+            <option value="Musical Instruments">Musical Instruments</option>
+          </select>
+        </div>
+        {!isAdmin && (
           <div>
             <button
               className="btn btn-primary"
               onClick={() => navigate("/Ads/Create")}
             >
-            + Create Ad
+              + Create Ad
             </button>
           </div>
-          )}
-        </div>
+        )}
+      </div>
 
-        <div className="table-responsive mt-4">
-          {isLoading && <div>Loading...</div>}
-          {!isLoading && (!adsList || adsList.length === 0) && <div>No ads found.</div>}
-          {!isLoading && adsList.length > 0 && (
-            <table className="table table-bordered table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Is Active</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {adsList.map((ad, index) => (
-                  <tr key={index}>
-                    <td>{ad.title}</td>
-                    <td>{ad.isActive ? "Active" : "Inactive"}</td>
-                    <td>{ad.category}</td>
-                    <td>${ad.price}</td>
-                    <td>{new Date(ad.startDate).toLocaleDateString()}</td>
-                    <td>{new Date(ad.endDate).toLocaleDateString()}</td>
-                    <td>
-                      <button
-                        className="btn btn-info btn-sm me-1"
-                        type="button"
-                        onClick={() => navigate(`/Ads/Details/${ad.id}`)}
-                      >
-                        Details
-                      </button>
-                      
-                      {/* Conditional rendering of buttons based on the user's role */}
-                      {!isAdmin && (
-                        <>
+      <div className="table-responsive mt-4">
+        {isLoading && <div>Loading...</div>}
+        {!isLoading && (!adsList || adsList.length === 0) && <div>No ads found.</div>}
+        {!isLoading && adsList.length > 0 && (
+          <table className="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {adsList.map((ad, index) => (
+                <tr key={index}>
+                  <td>{ad.title}</td>
+                  <td>
+                    {ad.status === "active"
+                      ? "Active"
+                      : ad.status === "disabled"
+                      ? "Disabled"
+                      : "Expired"}
+                  </td>
+                  <td>{ad.category}</td>
+                  <td>${ad.price}</td>
+                  <td>{new Date(ad.startDate).toLocaleDateString()}</td>
+                  <td>{new Date(ad.endDate).toLocaleDateString()}</td>
+                  <td>
+                    <button
+                      className="btn btn-info btn-sm me-1"
+                      type="button"
+                      onClick={() => navigate(`/Ads/Details/${ad.id}`)}
+                    >
+                      Details
+                    </button>
+
+                    {/* Conditional rendering of buttons based on the user's role */}
+                    {!isAdmin && (
+                      <>
+                        <button
+                          className="btn btn-primary btn-sm me-1"
+                          type="button"
+                          onClick={() => navigate(`/Ads/Edit/${ad.id}`)}
+                          disabled={ad.status === "disabled"}
+                        >
+                          Edit
+                        </button>
+
+                        {(ad.status === "active" || ad.status === "expired") && (
                           <button
-                            className="btn btn-primary btn-sm me-1"
-                            type="button"
-                            onClick={() => navigate(`/Ads/Edit/${ad.id}`)}
-                            disabled={!ad.isActive}
-                          >
-                            Edit
-                          </button>
-
-                          {ad.isActive && (
-                            <button
                             className="btn btn-warning btn-sm me-1"
                             type="button"
                             onClick={() => handleDisable(ad.id)}
-                            >
+                          >
                             Disable
-                            </button>
-                          )}
+                          </button>
+                        )}
 
-                      {/* Show Disabled button if the ad is not active */}
-                      {!ad.isActive && (
-                      <button className="btn btn-secondary" disabled>
-                      Disabled
-                      </button>
-
-                      )}
+                        {/* Show Disabled button if the ad is not active */}
+                        {ad.status === "disabled" && (
+                          <button className="btn btn-secondary" disabled>
+                            Disabled
+                          </button>
+                        )}
                       </>
-                      )}
+                    )}
 
-                      {isAdmin && (
-                        <button
-                          className="btn btn-danger btn-sm"
-                          type="button"
-                          onClick={() => handleRemove(ad.id)}
-                        >
-                          Delete
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+                    {isAdmin && (
+                      <button
+                        className="btn btn-danger btn-sm"
+                        type="button"
+                        onClick={() => handleRemove(ad.id)}
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
-    </main>
-  );
+    </div>
+  </main>
+);
+
 };
 
 // Exporting the ListMyAds component

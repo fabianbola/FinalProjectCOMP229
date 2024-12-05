@@ -54,10 +54,10 @@ const CreateAd = () => {
 
         // Validate that startDate is greater than today and endDate is greater than startDate
         const today = new Date();
-        if (new Date(adjustedStartDate) <= today) {
-            alert("Start date must be in the future.");
-            return;
-        }
+        // if (new Date(adjustedStartDate) <= today) {
+        //     alert("Start date must be in the future.");
+        //     return;
+        // }
         if (new Date(adjustedEndDate) <= new Date(adjustedStartDate)) {
             alert("End date must be later than the start date.");
             return;

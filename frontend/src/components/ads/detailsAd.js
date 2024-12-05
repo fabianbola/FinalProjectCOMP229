@@ -55,27 +55,28 @@ const AdDetails = () => {
 
 
   // Handles disabling the ad
-  const handleDisable = async () => {
-    const confirmDisable = window.confirm("Are you sure you want to disable this ad?");
-    
-    if (!confirmDisable) return; // Exit if the user cancels
-    
-    try {
+const handleDisable = async () => {
+  const confirmDisable = window.confirm("Are you sure you want to disable this ad?");
+  
+  if (!confirmDisable) return; // Exit if the user cancels
+  
+  try {
       const data = await disable(id); // Use the `id` from the URL parameter here
   
       if (data && data.success) {
-        alert("Ad disabled successfully.");
-        // Refresh the ad details after disabling
-        const updatedAd = { ...ad, isActive: false }; // Set the ad's status to inactive
-        setAd(updatedAd);
+          alert("Ad disabled successfully.");
+          // Refresh the ad details after disabling
+          const updatedAd = { ...ad, status: 'disabled' }; // Set the ad's status to 'disabled'
+          setAd(updatedAd);
       } else {
-        alert(data?.message || "Failed to disable the ad.");
+          alert(data?.message || "Failed to disable the ad.");
       }
-    } catch (err) {
+  } catch (err) {
       alert("An error occurred while disabling the ad.");
       console.error("Error details:", err);
-    }
-  };
+  }
+};
+
 
    // Handles removing the ad
   const handleRemove = async () => {
@@ -117,7 +118,7 @@ const AdDetails = () => {
     return <div className="alert alert-warning">Ad not found.</div>;
   }
 
-  // Form to see the details of  an advertisement.
+    // Form to see the details of an advertisement.
   return (
     <div className="container mt-5">
       <h1>Ad Details</h1>
@@ -130,15 +131,20 @@ const AdDetails = () => {
           <p><strong>Category:</strong> {ad.category}</p>
           <p><strong>Price:</strong> ${ad.price}</p>
           <p>
-            <strong>Status:</strong> {ad.isActive ? "Active" : "Inactive"}
+            <strong>Status:</strong> 
+            {ad.status === "active" && <span className="text-success"> Active</span>}
+            {ad.status === "disabled" && <span className="text-warning"> Disabled</span>}
+            {ad.status === "expired" && <span className="text-danger"> Expired</span>}
           </p>
           {console.log("Hi")}
           {console.log(isAdmin)}
           {console.log(isAuthenticated())}
-        {/* Show User info only for admins */}
-        {isAdmin && (
-          <p><strong>User:</strong> {ad.userName}</p>
-        )}
+          
+          {/* Show User info only for admins */}
+          {isAdmin && (
+            <p><strong>User:</strong> {ad.userName}</p>
+          )}
+          
           <p>
             <strong>Start Date:</strong> {new Date(ad.startDate).toLocaleDateString()}
           </p>
@@ -153,44 +159,43 @@ const AdDetails = () => {
           </p>
         </div>
         <div className="card-footer">
-          
-        <button
+          <button
             className="btn btn-secondary"
             type="button"
             onClick={() => navigate(`/Ads/Details/${id}/Questions`)} // Assuming you have a route for questions
           >
             Questions
-        </button>
+          </button>
           
           {isOwner && (
-        <>
-            <button
-              className="btn btn-primary me-2"
-              type="button"
-              onClick={() => navigate(`/Ads/Edit/${id}`)}
-              disabled={!ad.isActive}
-            >
-              Edit
-            </button>
+            <>
+              <button
+                className="btn btn-primary me-2"
+                type="button"
+                onClick={() => navigate(`/Ads/Edit/${id}`)}
+                disabled={ad.status == "disabled"}
+              >
+                Edit
+              </button>
+              
+              {(ad.status === "active" || ad.status === "expired") && (
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={handleDisable} // Call the function to disable the ad
+                >
+                  Disable
+                </button>
+              )}
 
-        {isOwner && ad.isActive && (
-            <button
-            className="btn btn-danger"
-            type="button"
-            onClick={handleDisable} // Call the function to disable the ad
-            >
-            Disable
-            </button>
-        )}
-
-        {!ad.isActive && (
-        <button className="btn btn-secondary" disabled>
-          Disabled
-        </button>
-        )}
-        </>
-
+              {ad.status === "disabled" && (
+                <button className="btn btn-secondary" disabled>
+                  Disabled
+                </button>
+              )}
+            </>
           )}
+
           {isAdmin && (
             <button
               className="btn btn-danger"
@@ -200,17 +205,19 @@ const AdDetails = () => {
               Delete
             </button>
           )}
-        <button
-        className="btn btn-secondary me-2"
-        onClick={() => navigate(-1)}
-        type="button"
-        >
-        Back
-        </button>
+
+          <button
+            className="btn btn-secondary me-2"
+            onClick={() => navigate(-1)}
+            type="button"
+          >
+            Back
+          </button>
         </div>
       </div>
     </div>
   );
+
 };
 
 // Exporting the AdDetails component for use in other parts of the application

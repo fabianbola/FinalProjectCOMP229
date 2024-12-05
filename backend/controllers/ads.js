@@ -55,33 +55,37 @@ module.exports.create = async function (req, res, next) {
 // List all active ads, optionally filtering by category
 module.exports.list = async function (req, res, next) {
     try {
-        // Get category from request parameters
+        
         let ads;
-        setTimeout( async () => {
+        // Delay for 2 seconds (simulating a timeout for demonstration purposes)
+        setTimeout(async () => {
+            // Get category from request parameters
             const category = req.params.category;
-            // Retrieve all active ads, filtering by category if specified according to the fields specifications.
-            if (category === 'all') {
-                
-                ads = await AdModel.find({ isActive: true }, '-isActive -owner -created -updated'); //hidden fields
-            } else {
-                
-                ads = await AdModel.find({ isActive: true, category: category }, '-isActive -owner -created -updated'); //hidden fields
+
+            // Build the filter criteria
+            const filter = { status: 'active' }; // Only fetch active ads
+            if (category && category !== 'all') {
+                filter.category = category; // Add category filter if specified
             }
 
+            // Retrieve ads according to the filter criteria, excluding specified fields
+            ads = await AdModel.find(filter, '-status -owner -created -updated'); // Exclude unnecessary fields
+
+            // If no ads are found, return an empty array with a 200 status
             if (!ads || ads.length === 0) {
-                return res.status(200).json([]);  // Return an empty array if no ads are found
+                return res.status(200).json([]);
             }
 
             // Send ads list as JSON response
             res.json(ads);
-
         }, 2000);
 
     } catch (error) {
         console.log(error);
-        next(error);
+        next(error); // Pass error to the next middleware
     }
 };
+
 
 
 // List all ads created by the authenticated owner, active and inactive
@@ -166,34 +170,33 @@ module.exports.listByAdmin = async function (req, res, next) {
 };
 
 
-// Get specific information of a single Active ad
+// Get specific information of a single active ad
 module.exports.getAd = async function (req, res, next) {
     try {
-        setTimeout( async () => {
-
+        setTimeout(async () => {
             // Get ad ID from request parameters
             const id = req.params.id;
-            
+
             // Retrieve active ad by ID
-            req.ad = await AdModel.findOne({ _id: id, isActive: true}, '-isActive'); //hidden fields
-            
+            req.ad = await AdModel.findOne({ _id: id, status: { $in: ['active', 'expired'] } }, '-status');
+
+            // If no ad is found, return an error message
             if (!req.ad) {
                 return res.status(400).json({
                     success: false,
-                    message: 'ERROR: There is no an active ad with the ID provided'
+                    message: 'ERROR: There is no active ad with the ID provided.'
                 });
-                
             }
 
+            // Send the found ad as a JSON response
             res.json(req.ad);
-            // next();
         }, 2000);
-
     } catch (error) {
         console.log(error);
-        next(error);
+        next(error); // Pass the error to the next middleware
     }
 };
+
 
 // Get specific information a single ad created by Owner
 module.exports.getAdByOwner = async function (req, res, next) {
@@ -295,6 +298,7 @@ module.exports.update = async function (req, res, next) {
                 title: req.body.title,
                 description: req.body.description,
                 price: req.body.price,
+                status: req.body.status,
                 category: req.body.category,
                 startDate: req.body.startDate,
                 endDate: req.body.endDate,
@@ -332,14 +336,14 @@ module.exports.update = async function (req, res, next) {
 // Disable an ad (instead of deleting)
 module.exports.disable = async function (req, res, next) {
     try {
-        setTimeout( async () => {
+        setTimeout(async () => {
             // Get ad ID from request parameters
             const id = req.params.id;
 
-            // Update the 'isActive' field to false
+            // Update the 'status' field to 'inactive'
             const result = await AdModel.updateOne(
-                { _id: id, owner: req.auth.id },  // Ensure the ad belongs to the authenticated user
-                { isActive: false }
+                { _id: id, owner: req.auth.id }, // Ensure the ad belongs to the authenticated user
+                { status: 'disabled' }
             );
 
             if (result.modifiedCount > 0) {
@@ -352,14 +356,14 @@ module.exports.disable = async function (req, res, next) {
                     success: false,
                     message: 'Ad not found or you do not have permission to disable this ad.'
                 });
-            } 
+            }
         }, 2000);
-
     } catch (error) {
         console.log(error);
         next(error);
     }
 };
+
 
 // Delete a specific user entry from the database
 module.exports.remove =  async function(req,res,next){

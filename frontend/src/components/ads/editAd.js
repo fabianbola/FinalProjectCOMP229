@@ -24,9 +24,14 @@ const EditAd = () => {
 
     // Load ad data when the component mounts
     useEffect(() => {
+    
         read(id).then((response) => {  // Fetch the ad data from the API
             if (response) {
-                 // If the response is valid, set the ad state with the fetched data
+                
+                console.log("Here is the response");
+                console.log(response);
+
+                // If the response is valid, set the ad state with the fetched data
                 setAd(new AdModel(
                     response.title || "",           // title
                     response.description || "",     // description
@@ -34,7 +39,7 @@ const EditAd = () => {
                     response.owner || "",           // owner
                     response.userName || "",        // userName
                     response.price || 0,            // price
-                    response.isActive || true,     // isActive
+                    response.status || "active",    // status
                     new Date(response.startDate).toLocaleDateString("en-CA") || "", // startDate
                     new Date(response.endDate).toLocaleDateString("en-CA") || "",   // endDate
                     response.message || "",         // message
@@ -83,21 +88,48 @@ const EditAd = () => {
     
         // Validate that startDate is greater than today and endDate is greater than startDate
         const today = new Date();
-        if (new Date(ad.startDate) <= today) {
-            alert("Start date must be in the future.");
-            return;
-        }
+        // if (new Date(ad.startDate) <= today) {
+        //     alert("Start date must be in the future.");
+        //     return;
+        // }
         if (new Date(ad.endDate) <= new Date(ad.startDate)) {
             alert("End date must be later than the start date.");
             return;
         }
+
+        console.log("Here is the end date");
+
+        console.log(new Date(ad.endDate));
+
+        console.log("Here is todays date");
+
+        console.log(today);
     
+        // Update status based on new endDate
+        let updatedStatus = ad.status;
+
+        console.log("Here is  previous status");
+
+        console.log(updatedStatus);
+
+
+        if (new Date(ad.endDate) < today) {
+            updatedStatus = "expired";
+        } else if (updatedStatus === "expired") {
+            updatedStatus = "active"; // Adjust back to active if endDate is future
+        }
+
+        console.log("Here is new status");
+
+        console.log(updatedStatus);
+
         // Prepare the new ad object with validated data
         let newAd = {
             title: ad.title,
             description: ad.description,
             category: ad.category,
             price: price, // Ensure it's a number
+            status: updatedStatus,
             startDate: (() => {
                 let date = new Date(ad.startDate);
                 date.setDate(date.getDate() + 1); // Adjust start date
@@ -107,7 +139,8 @@ const EditAd = () => {
                 let date = new Date(ad.endDate);
                 date.setDate(date.getDate() + 1); // Adjust end date
                 return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-            })()
+            }
+        )()
         };
     
         // Log the new ad object before sending it to the API

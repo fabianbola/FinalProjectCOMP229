@@ -115,9 +115,12 @@ const Signup = () => {
                             <i className="fas fa-user-plus"></i> Sign Up
                         </button>
                         &nbsp; &nbsp;
-                        <Link to="/signin" style={{ textDecoration: 'none' }}>
+                        <button
+                                className="btn btn-primary"
+                                onClick={() => navigate("/signin")}
+                            >
                             Already have an account? Sign In
-                        </Link>
+                        </button>
                     </form>
                 </div>
             </div>

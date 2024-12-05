@@ -64,7 +64,7 @@ const Account = () => {
 
     return (
         <div>
-            <h2>Account Information</h2>
+            <h1>Account Information</h1>
             {user ? (
                 <div>
                     <p><strong>First Name:</strong> {user.firstName}</p>
@@ -76,13 +76,6 @@ const Account = () => {
                 <p>No user information available.</p>  // Display if no user data is available
             )}
             <div style={{ marginTop: '20px' }}>
-                {/* Buttons for navigating to different sections */}
-                <button onClick={() => navigate("/MyUser/MyQuestions")} className="btn">
-                    My Questions
-                </button>
-                <button onClick={() => navigate("/MyUser/Ads")} className="btn">
-                    My Ads
-                </button>
                 <button onClick={() => navigate("/Myuser/MyAccount/Edit")} className="btn">
                     Edit Account
                 </button>

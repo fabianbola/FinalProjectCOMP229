@@ -55,7 +55,7 @@ const ListInventory = () => {
     }, [location.pathname]);  // Dependency array: re-run the effect whenever the URL changes
 
     return (
-        <main className="container" style={{ paddingTop: 80 }}>
+        <main className="container" style={{ paddingTop: 5 }}>
             <div className="row">
                 <h1>Products List</h1>
                 <br />
@@ -64,16 +64,16 @@ const ListInventory = () => {
                     {isLoading && <div>Loading...</div>}
                     {!isLoading && adList.length === 0 && <div>Unfortunately there is no products in this category</div>}
                     {!isLoading && adList.length > 0 && 
-                        <table className="table table-bordered table-striped table-hover">
+                        <table className="table table-bordered table-striped table-hover" style={{ tableLayout: 'fixed', borderSpacing: '15px 0' }}>
                             <thead>
                                 {/* -- Header Row-- */}
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Actions</th>
+                                    <th style={{ textAlign: 'center' }}>Title</th>
+                                    <th style={{ textAlign: 'center' }}>Category</th>
+                                    <th style={{ textAlign: 'center' }}>Price</th>
+                                    <th style={{ textAlign: 'center' }}>Start Date</th>
+                                    <th style={{ textAlign: 'center' }}>End Date</th>
+                                    <th style={{ textAlign: 'center' }}>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>

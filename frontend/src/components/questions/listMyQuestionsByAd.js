@@ -15,12 +15,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { listQuestionsByAd } from "../../datasource/API-question";
 import { getToken } from "../../components/auth/auth-helper";
 
-const ListMyQuestions = () => {
+const ListMyQuestions = ({ adID }) => {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true); // Track loading state
     const isAdmin = sessionStorage.getItem('isAdmin') === 'true'; // Convert to boolean
     const navigate = useNavigate();
-    const { adID } = useParams(); // Get adID from URL params to filter by specific ad
+    //const { adID } = useParams(); // Get adID from URL params to filter by specific ad
 
     // Check if the user is authenticated
     useEffect(() => {
@@ -51,47 +51,86 @@ const ListMyQuestions = () => {
 
     return (
         <div className="container mt-5">
-            <h1>{isAdmin ? "Questions History" : "Questions"}</h1>
             {loading ? (
                 <p>Loading...</p> // Show loading text while fetching questions
             ) : questions.length === 0 ? (
                 <p>No questions found for this ad.</p> // Display no questions if the list is empty
             ) : (
-                <ul className="list-group">
-                    {questions.map((question) => (
-                        <li className="list-group-item" key={question.id}>
-                            <p><strong>Question:</strong> {question.question}</p>
-                            {question.answer ? (
-                                <div>
-                                    <p><strong>Answer:</strong> {question.answer}</p>
+                <div className="table-responsive mt-4">
+                    <table className="table table-bordered table-striped table-hover" style={{ tableLayout: 'fixed', borderSpacing: '15px 0' }}>
+                        <thead>
+                            <tr>
+                                <th style={{ textAlign: 'left' }}>Created on</th>
+                                <th style={{  textAlign: 'left' }}>Question</th>
+                                <th style={{  textAlign: 'left' }}>Answer</th>
+                                <th style={{  textAlign: 'left' }}>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {questions.map((question) => (
+                                <tr key={question.id}>
+                                    <td>{new Date(question.createdDate).toLocaleDateString()}</td>
+                                    <td>{question.question}</td>
+                                    <td>{question.answer ? 
+                                        (question.answer) : ('')}
+                                    </td>
+                                    <td>
                                     {!isAdmin && (
-                                    <button
+                                        question.answer ? (
+                                        
+                                        <><button
                                         className="btn btn-secondary"
                                         disabled // Disable the button if already answered
-                                    >
+                                         >
                                         Answered
-                                    </button>
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        </>
+                                        ) : (
+                                            
+                                            <>
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={() => handleAnswer(question.id)} // Redirect to answer page
+                                            >
+                                                &nbsp; Answer&nbsp;&nbsp;
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            </>
+                                        )
                                     )}
-                                </div>
-                            ) : (
-                                !isAdmin && (
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => handleAnswer(question.id)} // Redirect to answer page
-                                >
-                                    Answer
-                                </button>
-                                )
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                                    <button
+                                        className="btn btn-primary"
+                                        //onClick={() => handleAnswer(question.id)} // Redirect to answer page
+                                    >
+                                        Details
+                                    </button>
+                                    &nbsp;&nbsp;
+                                    {isAdmin && (
+                                        <button
+                                            className="btn btn-primary"
+                                            //onClick={() => handleAnswer(question.id)} // Redirect to answer page
+                                        >
+                                            Delete
+                                        </button>
+                                    )}
+                                    &nbsp;&nbsp;
+                                </td>
+
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
+    
+            <br />
             <button className="btn btn-secondary mt-3" onClick={() => navigate(-1)}>
                 Back
             </button>
         </div>
     );
+    
 };
 
 // Export the component

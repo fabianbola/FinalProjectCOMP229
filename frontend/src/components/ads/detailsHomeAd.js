@@ -11,8 +11,9 @@
 
 // Importing necessary hooks and functions from React and other modules
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Outlet } from "react-router-dom";
 import { read } from "../../datasource/API-Ads";
+import ListQuestions from "../questions/listQuestionsByAd";
 
 // AdDetails Component
 const AdDetails = () => {
@@ -66,10 +67,10 @@ const AdDetails = () => {
    // Render the ad details after successful data fetching
   return (
     <div className="container mt-5">
-      <h1>Product Details</h1>
       <div className="card">
         <div className="card-header">
-          <h2>{ad.title}</h2>
+          <h1 style={{ color: 'darkblue' }}>{ad.title}</h1>
+          <hr></hr>
         </div>
         <div className="card-body">
           <p><strong>Description:</strong> {ad.description}</p>
@@ -89,24 +90,10 @@ const AdDetails = () => {
             <strong>Last Updated:</strong> {new Date(ad.updated).toLocaleDateString()}
           </p>
         </div>
-        <div className="card-footer">
-          
-        <button
-            className="btn btn-secondary"
-            type="button"
-            onClick={() => navigate(`/Home/Ads/Details/${id}/Questions`)} // Assuming you have a route for questions
-          >
-            Questions
-        </button>
-        <button
-        className="btn btn-secondary me-2"
-        type="button"
-        onClick={() => navigate(-1)}
-        >
-        Back
-        </button>
-        </div>
       </div>
+
+      <h2 style={{ textAlign: 'left' }}>Users Questions:</h2>
+      <ListQuestions adID={id} /> 
     </div>
   );
 };

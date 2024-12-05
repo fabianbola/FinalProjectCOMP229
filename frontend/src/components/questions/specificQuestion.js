@@ -106,6 +106,9 @@ const SpecificQuestion = () => {
                             onChange={(e) => setAnswer(e.target.value)}
                         />
                     )}
+                    <br></br>
+                    <br></br>
+                    
                     <button
                         className="btn btn-primary me-2"
                         onClick={handleAnswerSubmit}
@@ -113,6 +116,7 @@ const SpecificQuestion = () => {
                     >
                         Submit Answer
                     </button>
+                    &nbsp;&nbsp;
                     <button
                         className="btn btn-warning me-2"
                         onClick={handleClear}
@@ -120,6 +124,7 @@ const SpecificQuestion = () => {
                     >
                         Clear
                     </button>
+                    &nbsp;&nbsp;
                     <button
                         className="btn btn-secondary"
                         onClick={() => navigate(-1)} 

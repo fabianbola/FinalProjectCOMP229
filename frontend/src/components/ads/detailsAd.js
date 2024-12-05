@@ -14,7 +14,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { readByOwner, readByAdmin } from "../../datasource/API-Ads";
 import { isAuthenticated } from "../auth/auth-helper";
 import { disable,remove } from "../../datasource/API-Ads"; // Import disable function
-
+import ListMyQuestions from "../questions/listMyQuestionsByAd";
 // AdDetails Component
 const AdDetails = () => {
   const { id } = useParams(); // Get the ad ID from the route params
@@ -121,10 +121,53 @@ const handleDisable = async () => {
     // Form to see the details of an advertisement.
   return (
     <div className="container mt-5">
-      <h1>Ad Details</h1>
       <div className="card">
-        <div className="card-header">
-          <h2>{ad.title}</h2>
+      <div className="card-header" style={{ textAlign: 'center' }}>
+          <h1 style={{ color: 'darkblue' }}>{ad.title}</h1>
+          <hr></hr>
+          <div className="card-footer">
+
+          {isOwner && (
+            <>
+              <button
+                className="btn btn-primary me-2"
+                type="button"
+                onClick={() => navigate(`/Ads/Edit/${id}`)}
+                disabled={ad.status == "disabled"}
+              >
+                Edit
+              </button>
+              &nbsp; &nbsp;
+              
+              {(ad.status === "active" || ad.status === "expired") && (
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={handleDisable} // Call the function to disable the ad
+                >
+                  Disable
+                </button>
+              )}
+
+              &nbsp; &nbsp;
+              {ad.status === "disabled" && (
+                <button className="btn btn-secondary" disabled>
+                  Disabled
+                </button>
+              )}
+            </>
+          )}
+
+          {isAdmin && (
+            <button
+              className="btn btn-danger"
+              onClick={handleRemove}
+              type="button"
+            >
+              Delete
+            </button>
+          )}
+        </div>
         </div>
         <div className="card-body">
           <p><strong>Description:</strong> {ad.description}</p>
@@ -158,63 +201,10 @@ const handleDisable = async () => {
             <strong>Last Updated:</strong> {new Date(ad.updated).toLocaleDateString()}
           </p>
         </div>
-        <div className="card-footer">
-          <button
-            className="btn btn-secondary"
-            type="button"
-            onClick={() => navigate(`/Ads/Details/${id}/Questions`)} // Assuming you have a route for questions
-          >
-            Questions
-          </button>
-          
-          {isOwner && (
-            <>
-              <button
-                className="btn btn-primary me-2"
-                type="button"
-                onClick={() => navigate(`/Ads/Edit/${id}`)}
-                disabled={ad.status == "disabled"}
-              >
-                Edit
-              </button>
-              
-              {(ad.status === "active" || ad.status === "expired") && (
-                <button
-                  className="btn btn-danger"
-                  type="button"
-                  onClick={handleDisable} // Call the function to disable the ad
-                >
-                  Disable
-                </button>
-              )}
-
-              {ad.status === "disabled" && (
-                <button className="btn btn-secondary" disabled>
-                  Disabled
-                </button>
-              )}
-            </>
-          )}
-
-          {isAdmin && (
-            <button
-              className="btn btn-danger"
-              onClick={handleRemove}
-              type="button"
-            >
-              Delete
-            </button>
-          )}
-
-          <button
-            className="btn btn-secondary me-2"
-            onClick={() => navigate(-1)}
-            type="button"
-          >
-            Back
-          </button>
-        </div>
       </div>
+
+      <h2 style={{ textAlign: 'left' }}>Users Questions:</h2>
+      <ListMyQuestions adID={id} /> 
     </div>
   );
 

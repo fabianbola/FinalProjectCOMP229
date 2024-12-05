@@ -58,13 +58,13 @@ const CreateQuestion = () => {
     };
 
     return (
-        <div className="container" style={{ paddingTop: 80 }}>
+        <div className="container" style={{ paddingTop: 5 }}>
             <h1>Create a Question</h1>
             <form onSubmit={handleSubmit}>
                 {/* First Name input field */}
                 <div className="form-group">
-                    <label htmlFor="firstName">First Name</label>
-                    <input
+                    <label htmlFor="firstName">First Name:</label>
+                    &nbsp;&nbsp;<input
                         type="text"
                         className="form-control"
                         id="firstName"
@@ -77,8 +77,8 @@ const CreateQuestion = () => {
 
                 {/* Last Name input field */}
                 <div className="form-group">
-                    <label htmlFor="lastName">Last Name</label>
-                    <input
+                    <label htmlFor="lastName">Last Name:</label>
+                    &nbsp;&nbsp;<input
                         type="text"
                         className="form-control"
                         id="lastName"
@@ -91,8 +91,8 @@ const CreateQuestion = () => {
 
                 {/* Email input field */}
                 <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
+                    <label htmlFor="email">Email:</label>
+                    &nbsp;&nbsp;<input
                         type="email"
                         className="form-control"
                         id="email"
@@ -105,8 +105,8 @@ const CreateQuestion = () => {
 
                 {/* Phone Number input field */}
                 <div className="form-group">
-                    <label htmlFor="phoneNumber">Phone Number</label>
-                    <input
+                    <label htmlFor="phoneNumber">Phone Number:</label>
+                    &nbsp;&nbsp;<input
                         type="text"
                         className="form-control"
                         id="phoneNumber"
@@ -119,8 +119,8 @@ const CreateQuestion = () => {
 
                 {/* Question input field */}
                 <div className="form-group">
-                    <label htmlFor="question">Question</label>
-                    <textarea
+                    <label htmlFor="question">Question:</label>
+                    &nbsp;&nbsp;<textarea
                         className="form-control"
                         id="question"
                         name="question"
@@ -129,15 +129,18 @@ const CreateQuestion = () => {
                         required // Required field
                     ></textarea>
                 </div>
+                <br></br>
 
                 {/* Submit button */}
                 <button className="btn btn-primary" type="submit">
                     Submit
                 </button>
+                &nbsp;&nbsp;
                 {/* Clear button */}
                 <button className="btn btn-warning" type="button" onClick={handleClear}>
                     Clear
                 </button>
+                &nbsp;&nbsp;
                 {/* Back button */}
                 <button className="btn btn-secondary" type="button" onClick={() => navigate(-1)}>
                     Back

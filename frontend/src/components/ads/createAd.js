@@ -95,7 +95,7 @@ const CreateAd = () => {
 
     // Form to create a new advertisement by filling out it.
     return (
-        <div className="container" style={{ paddingTop: 80 }}>
+        <div className="container" style={{ paddingTop: 5 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
                     <h1>Create a New Ad</h1>

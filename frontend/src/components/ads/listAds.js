@@ -110,7 +110,7 @@ const ListMyAds = () => {
 };
 
 return (
-  <main className="container" style={{ paddingTop: 80 }}>
+  <main className="container" style={{ paddingTop: 5 }}>
     <div className="row">
       <h1>{isAdmin ? "Ads History" : "My Ads"}</h1>
 
@@ -133,6 +133,7 @@ return (
             <option value="Musical Instruments">Musical Instruments</option>
           </select>
         </div>
+        <br></br>
         {!isAdmin && (
           <div>
             <button
@@ -145,20 +146,21 @@ return (
         )}
       </div>
 
+      <br></br>
       <div className="table-responsive mt-4">
         {isLoading && <div>Loading...</div>}
         {!isLoading && (!adsList || adsList.length === 0) && <div>No ads found.</div>}
         {!isLoading && adsList.length > 0 && (
-          <table className="table table-bordered table-striped table-hover">
+          <table className="table table-bordered table-striped table-hover" style={{ tableLayout: 'fixed', borderSpacing: '15px 0' }}>
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Actions</th>
+                <th style={{ textAlign: 'center' }}>Title</th>
+                <th style={{ textAlign: 'center' }}>Status</th>
+                <th style={{ textAlign: 'center' }}>Category</th>
+                <th style={{ textAlign: 'center' }}>Price</th>
+                <th style={{ textAlign: 'center' }}>Start Date</th>
+                <th style={{ textAlign: 'center' }}>End Date</th>
+                <th style={{ textAlign: 'center' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -184,7 +186,7 @@ return (
                     >
                       Details
                     </button>
-
+                    &nbsp;&nbsp;
                     {/* Conditional rendering of buttons based on the user's role */}
                     {!isAdmin && (
                       <>
@@ -197,13 +199,15 @@ return (
                           Edit
                         </button>
 
+                        &nbsp;&nbsp;
+
                         {(ad.status === "active" || ad.status === "expired") && (
                           <button
                             className="btn btn-warning btn-sm me-1"
                             type="button"
                             onClick={() => handleDisable(ad.id)}
                           >
-                            Disable
+                            &nbsp;Disable&nbsp;
                           </button>
                         )}
 

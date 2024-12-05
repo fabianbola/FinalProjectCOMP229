@@ -165,7 +165,7 @@ const EditAd = () => {
     
     // JSX for rendering the EditAd form
     return (
-        <div className="container" style={{ paddingTop: 80 }}>
+        <div className="container" style={{ paddingTop: 5 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
                     <h1>Edit Ad</h1>

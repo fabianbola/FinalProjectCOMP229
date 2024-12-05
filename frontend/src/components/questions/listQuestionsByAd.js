@@ -13,11 +13,11 @@
 */
 
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { listQuestionsByAd } from "../../datasource/API-question";
 
-const ListQuestionsByAd = () => {
-    const { adID } = useParams(); // Get the adID from the URL params
+const ListQuestionsByAd = ({ adID }) => {
+    //const { adID } = useParams(); // Get the adID from the URL params
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate(); // Use navigate for routing
     const [listQuestions, setListQuestions] = useState([]); // Store questions
@@ -44,31 +44,18 @@ const ListQuestionsByAd = () => {
         <main className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="container" style={{ paddingTop: 10 }}>
-                    <h1>Questions</h1>
-                    <button
-                        className="btn btn-primary my-3"
-                        onClick={() => navigate(`/questions/create/${adID}`)} // Navigate to CreateQuestion form
-                    >
-                        Ask a Question
-                    </button>
-                    <button 
-                        className="btn btn-secondary" 
-                        onClick={() => navigate(-1)}
-                    >
-                        Back to Ads
-                    </button>
                     <div className="table-responsive mt-4"> 
                         {isLoading && <div>Loading...</div>}
                         {!isLoading && listQuestions.length === 0 && (
                             <div>No questions were found for this product.</div>
                         )}
                         {!isLoading && listQuestions.length > 0 && (
-                            <table className="table table-bordered table-striped table-hover">
+                            <table className="table table-bordered table-striped table-hover" style={{ tableLayout: 'fixed', borderSpacing: '15px 0' }}>
                                 <thead>
                                     <tr>
-                                        <th>Created Date</th>
-                                        <th>Question</th>
-                                        <th>Answer</th>
+                                        <th style={{ textAlign: 'center' }}>Created on</th>
+                                        <th style={{ textAlign: 'center' }}>Question</th>
+                                        <th style={{ textAlign: 'center' }}>Answer</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,6 +69,22 @@ const ListQuestionsByAd = () => {
                                 </tbody>
                             </table>
                         )}
+                        
+                    <br />
+                    <button
+                        className="btn btn-primary my-3"
+                        onClick={() => navigate(`/questions/create/${adID}`)} // Navigate to CreateQuestion form
+                    >
+                        Ask a Question
+                    </button>
+                    &nbsp; &nbsp; 
+                    <button 
+                        className="btn btn-secondary" 
+                        onClick={() => navigate(-1)}
+                    >
+                        Back 
+                    </button>
+
                     </div>  
                 </div>
             </div>

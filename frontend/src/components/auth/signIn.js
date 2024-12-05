@@ -100,9 +100,12 @@ const Signin = () => {
                                 Submit
                             </button>
                             &nbsp; &nbsp;
-                            <Link to="/Register" style={{ textDecoration: 'none' }}>
-                                <i className="fas fa-user-plus"></i> Register
-                            </Link>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate("/Register")}
+                            >
+                            Register
+                            </button>
 
                         </form>
                     </div>

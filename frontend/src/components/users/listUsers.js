@@ -53,7 +53,7 @@ const ListUsers = () => {
   };
 
   return (
-    <main className="container" style={{ paddingTop: 80 }}>
+    <main className="container" style={{ paddingTop: 5 }}>
       <div className="row">
         <h1>Registered Users</h1>
         <div className="table-responsive mt-4">
@@ -61,12 +61,12 @@ const ListUsers = () => {
 
           {!isLoading && (!userList || userList.length === 0) && <div>No non-admin users found.</div>}  
           {!isLoading && userList.length > 0 && (
-            <table className="table table-bordered table-striped table-hover">
+            <table className="table table-bordered table-striped table-hover" style={{ tableLayout: 'fixed', borderSpacing: '15px 0' }}>
               <thead>
                 <tr>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Actions</th>
+                  <th style={{ textAlign: 'center' }}>Username</th>
+                  <th style={{ textAlign: 'center' }}>Email</th>
+                  <th style={{ textAlign: 'center' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>

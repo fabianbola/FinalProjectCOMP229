@@ -237,24 +237,29 @@ module.exports.deleteNonAdminUser = async function (req, res, next) {
 
 module.exports.promoteToAdmin = async function (req, res, next) {
     try {
-        const id = req.params.userID; // Obtén el ID directamente desde req.params
+        const id = req.params.userID;
 
-        // Verifica si el ID es válido
+        // Validate if the ID is a valid MongoDB ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ success: false, message: "Invalid ID format." });
         }
 
-        const user = await UserModel.findById(id); // Busca el usuario por ID
+        // Find the user by their ID in the database
+        const user = await UserModel.findById(id); 
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found." });
         }
 
-        user.admin = true; // Cambia el rol a administrador
+        // Set the user's admin status to true
+        user.admin = true; 
+
+        // Save the updated user document
         await user.save();
 
         res.status(200).json({ success: true, message: "User promoted to admin successfully." });
     } catch (error) {
         console.error("Error promoting user to admin:", error);
+        
         res.status(500).json({ success: false, message: "Internal server error." });
     }
 };

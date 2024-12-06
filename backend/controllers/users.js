@@ -9,6 +9,7 @@
 
 // Import the User model
 let UserModel = require('../models/users');
+const mongoose = require('mongoose');
 
 // Function to create a new user
 module.exports.create = async function (req, res, next) {
@@ -185,6 +186,8 @@ module.exports.listNonAdminUsers = async function (req, res, next) {
     }
 };
 
+
+
 // Function to delete a non-admin user (only accessible by admins)
 module.exports.deleteNonAdminUser = async function (req, res, next) {
     try {
@@ -228,6 +231,36 @@ module.exports.deleteNonAdminUser = async function (req, res, next) {
     } catch (error) {
         console.error('Error deleting non-admin user:', error);
         next(error);
+    }
+};
+
+
+module.exports.promoteToAdmin = async function (req, res, next) {
+    try {
+        const id = req.params.userID;
+
+        // Validate if the ID is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, message: "Invalid ID format." });
+        }
+
+        // Find the user by their ID in the database
+        const user = await UserModel.findById(id); 
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found." });
+        }
+
+        // Set the user's admin status to true
+        user.admin = true; 
+
+        // Save the updated user document
+        await user.save();
+
+        res.status(200).json({ success: true, message: "User promoted to admin successfully." });
+    } catch (error) {
+        console.error("Error promoting user to admin:", error);
+        
+        res.status(500).json({ success: false, message: "Internal server error." });
     }
 };
 

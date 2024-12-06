@@ -44,5 +44,8 @@ router.get('/Adminuser/List-non-admin-users', authController.requireSignin, user
 // Route to delete a non-admin user by ID (requires admin authentication)
 router.delete('/delete/non-admin-users/:userID', authController.requireSignin, usersController.deleteNonAdminUser);
 
+// Route to promote a user to admin by ID (requires admin authentication)
+router.put('/make-admin/:userID', authController.requireSignin, usersController.promoteToAdmin);
+
 // Export the router to be used in the main app
 module.exports = router;

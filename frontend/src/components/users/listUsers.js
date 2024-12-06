@@ -52,6 +52,39 @@ const ListUsers = () => {
     }
   };
 
+  const handleMakeAdmin = async (id) => {
+    if (window.confirm("Are you sure you want to promote this user to admin?")) {
+        try {
+            // Send a PUT request to the API to promote the user with the given ID
+            const response = await fetch(`${process.env.REACT_APP_APIURL}/users/make-admin/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'), 
+                },
+            });
+
+            // Check if the response is not successful
+            if (!response.ok) {
+                const errorData = await response.json(); 
+                throw new Error(errorData.message || "Failed to promote user."); 
+            }
+
+            // Update the user list by removing the promoted user
+            const updatedList = userList.filter((user) => user.id !== id);
+            setUserList(updatedList);
+
+            alert("User successfully promoted to admin.");
+        } catch (err) {
+            alert(err.message); 
+            console.error(err);
+        }
+    }
+};
+
+  
+
   return (
     <main className="container" style={{ paddingTop: 80 }}>
       <div className="row">
@@ -59,7 +92,9 @@ const ListUsers = () => {
         <div className="table-responsive mt-4">
           {isLoading && <div>Loading...</div>}
 
-          {!isLoading && (!userList || userList.length === 0) && <div>No non-admin users found.</div>}  
+          {!isLoading && (!userList || userList.length === 0) && (
+            <div>No non-admin users found.</div>
+          )}
           {!isLoading && userList.length > 0 && (
             <table className="table table-bordered table-striped table-hover">
               <thead>
@@ -79,9 +114,15 @@ const ListUsers = () => {
                         className="btn btn-danger btn-sm"
                         type="button"
                         onClick={() => handleRemove(user.id)}
-
                       >
                         Delete
+                      </button>
+                      <button
+                        className="btn btn-success btn-sm ml-2"
+                        type="button"
+                        onClick={() => handleMakeAdmin(user.id)}
+                      >
+                        Make Admin
                       </button>
                     </td>
                   </tr>

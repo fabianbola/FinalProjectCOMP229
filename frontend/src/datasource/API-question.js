@@ -100,6 +100,22 @@ const answerQuestion = async (questionID, answerData) => {
         console.error("Error answering question:", err);
     }
 };
+// Delete an question by ID (Admin only)
+const remove = async (questionID) => {
+    try {
+        let response = await fetch(`${apiURL}/questions/delete/${questionID}`, {
 
-export {createQuestion, listQuestionsByAd, listMyQuestions, getSpecificQuestion, answerQuestion};
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${getToken()}`,
+            },
+        });
+        return await response.json();
+    } catch (err) {
+        console.error(err);
+    }
+};
+export {createQuestion, listQuestionsByAd, listMyQuestions, getSpecificQuestion, answerQuestion, remove};
 

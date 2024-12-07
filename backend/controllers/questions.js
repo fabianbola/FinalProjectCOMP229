@@ -59,7 +59,7 @@ module.exports.list = async function (req, res, next) {
         setTimeout(async () => {
             // Retrieve the authenticated user's ID and admin status
             const userId = req.auth.id;
-            const isAdmin = req.auth.admin; // Assuming admin status is part of the `req.auth` object
+            const isAdmin = req.auth.admin; 
 
             let questions;
 
@@ -103,10 +103,6 @@ module.exports.listByAdID = async function (req, res, next) {
     }
 };
 
-
-
-
-
 // Function to retrieve a specific question by its ID
 module.exports.questionByID = async function (req, res, next) {
     try {
@@ -134,8 +130,6 @@ module.exports.questionByID = async function (req, res, next) {
 // Function to answer a specific question
 module.exports.answer = async function (req, res, next) {
     try {
-
-
         setTimeout( async () => {
             const questionID = req.params.questionID; // Get the question ID from request parameters
             const answerText = req.body.answer; // Get the answer text from the request body
@@ -173,3 +167,41 @@ module.exports.answer = async function (req, res, next) {
         next(error); // Pass the error to the error-handling middleware
     }
 };
+
+// Function to Delete a specific question from the database
+module.exports.remove = async function(req, res, next) {
+    try {
+        // Get the authenticated  admin status from the request 
+        const isAdmin = req.auth.admin; 
+
+        // Ensure the user is an admin
+        if (!isAdmin) {
+            return res.status(403).json({
+                success: false,
+                message: 'ERROR: Only admins can delete questions.'
+            });
+        }
+
+        // Get the Question ID from request parameters
+        const questionID = req.params.id;
+        
+        // Delete the Question from the database
+        let result = await QuestionModel.deleteOne({ _id: questionID });
+        
+        // Log the deletion result
+        console.log(result);
+
+        if (result.deletedCount > 0) {
+            res.json({
+                success: true,
+                message: 'Question deleted successfully'
+            });
+        } else {
+            throw new Error('Question not deleted. Are you sure it exists?');
+        }
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+

@@ -12,8 +12,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { listQuestionsByAd } from "../../datasource/API-question";
+import { listQuestionsByAd, remove } from "../../datasource/API-question";
 import { getToken } from "../../components/auth/auth-helper";
+import { isAuthenticated } from "../../components/auth/auth-helper";
 
 const ListMyQuestions = ({ adID }) => {
     const [questions, setQuestions] = useState([]);
@@ -44,6 +45,32 @@ const ListMyQuestions = ({ adID }) => {
         }
     }, [navigate, adID]); // Ensure to refetch when adID changes
 
+      // Function to delete a question
+  const handleDelete = (questionID) => {
+    if (!isAuthenticated())
+        window.alert('You are not authenticated. Please, proceed with sign-in first.')
+    else {
+        if (window.confirm('Are you sure you want to delete this question?')) {
+          // Find the question's title before removing it
+          const questionToRemove = questions.find((question) => question.id === questionID); // Find the ad's id
+          remove(questionID).then(data => {
+                if (data && data.success) {
+                    const newList = questions.filter((question) => question.id !== questionID);
+                    setQuestions(newList); // Update state after successful deletion
+                    // Show success alert with the questions's title
+                    window.alert(`The question"${questionToRemove.title}" was deleted.`);
+                }
+                
+                else {
+                    alert(data.message);
+                }
+            }).catch(err => {
+                alert(err.message);
+                console.log(err)
+            });
+        };
+    }
+};
     // Handle navigating to the answer form
     const handleAnswer = (questionID) => {
         navigate(`/questions/Answer/${questionID}`);
@@ -109,7 +136,7 @@ const ListMyQuestions = ({ adID }) => {
                                     {isAdmin && (
                                         <button
                                             className="btn btn-primary"
-                                            //onClick={() => handleAnswer(question.id)} // Redirect to answer page
+                                            onClick={() => handleDelete(question.id)}
                                         >
                                             Delete
                                         </button>

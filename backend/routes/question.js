@@ -36,5 +36,8 @@ router.get('/get/:questionID', authController.requireSignin, questionsController
 // Route for answering a specific question (only by authenticated ad owner)
 router.put('/answer/:questionID', authController.requireSignin, questionsController.answer);
 
+// DELETE request to delete a specific question
+router.delete('/delete/:questionID', authController.requireSignin, questionsController.remove);
+
 // Export the router to be used in the main app
 module.exports = router;

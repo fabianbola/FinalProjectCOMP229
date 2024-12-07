@@ -14,9 +14,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { listMyQuestions } from "../../datasource/API-question";
+import { listMyQuestions, remove } from "../../datasource/API-question";
 import { getToken } from "../../components/auth/auth-helper";
 import { read } from "../../datasource/API-Ads";
+import { isAuthenticated } from "../../components/auth/auth-helper";
 
 const ListMyQuestions = () => {
     const [questions, setQuestions] = useState([]);
@@ -83,6 +84,32 @@ const ListMyQuestions = () => {
     }
 }, [questions]);
 
+  // Function to delete a question
+  const handleDelete = (questionID) => {
+    if (!isAuthenticated())
+        window.alert('You are not authenticated. Please, proceed with sign-in first.')
+    else {
+        if (window.confirm('Are you sure you want to delete this question?')) {
+          // Find the question's title before removing it
+          const questionToRemove = questions.find((question) => question.id === questionID); // Find the question's id
+          remove(questionID).then(data => {
+                if (data && data.success) {
+                    const newList = questions.filter((question) => question.id !== questionID);
+                    setQuestions(newList); // Update state after successful deletion
+                    // Show success alert with the questions's title
+                    window.alert(`The question"${questionToRemove.title}" was deleted.`);
+                }
+                
+                else {
+                    alert(data.message);
+                }
+            }).catch(err => {
+                alert(err.message);
+                console.log(err)
+            });
+        };
+    }
+};
     // Handle navigating to the answer form
     const handleAnswer = (questionID) => {
         navigate(`/questions/Answer/${questionID}`);
@@ -137,7 +164,7 @@ const ListMyQuestions = () => {
                                     {isAdmin && (
                                         <button className="btn btn-primary"
                                         
-                                        //onClick={() => handleAnswer(question.id)}
+                                        onClick={() => handleDelete(question.id)}
                                         >
                                             Delete
                                         </button>

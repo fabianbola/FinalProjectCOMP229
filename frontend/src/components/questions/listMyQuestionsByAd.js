@@ -63,7 +63,7 @@ const ListMyQuestions = ({ adID }) => {
                                 <th style={{ textAlign: 'left' }}>Created on</th>
                                 <th style={{  textAlign: 'left' }}>Question</th>
                                 <th style={{  textAlign: 'left' }}>Answer</th>
-                                <th style={{  textAlign: 'left' }}>Actions</th>
+                                {!isAdmin && <th style={{ textAlign: 'left' }}>Actions</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -99,22 +99,7 @@ const ListMyQuestions = ({ adID }) => {
                                             </>
                                         )
                                     )}
-                                    <button
-                                        className="btn btn-primary"
-                                        //onClick={() => handleAnswer(question.id)} // Redirect to answer page
-                                    >
-                                        Details
-                                    </button>
-                                    &nbsp;&nbsp;
-                                    {isAdmin && (
-                                        <button
-                                            className="btn btn-primary"
-                                            //onClick={() => handleAnswer(question.id)} // Redirect to answer page
-                                        >
-                                            Delete
-                                        </button>
-                                    )}
-                                    &nbsp;&nbsp;
+                                    
                                 </td>
 
                                 </tr>

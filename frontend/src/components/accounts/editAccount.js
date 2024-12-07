@@ -73,7 +73,8 @@ const EditAccount = () => {
                     {success && <p className="flash-success">{success}</p>} 
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="firstNameField">First Name</label>
+                            <label htmlFor="firstNameField">First Name:</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="text"
                                 className="form-control"
@@ -86,7 +87,8 @@ const EditAccount = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="lastNameField">Last Name</label>
+                            <label htmlFor="lastNameField">Last Name:</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="text"
                                 className="form-control"
@@ -99,7 +101,8 @@ const EditAccount = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="emailField">Email</label>
+                            <label htmlFor="emailField">Email:</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="email"
                                 className="form-control"
@@ -112,7 +115,8 @@ const EditAccount = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="usernameField">Username</label>
+                            <label htmlFor="usernameField">Username:</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="text"
                                 className="form-control"

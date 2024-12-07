@@ -172,7 +172,8 @@ const EditAd = () => {
 
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
-                            <label htmlFor="titleTextField">Title</label>
+                            <label htmlFor="titleTextField">Title:</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="text"
                                 className="form-control"
@@ -187,7 +188,8 @@ const EditAd = () => {
 
                         <br />
                         <div className="form-group">
-                            <label htmlFor="descriptionTextField">Description</label>
+                            <label htmlFor="descriptionTextField">Description:</label>
+                            &nbsp;&nbsp;
                             <textarea
                                 className="form-control"
                                 id="descriptionTextField"
@@ -201,7 +203,8 @@ const EditAd = () => {
 
                         <br />
                         <div className="form-group">
-                            <label htmlFor="categorySelect">Category</label>
+                            <label htmlFor="categorySelect">Category:</label>
+                            &nbsp;&nbsp;
                             <select
                                 className="form-control"
                                 id="categorySelect"
@@ -223,7 +226,8 @@ const EditAd = () => {
 
                         <br />
                         <div className="form-group">
-                            <label htmlFor="priceTextField">Price</label>
+                            <label htmlFor="priceTextField">Price($):</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="number"
                                 className="form-control"
@@ -240,7 +244,8 @@ const EditAd = () => {
 
                         <br />
                         <div className="form-group">
-                            <label htmlFor="startDatePicker">Start Date</label>
+                            <label htmlFor="startDatePicker">Start Date:</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="date"
                                 className="form-control"
@@ -254,7 +259,8 @@ const EditAd = () => {
 
                         <br />
                         <div className="form-group">
-                            <label htmlFor="endDatePicker">End Date</label>
+                            <label htmlFor="endDatePicker">End Date:</label>
+                            &nbsp;&nbsp;
                             <input
                                 type="date"
                                 className="form-control"
@@ -271,6 +277,7 @@ const EditAd = () => {
                             <button className="btn btn-primary" type="submit">
                                 <i className="fas fa-edit"></i> Submit
                             </button>
+                            &nbsp;&nbsp;
                             <button
                                 className="btn btn-warning"
                                 type="button"
@@ -278,6 +285,7 @@ const EditAd = () => {
                             >
                                 Clear
                             </button>
+                            &nbsp;&nbsp;
                             <button
                                 className="btn btn-secondary me-2"
                                 type="button"

@@ -88,7 +88,8 @@ const ListUsers = () => {
   return (
     <main className="container" style={{ paddingTop: 5 }}>
       <div className="row">
-        <h1>Registered Users</h1>
+        <h1>Registered Not Admin Users</h1>
+        <br></br>
         <div className="table-responsive mt-4">
           {isLoading && <div>Loading...</div>}
 
@@ -117,6 +118,7 @@ const ListUsers = () => {
                       >
                         Delete
                       </button>
+                      &nbsp;&nbsp;
                       <button
                         className="btn btn-success btn-sm ml-2"
                         type="button"

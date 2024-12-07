@@ -120,9 +120,12 @@ const ListMyQuestions = () => {
                                 <td>
                                     {!isAdmin && (
                                         question.answer ? (
+                                            <>
                                             <button className="btn btn-secondary" disabled>
                                                 Answered
                                             </button>
+                                            &nbsp;&nbsp;
+                                            </>
                                         ) : (
                                             <>
                                                 <button
@@ -131,18 +134,11 @@ const ListMyQuestions = () => {
                                                 >
                                                     &nbsp; Answer&nbsp;&nbsp;
                                                 </button>
+                                                &nbsp;&nbsp;
                                             </>
                                         )
                                     )}
-                                    {isAdmin && (
-                                        <button className="btn btn-primary"
-                                        
-                                        //onClick={() => handleAnswer(question.id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    )}
-                                    &nbsp;&nbsp;
+                                    
                                     <button
                                         className="btn btn-primary"
                                         onClick={() => navigate(`/Ads/Details/${question.adID}`)}

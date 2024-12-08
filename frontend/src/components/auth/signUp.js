@@ -57,7 +57,8 @@ const Signup = () => {
                     {successMsg && <p className="flash-success">{successMsg}</p>}  
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
-                            <label htmlFor="firstNameField">First Name</label>
+                            <label htmlFor="firstNameField">First Name:</label>
+                            &nbsp;&nbsp;
                             <input type="text" className="form-control"
                                 id="firstNameField"
                                 placeholder="Enter your first name"
@@ -68,7 +69,8 @@ const Signup = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="lastNameField">Last Name</label>
+                            <label htmlFor="lastNameField">Last Name:</label>
+                            &nbsp;&nbsp;
                             <input type="text" className="form-control"
                                 id="lastNameField"
                                 placeholder="Enter your last name"
@@ -79,7 +81,8 @@ const Signup = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="emailField">Email</label>
+                            <label htmlFor="emailField">Email:</label>
+                            &nbsp;&nbsp;
                             <input type="email" className="form-control"
                                 id="emailField"
                                 placeholder="Enter your email"
@@ -90,7 +93,8 @@ const Signup = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="usernameField">Username</label>
+                            <label htmlFor="usernameField">Username:</label>
+                            &nbsp;&nbsp;
                             <input type="text" className="form-control"
                                 id="usernameField"
                                 placeholder="Choose a username"
@@ -101,7 +105,8 @@ const Signup = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="passwordField">Password</label>
+                            <label htmlFor="passwordField">Password:</label>
+                            &nbsp;&nbsp;
                             <input type="password" className="form-control"
                                 id="passwordField"
                                 placeholder="Enter a password"
